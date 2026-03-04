@@ -1,0 +1,36 @@
+{
+  "nav": {
+    "home": "Pradžia",
+    "catalog": "Katalogas",
+    "logout": "Atsijungti",
+    "theme": "Tema",
+    "themeLight": "Šviesi tema",
+    "themeDark": "Tamsi tema"
+  },
+  "login": {
+    "title": "Prisijungimas",
+    "loginLabel": "Prisijungimo vardas",
+    "passwordLabel": "Slaptažodis",
+    "loginPlaceholder": "Įveskite prisijungimo vardą",
+    "passwordPlaceholder": "Įveskite slaptažodį",
+    "submit": "Prisijungti",
+    "submitting": "Prisijungiama…",
+    "error": "Prisijungimo klaida"
+  },
+  "menu": {
+    "today": "Šiandien",
+    "total": "Iš viso",
+    "submit": "Užsakyti",
+    "submitting": "Siunčiama…",
+    "loading": "Kraunama meniu…",
+    "retry": "Bandyti dar kartą",
+    "menuUnavailable": "Meniu neprieinama",
+    "loadError": "Nepavyko įkelti meniu",
+    "orderSuccess": "Užsakymas priimtas",
+    "orderError": "Klaida",
+    "orderNumber": "Užsakymo nr.",
+    "backToMenu": "Atgal į meniu",
+    "ok": "Gerai",
+    "portions": "porc."
+  }
+}

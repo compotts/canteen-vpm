@@ -1,0 +1,36 @@
+{
+  "nav": {
+    "home": "Home",
+    "catalog": "Catalog",
+    "logout": "Log out",
+    "theme": "Theme",
+    "themeLight": "Light theme",
+    "themeDark": "Dark theme"
+  },
+  "login": {
+    "title": "Sign in",
+    "loginLabel": "Login",
+    "passwordLabel": "Password",
+    "loginPlaceholder": "Enter login",
+    "passwordPlaceholder": "Enter password",
+    "submit": "Sign in",
+    "submitting": "Signing in…",
+    "error": "Sign in error"
+  },
+  "menu": {
+    "today": "Today",
+    "total": "Total",
+    "submit": "Place order",
+    "submitting": "Submitting…",
+    "loading": "Loading menu…",
+    "retry": "Retry",
+    "menuUnavailable": "Menu unavailable",
+    "loadError": "Failed to load menu",
+    "orderSuccess": "Order accepted",
+    "orderError": "Error",
+    "orderNumber": "Order number",
+    "backToMenu": "Back to menu",
+    "ok": "OK",
+    "portions": "portions"
+  }
+}

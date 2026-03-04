@@ -1,0 +1,36 @@
+{
+  "nav": {
+    "home": "Главная",
+    "catalog": "Каталог",
+    "logout": "Выйти",
+    "theme": "Тема",
+    "themeLight": "Светлая тема",
+    "themeDark": "Тёмная тема"
+  },
+  "login": {
+    "title": "Вход",
+    "loginLabel": "Логин",
+    "passwordLabel": "Пароль",
+    "loginPlaceholder": "Введите логин",
+    "passwordPlaceholder": "Введите пароль",
+    "submit": "Войти",
+    "submitting": "Вход…",
+    "error": "Ошибка входа"
+  },
+  "menu": {
+    "today": "Сегодня",
+    "total": "Итого",
+    "submit": "Оформить заказ",
+    "submitting": "Отправка…",
+    "loading": "Загрузка меню…",
+    "retry": "Повторить",
+    "menuUnavailable": "Меню недоступно",
+    "loadError": "Не удалось загрузить меню",
+    "orderSuccess": "Заказ принят",
+    "orderError": "Ошибка",
+    "orderNumber": "Номер заказа",
+    "backToMenu": "Назад к меню",
+    "ok": "Ок",
+    "portions": "порц."
+  }
+}
