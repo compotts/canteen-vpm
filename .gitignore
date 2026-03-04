@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+
+# Local env
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+.vite/
+
+# ESLint
+.eslintcache
+
+# Test
+coverage/
+
+# Capacitor
+android/app/build/
+android/.gradle/
+android/capacitor/build/
+android/build/
+*.apk
+*.aab
+
+# MSW (optional, if you want to ignore generated worker in some setups)
+# public/mockServiceWorker.js
