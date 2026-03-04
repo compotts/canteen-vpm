@@ -5,7 +5,8 @@
     "logout": "Log out",
     "theme": "Theme",
     "themeLight": "Light theme",
-    "themeDark": "Dark theme"
+    "themeDark": "Dark theme",
+    "translationDisclaimer": "Translation may be inaccurate."
   },
   "login": {
     "title": "Sign in",
@@ -32,5 +33,29 @@
     "backToMenu": "Back to menu",
     "ok": "OK",
     "portions": "portions"
+  },
+  "catalog": {
+    "title": "Catalog",
+    "category": {
+      "sriubos": "Soups",
+      "main": "Main dishes",
+      "salotos": "Salads",
+      "drinks": "Drinks",
+      "other": "Other"
+    },
+    "filters": {
+      "collapse": "Collapse filters",
+      "expand": "Expand filters",
+      "name": "Name",
+      "weight": "Weight",
+      "studentPrice": "Student price",
+      "teacherPrice": "Teacher price"
+    },
+    "searchPlaceholder": "Search by name…",
+    "noResults": "No results for the selected filters",
+    "page": "Page",
+    "prev": "Previous",
+    "next": "Next",
+    "perPage": "Per page"
   }
 }

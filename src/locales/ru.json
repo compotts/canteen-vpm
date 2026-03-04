@@ -5,7 +5,8 @@
     "logout": "Выйти",
     "theme": "Тема",
     "themeLight": "Светлая тема",
-    "themeDark": "Тёмная тема"
+    "themeDark": "Тёмная тема",
+    "translationDisclaimer": "Перевод может быть неточным."
   },
   "login": {
     "title": "Вход",
@@ -32,5 +33,29 @@
     "backToMenu": "Назад к меню",
     "ok": "Ок",
     "portions": "порц."
+  },
+  "catalog": {
+    "title": "Каталог",
+    "category": {
+      "sriubos": "Супы",
+      "main": "Основные блюда",
+      "salotos": "Салаты",
+      "drinks": "Напитки",
+      "other": "Прочее"
+    },
+    "filters": {
+      "collapse": "Свернуть фильтры",
+      "expand": "Развернуть фильтры",
+      "name": "Название",
+      "weight": "Вес",
+      "studentPrice": "Цена для учеников",
+      "teacherPrice": "Цена для учителей"
+    },
+    "searchPlaceholder": "Поиск по названию…",
+    "noResults": "По фильтрам ничего не найдено",
+    "page": "Стр.",
+    "prev": "Назад",
+    "next": "Вперёд",
+    "perPage": "На странице"
   }
 }

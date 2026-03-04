@@ -81,21 +81,24 @@ export function Header() {
               </button>
             </div>
             <div className="flex-shrink-0 flex items-center justify-between gap-3 border-t border-[var(--border)] px-5 py-4 pb-[max(1.5rem,env(safe-area-inset-bottom,0px))] box-border">
-              <div className="flex gap-1">
-                {langs.map((l) => (
-                  <button
-                    key={l.code}
-                    type="button"
-                    onClick={() => setLang(l.code)}
-                    className={`px-3 py-1.5 text-sm font-medium border-none rounded-md cursor-pointer font-[var(--font-sans)] transition-colors ${
-                      lang === l.code
-                        ? "bg-[var(--accent)] text-[var(--btn-primary-color)]"
-                        : "bg-transparent text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)]"
-                    }`}
-                  >
-                    {l.label}
-                  </button>
-                ))}
+              <div className="flex flex-col gap-1">
+                <div className="flex gap-1">
+                  {langs.map((l) => (
+                    <button
+                      key={l.code}
+                      type="button"
+                      onClick={() => setLang(l.code)}
+                      className={`px-3 py-1.5 text-sm font-medium border-none rounded-md cursor-pointer font-[var(--font-sans)] transition-colors ${
+                        lang === l.code
+                          ? "bg-[var(--accent)] text-[var(--btn-primary-color)]"
+                          : "bg-transparent text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)]"
+                      }`}
+                    >
+                      {l.label}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-xs text-[var(--text-muted)] m-0">* {t("nav.translationDisclaimer")}</p>
               </div>
               <button
                 type="button"

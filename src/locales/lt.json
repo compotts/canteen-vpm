@@ -5,7 +5,8 @@
     "logout": "Atsijungti",
     "theme": "Tema",
     "themeLight": "Šviesi tema",
-    "themeDark": "Tamsi tema"
+    "themeDark": "Tamsi tema",
+    "translationDisclaimer": "Vertimas gali būti netikslus."
   },
   "login": {
     "title": "Prisijungimas",
@@ -32,5 +33,29 @@
     "backToMenu": "Atgal į meniu",
     "ok": "Gerai",
     "portions": "porc."
+  },
+  "catalog": {
+    "title": "Katalogas",
+    "category": {
+      "sriubos": "Sriubos",
+      "main": "Pagrindiniai patiekalai",
+      "salotos": "Salotos",
+      "drinks": "Gėrimai",
+      "other": "Kita"
+    },
+    "filters": {
+      "collapse": "Suskleisti filtrus",
+      "expand": "Išskleisti filtrus",
+      "name": "Pavadinimas",
+      "weight": "Svoris",
+      "studentPrice": "Mokinių kaina",
+      "teacherPrice": "Mokytojų kaina"
+    },
+    "searchPlaceholder": "Ieškoti pagal pavadinimą…",
+    "noResults": "Pagal filtrus nieko nerasta",
+    "page": "Psl.",
+    "prev": "Atgal",
+    "next": "Pirmyn",
+    "perPage": "Puslapyje"
   }
 }
