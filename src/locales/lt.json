@@ -9,6 +9,11 @@
     "themeDark": "Tamsi tema",
     "translationDisclaimer": "Vertimas gali būti netikslus."
   },
+  "home": {
+    "feedback": "Jei pastebėjote programėlės klaidų, prašau apie tai pranešti programėlės kūrėjui čia",
+    "thanks": "Ačiū už pagalbą!",
+    "updatesTitle": "Naujausi atnaujinimai:"
+  },
   "login": {
     "title": "Prisijungimas",
     "loginLabel": "Prisijungimo vardas",

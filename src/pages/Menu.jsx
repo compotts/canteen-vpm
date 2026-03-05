@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { api } from '../services/api.js';
-import { CURRENCY, LOCALE_MAP, DEFAULT_LANG } from '../constants.js';
+import { LOCALE_MAP, DEFAULT_LANG } from '../constants.js';
 
 function formatDate(iso, locale = DEFAULT_LANG) {
   return new Date(iso + 'T12:00:00').toLocaleDateString(LOCALE_MAP[locale] || 'lt-LT', {
@@ -123,7 +123,7 @@ export function Menu() {
               <div>
                 <div className="font-semibold text-[var(--text)]">{item.name}</div>
                 <div className="text-sm text-[var(--text-muted)]">
-                  {item.price.toFixed(2)} {CURRENCY}
+                  {item.price.toFixed(2)} €
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -146,7 +146,7 @@ export function Menu() {
         <div className="flex justify-between items-center mb-3">
           <span className="font-semibold text-[var(--text)]">{t('menu.total')}:</span>
           <span className="font-bold text-lg text-[var(--text)]">
-            {total.toFixed(2)} {CURRENCY}
+            {total.toFixed(2)} €
           </span>
         </div>
         <button

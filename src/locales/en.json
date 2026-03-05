@@ -9,6 +9,11 @@
     "themeDark": "Dark theme",
     "translationDisclaimer": "Translation may be inaccurate."
   },
+  "home": {
+    "feedback": "If you noticed errors in the app, please report them to the developer here",
+    "thanks": "Thank you for your help!",
+    "updatesTitle": "Latest updates:"
+  },
   "login": {
     "title": "Sign in",
     "loginLabel": "Login",

@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CATEGORY_IDS, catalogByCategory } from '../data/catalog.js';
-import { CURRENCY } from '../constants.js';
 
 const PER_PAGE_OPTIONS = [10, 20, 50];
 const SORT_KEYS = ['name', 'weight', 'priceStudent', 'priceTeacher'];
@@ -158,8 +157,8 @@ export function Catalog() {
               <div className="font-medium text-[var(--text)] mb-2">{getItemName(item, lang)}</div>
               <div className="grid grid-cols-3 gap-2 text-sm text-[var(--text-muted)]">
                 <span><span className="text-[var(--text-muted)] opacity-80">{t('catalog.filters.weight')}:</span> {item.weight}</span>
-                <span><span className="text-[var(--text-muted)] opacity-80">{t('catalog.filters.studentPrice')}:</span> {item.priceStudent.toFixed(2)} {CURRENCY}</span>
-                <span><span className="text-[var(--text-muted)] opacity-80">{t('catalog.filters.teacherPrice')}:</span> {item.priceTeacher.toFixed(2)} {CURRENCY}</span>
+                <span><span className="text-[var(--text-muted)] opacity-80">{t('catalog.filters.studentPrice')}:</span> {item.priceStudent.toFixed(2)} €</span>
+                <span><span className="text-[var(--text-muted)] opacity-80">{t('catalog.filters.teacherPrice')}:</span> {item.priceTeacher.toFixed(2)} €</span>
               </div>
             </li>
           ))}
