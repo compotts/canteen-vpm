@@ -32,7 +32,7 @@ export default function Header() {
             <button
               type="button"
               className="flex flex-col gap-[5px] p-2 bg-transparent border-none cursor-pointer rounded"
-              onClick={() => setDrawerOpen(true)}
+              onClick={() => setDrawerOpen(v => !v)}
               aria-label={t("nav.catalog")}
               aria-expanded={drawerOpen}
             >
