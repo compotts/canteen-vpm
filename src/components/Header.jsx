@@ -52,7 +52,11 @@ export default function Header() {
             onClick={closeDrawer}
           />
           <nav
-            className={`fixed top-0 left-0 w-[min(280px,85vw)] h-full max-h-[100dvh] bg-[var(--surface)] shadow-[4px_0_20px_rgba(0,0,0,0.15)] z-[1000] flex flex-col pt-6 overflow-x-hidden overflow-y-hidden box-border transition-transform duration-[0.25s] ${drawerOpen ? "translate-x-0" : "-translate-x-full"}`}
+            className="fixed top-0 left-0 z-[1000] h-full w-[min(280px,85vw)] bg-[var(--surface)] shadow-[4px_0_20px_rgba(0,0,0,0.15)] flex flex-col pt-6 transition-transform duration-200"
+            style={{
+              transform: drawerOpen ? "translate3d(0,0,0)" : "translate3d(-100%,0,0)",
+              willChange: "transform",
+            }}
             aria-hidden={!drawerOpen}
           >
             <div className="flex-1 min-h-0 overflow-x-hidden overflow-y-auto">
