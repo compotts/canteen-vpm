@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
-
-const CONTACT_URL = 'https://quizzez.site/info#contact';
+import { CONTACT_URL } from '../constants.js';
 
 export function Home() {
   const { t } = useTranslation();
@@ -11,7 +10,6 @@ export function Home() {
         {t('nav.home')}
       </h1>
 
-      {/* Блок обратной связи */}
       <section className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] p-5 mb-5">
         <div className="flex gap-3">
           <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)]" aria-hidden="true">
@@ -43,7 +41,6 @@ export function Home() {
         </div>
       </section>
 
-      {/* Последние обновления */}
       <section className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] p-5">
         <div className="flex items-center gap-2 mb-3">
           <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)]" aria-hidden="true">

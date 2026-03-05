@@ -16,3 +16,4 @@ export const LOCALE_MAP = {
 };
 
 export const API_BASE = import.meta.env.VITE_API_BASE ?? '';
+export const CONTACT_URL = 'https://quizzez.site/info#contact';
