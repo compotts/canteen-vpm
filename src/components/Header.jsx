@@ -6,7 +6,7 @@ import { useLanguage } from "../hooks/useLanguage.js";
 import { useTheme } from "../hooks/useTheme.js";
 import { APP_VERSION } from "../constants.js";
 
-export function Header() {
+export default function Header() {
   const { t } = useTranslation();
   const { isAuth, logout } = useAuth();
   const { lang, setLang, langs } = useLanguage();

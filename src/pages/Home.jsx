@@ -1,13 +1,13 @@
-import { useTranslation } from 'react-i18next';
-import { CONTACT_URL } from '../constants.js';
+import { useTranslation } from "react-i18next";
+import { CONTACT_URL } from "../constants.js";
 
-export function Home() {
+export default function Home() {
   const { t } = useTranslation();
 
   return (
     <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-6 box-border">
       <h1 className="text-xl font-semibold text-[var(--text)] m-0 mb-5">
-        {t('nav.home')}
+        {t("nav.home")}
       </h1>
 
       <section className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] p-5 mb-5">
@@ -19,7 +19,7 @@ export function Home() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-[var(--text)] text-[15px] leading-relaxed m-0 mb-3">
-              {t('home.feedback')}
+              {t("home.feedback")}
             </p>
             <a
               href={CONTACT_URL}
@@ -32,10 +32,10 @@ export function Home() {
                 <polyline points="15 3 21 3 21 9" />
                 <line x1="10" y1="14" x2="21" y2="3" />
               </svg>
-              {CONTACT_URL.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+              {CONTACT_URL.replace(/^https?:\/\//, "").replace(/\/$/, "")}
             </a>
             <p className="text-[var(--text-muted)] text-sm mt-3 mb-0 font-medium">
-              {t('home.thanks')}
+              {t("home.thanks")}
             </p>
           </div>
         </div>
@@ -50,7 +50,7 @@ export function Home() {
             </svg>
           </div>
           <h2 className="text-base font-semibold text-[var(--text)] m-0">
-            {t('home.updatesTitle')}
+            {t("home.updatesTitle")}
           </h2>
         </div>
         <p className="text-[var(--text-muted)] text-sm leading-relaxed m-0 pl-10">

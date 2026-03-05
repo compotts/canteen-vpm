@@ -1,13 +1,14 @@
-import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import i18n from 'i18next';
-import { DEFAULT_LANG } from './constants.js';
-import { AuthProvider, useAuth } from './contexts/AuthContext.jsx';
-import { Header } from './components/Header.jsx';
-import { Login } from './pages/Login.jsx';
-import { Home } from './pages/Home.jsx';
-import { Catalog } from './pages/Catalog.jsx';
-import { Order } from './pages/Order.jsx';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import i18n from "i18next";
+import { DEFAULT_LANG } from "./constants.js";
+import { AuthProvider, useAuth } from "./contexts/AuthContext.jsx";
+import Header from "./components/Header.jsx";
+import Login from "./pages/Login.jsx";
+import Home from "./pages/Home.jsx";
+import Catalog from "./pages/Catalog.jsx";
+import Order from "./pages/Order.jsx";
 
 function ProtectedRoute({ children }) {
   const { isAuth } = useAuth();
@@ -16,7 +17,15 @@ function ProtectedRoute({ children }) {
 }
 
 function HomeOrLogin() {
-  const { isAuth } = useAuth();
+  const { isAuth, isChecking } = useAuth();
+  const { t } = useTranslation();
+  if (isChecking) {
+    return (
+      <div className="flex flex-1 items-center justify-center p-8">
+        <p className="text-[var(--text-muted)]">{t("common.loading")}</p>
+      </div>
+    );
+  }
   return isAuth ? <Home /> : <Login />;
 }
 
@@ -40,8 +49,8 @@ export default function App() {
   useEffect(() => {
     document.documentElement.lang = i18n.language || DEFAULT_LANG;
     const onLangChange = (lng) => { document.documentElement.lang = lng || DEFAULT_LANG; };
-    i18n.on('languageChanged', onLangChange);
-    return () => i18n.off('languageChanged', onLangChange);
+    i18n.on("languageChanged", onLangChange);
+    return () => i18n.off("languageChanged", onLangChange);
   }, []);
   return (
     <BrowserRouter>
