@@ -1,0 +1,9 @@
+{
+  "appId": "lt.vpm.valgykla",
+  "appName": "VPM Valgykla",
+  "webDir": "dist",
+  "server": {
+    "url": "https://canteen-vpm.vercel.app",
+    "androidScheme": "https"
+  }
+}
