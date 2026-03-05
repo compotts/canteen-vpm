@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/valgykla/(.*)",
+      "destination": "https://valgykla.vpm.lt/$1"
+    }
+  ]
+}

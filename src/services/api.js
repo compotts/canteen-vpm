@@ -1,7 +1,4 @@
-import { VALGYKLA_BASE } from "../constants.js";
-
-const rawBase = VALGYKLA_BASE.replace(/\/$/, "");
-const base = import.meta.env.DEV ? "/valgykla" : rawBase;
+const base = "/valgykla";
 
 function handleResponse(res) {
   if (res.status === 401) {
