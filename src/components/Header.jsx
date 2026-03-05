@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { useLanguage } from "../hooks/useLanguage.js";
 import { useTheme } from "../hooks/useTheme.js";
+import { APP_VERSION } from "../constants.js";
 
 export function Header() {
   const { t } = useTranslation();
@@ -87,6 +88,7 @@ export function Header() {
                 {t("nav.logout")}
               </button>
             </div>
+            <p className="text-[15px] text-[var(--text-muted)] m-0 px-3 pt-2 pb-1 opacity-80">{APP_VERSION}</p>
             <div className="flex-shrink-0 flex items-center justify-between gap-3 border-t border-[var(--border)] px-5 py-4 pb-[max(1.5rem,env(safe-area-inset-bottom,0px))] box-border">
               <div className="flex flex-col gap-1">
                 <div className="flex gap-1">
