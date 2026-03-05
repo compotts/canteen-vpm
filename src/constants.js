@@ -13,7 +13,7 @@ export const LOCALE_MAP = {
   en: "en-US",
 };
 
-export const APP_VERSION = "v1.1";
+export const APP_VERSION = "v1.2";
 export const CONTACT_URL = "https://quizzez.site/info#contact";
 
 export const VALGYKLA_BASE = "https://valgykla.vpm.lt";

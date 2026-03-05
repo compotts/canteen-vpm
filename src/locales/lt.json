@@ -73,6 +73,12 @@
     "perPage": "Puslapyje"
   },
   "updates": {
+    "update3": {
+      "date": "2026-03-06",
+      "version": "v1.2",
+      "emoji": "",
+      "text": "Sukoreguotas Android'o klaidos, kai meniu neuždarytas."
+    },
     "update2": {
       "date": "2026-03-05",
       "version": "v1.1",
