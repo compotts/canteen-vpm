@@ -69,6 +69,13 @@ export function Header() {
               >
                 {t("nav.catalog")}
               </Link>
+              <Link
+                to="/order"
+                className="block py-3.5 px-5 text-[var(--text)] no-underline text-base font-medium border-none bg-transparent w-full text-left cursor-pointer font-[var(--font-sans)]"
+                onClick={closeDrawer}
+              >
+                {t("nav.order")}
+              </Link>
               <button
                 type="button"
                 className="block py-3.5 px-5 text-[var(--error-text)] no-underline text-base font-medium border-none bg-transparent w-full text-left cursor-pointer font-[var(--font-sans)]"

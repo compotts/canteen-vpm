@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext.jsx';
 import { Header } from './components/Header.jsx';
 import { Login } from './pages/Login.jsx';
 import { Catalog } from './pages/Catalog.jsx';
+import { Order } from './pages/Order.jsx';
 
 function ProtectedRoute({ children }) {
   const { isAuth } = useAuth();
@@ -27,6 +28,7 @@ function AppRoutes() {
         <Routes>
           <Route path="/" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
           <Route path="/menu" element={<ProtectedRoute><Catalog /></ProtectedRoute>} />
+          <Route path="/order" element={<ProtectedRoute><Order /></ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

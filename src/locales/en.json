@@ -2,6 +2,7 @@
   "nav": {
     "home": "Home",
     "catalog": "Catalog",
+    "order": "Order",
     "logout": "Log out",
     "theme": "Theme",
     "themeLight": "Light theme",

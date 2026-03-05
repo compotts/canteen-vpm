@@ -2,6 +2,7 @@
   "nav": {
     "home": "Pradžia",
     "catalog": "Katalogas",
+    "order": "Užsakyti",
     "logout": "Atsijungti",
     "theme": "Tema",
     "themeLight": "Šviesi tema",
