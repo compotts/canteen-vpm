@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "Kraunama…"
+  },
   "nav": {
     "home": "Pradžia",
     "catalog": "Katalogas",
@@ -20,6 +23,7 @@
     "passwordLabel": "Slaptažodis",
     "loginPlaceholder": "Įveskite prisijungimo vardą",
     "passwordPlaceholder": "Įveskite slaptažodį",
+    "rememberMe": "Prisiminti mane",
     "submit": "Prisijungti",
     "submitting": "Prisijungiama…",
     "error": "Prisijungimo klaida"
@@ -27,18 +31,22 @@
   "menu": {
     "today": "Šiandien",
     "total": "Iš viso",
-    "submit": "Užsakyti",
+    "submit": "Išsaugoti",
     "submitting": "Siunčiama…",
     "loading": "Kraunama meniu…",
     "retry": "Bandyti dar kartą",
     "menuUnavailable": "Meniu neprieinama",
     "loadError": "Nepavyko įkelti meniu",
-    "orderSuccess": "Užsakymas priimtas",
+    "parseError": "Nepavyko nuskaityti meniu. Galbūt svetainė pasikeitė.",
+    "orderSuccess": "Užsakymas išsaugotas",
     "orderError": "Klaida",
     "orderNumber": "Užsakymo nr.",
     "backToMenu": "Atgal į meniu",
     "ok": "Gerai",
-    "portions": "porc."
+    "portions": "porc.",
+    "deadlineWarning": "Galima užsakyti iki 09:00 valgymo dieną.",
+    "orderChooseDate": "Pasirinkite dieną ir pereikite prie užsakymo formos.",
+    "quantityPlaceholder": "0"
   },
   "catalog": {
     "title": "Katalogas",

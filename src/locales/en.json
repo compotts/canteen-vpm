@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "Loading…"
+  },
   "nav": {
     "home": "Home",
     "catalog": "Catalog",
@@ -20,6 +23,7 @@
     "passwordLabel": "Password",
     "loginPlaceholder": "Enter login",
     "passwordPlaceholder": "Enter password",
+    "rememberMe": "Remember me",
     "submit": "Sign in",
     "submitting": "Signing in…",
     "error": "Sign in error"
@@ -27,18 +31,22 @@
   "menu": {
     "today": "Today",
     "total": "Total",
-    "submit": "Place order",
+    "submit": "Save",
     "submitting": "Submitting…",
     "loading": "Loading menu…",
     "retry": "Retry",
     "menuUnavailable": "Menu unavailable",
     "loadError": "Failed to load menu",
-    "orderSuccess": "Order accepted",
+    "parseError": "Could not read menu. The site may have changed.",
+    "orderSuccess": "Order saved",
     "orderError": "Error",
     "orderNumber": "Order number",
     "backToMenu": "Back to menu",
     "ok": "OK",
-    "portions": "portions"
+    "portions": "portions",
+    "deadlineWarning": "Orders can be placed until 09:00 on the meal day.",
+    "orderChooseDate": "Choose a day and go to the order form.",
+    "quantityPlaceholder": "0"
   },
   "catalog": {
     "title": "Catalog",

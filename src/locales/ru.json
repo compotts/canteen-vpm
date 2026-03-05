@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "Загрузка…"
+  },
   "nav": {
     "home": "Главная",
     "catalog": "Каталог",
@@ -6,7 +9,7 @@
     "logout": "Выйти",
     "theme": "Тема",
     "themeLight": "Светлая тема",
-    "themeDark": "Тёмная тема",
+    "themeDark": "Темная тема",
     "translationDisclaimer": "Перевод может быть неточным."
   },
   "home": {
@@ -20,6 +23,7 @@
     "passwordLabel": "Пароль",
     "loginPlaceholder": "Введите логин",
     "passwordPlaceholder": "Введите пароль",
+    "rememberMe": "Запомнить меня",
     "submit": "Войти",
     "submitting": "Вход…",
     "error": "Ошибка входа"
@@ -27,18 +31,22 @@
   "menu": {
     "today": "Сегодня",
     "total": "Итого",
-    "submit": "Оформить заказ",
+    "submit": "Сохранить",
     "submitting": "Отправка…",
     "loading": "Загрузка меню…",
     "retry": "Повторить",
     "menuUnavailable": "Меню недоступно",
     "loadError": "Не удалось загрузить меню",
-    "orderSuccess": "Заказ принят",
+    "parseError": "Не удалось прочитать меню. Сообщите разработчику.",
+    "orderSuccess": "Заказ сохранен",
     "orderError": "Ошибка",
     "orderNumber": "Номер заказа",
     "backToMenu": "Назад к меню",
     "ok": "Ок",
-    "portions": "порц."
+    "portions": "порц.",
+    "deadlineWarning": "Заказать можно до 09:00 в день приема пищи.",
+    "orderChooseDate": "Выберите день и перейдите к форме заказа.",
+    "quantityPlaceholder": "0"
   },
   "catalog": {
     "title": "Каталог",
@@ -61,7 +69,7 @@
     "noResults": "По фильтрам ничего не найдено",
     "page": "Стр.",
     "prev": "Назад",
-    "next": "Вперёд",
+    "next": "Вперед",
     "perPage": "На странице"
   }
 }
