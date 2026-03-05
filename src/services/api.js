@@ -12,6 +12,13 @@ function handleResponse(res) {
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
 }
 
+function parseLoginResponse(html) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const errorsBlock = doc.querySelector(".messages.errors");
+  if (!errorsBlock) return { success: true };
+  return { success: false, message: "Klaidingi prisijungimo duomenys" };
+}
+
 export async function login(username, password) {
   const res = await fetch(`${base}/login`, {
     method: "POST",
@@ -19,10 +26,13 @@ export async function login(username, password) {
     body: new URLSearchParams({ username, password }),
     credentials: "include",
   });
+  const html = await res.text();
   if (!res.ok) {
     if (res.status === 401) throw new Error("unauthorized");
-    throw new Error(await res.text() || "HTTP " + res.status);
+    throw new Error(html || `HTTP ${res.status}`);
   }
+  const parsed = parseLoginResponse(html);
+  if (!parsed.success) throw new Error(parsed.message);
 }
 
 export async function checkAuth() {

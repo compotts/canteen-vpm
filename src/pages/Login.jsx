@@ -16,10 +16,12 @@ export default function Login() {
   const [password, setPassword] = useState(() => localStorage.getItem(SAVED_PASSWORD_KEY) ?? "");
   const [rememberMe, setRememberMe] = useState(() => localStorage.getItem(REMEMBER_ME_KEY) === "1");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
     try {
       await valgyklaLogin(username, password);
       if (rememberMe) {
@@ -33,6 +35,8 @@ export default function Login() {
       }
       setAuth(true);
       navigate("/", { replace: true });
+    } catch (err) {
+      setError(err.message || t("login.error"));
     } finally {
       setLoading(false);
     }
@@ -42,6 +46,11 @@ export default function Login() {
     <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-5 box-border">
       <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5 shadow-[var(--shadow-sm)] mt-8">
         <h1 className="text-xl font-semibold text-[var(--text)] mt-0 mb-4">{t("login.title")}</h1>
+        {error && (
+          <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-700 dark:text-red-300">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="login" className="block text-sm font-medium mb-1.5 text-[var(--text)]">
