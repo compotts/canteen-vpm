@@ -1,60 +1,58 @@
-import { API_BASE, AUTH_TOKEN_STORAGE_KEY } from '../constants.js';
+import { VALGYKLA_BASE } from "../constants.js";
 
-export function getAccessToken() {
-  return localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
-}
-export function setAccessToken(token) {
-  localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
-}
-export function clearAccessToken() {
-  localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+const rawBase = VALGYKLA_BASE.replace(/\/$/, "");
+const base = import.meta.env.DEV ? "/valgykla" : rawBase;
+
+function handleResponse(res) {
+  if (res.status === 401) {
+    const err = new Error("unauthorized");
+    err.status = 401;
+    throw err;
+  }
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
 }
 
-async function request(path, options = {}) {
-  const { json, ...init } = options;
-  const headers = { ...(init.headers || {}) };
-  if (json !== undefined) headers['Content-Type'] = 'application/json';
-  const token = getAccessToken();
-  if (token) headers['Authorization'] = 'Bearer ' + token;
-
-  const res = await fetch(API_BASE + path, {
-    ...init,
-    headers,
-    body: json !== undefined ? JSON.stringify(json) : init.body,
+export async function login(username, password) {
+  const res = await fetch(`${base}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ username, password }),
+    credentials: "include",
   });
-
-  if (res.status === 401 || res.status === 403) {
-    clearAccessToken();
-    window.dispatchEvent(new Event('auth:logout'));
-    const err = new Error(res.status === 401 ? 'Неверный логин или пароль' : 'Доступ запрещён');
-    err.status = res.status;
-    throw err;
-  }
   if (!res.ok) {
-    const text = await res.text();
-    let msg = text;
-    try {
-      const j = JSON.parse(text);
-      if (j.message) msg = j.message;
-    } catch (_) {}
-    const err = new Error(msg || 'Ошибка ' + res.status);
-    err.status = res.status;
-    throw err;
+    if (res.status === 401) throw new Error("unauthorized");
+    throw new Error(await res.text() || "HTTP " + res.status);
   }
-  if (res.headers.get('content-type')?.includes('application/json')) {
-    return res.json();
-  }
-  return undefined;
 }
 
-export const api = {
-  login(login, password) {
-    return request('/api/auth/login', { method: 'POST', json: { login, password } });
-  },
-  getMenuToday() {
-    return request('/api/menu/today');
-  },
-  submitOrder(date, items) {
-    return request('/api/order', { method: 'POST', json: { date, items } });
-  },
-};
+export async function checkAuth() {
+  const res = await fetch(`${base}/main/rules`, { method: "GET", credentials: "include" });
+  handleResponse(res);
+}
+
+export async function getOrderMakePage() {
+  const res = await fetch(`${base}/orders/make`, { method: "GET", credentials: "include" });
+  handleResponse(res);
+  return res.text();
+}
+
+export async function getOrderPage(dateStr) {
+  const res = await fetch(`${base}/orders/make/${dateStr}`, { method: "GET", credentials: "include" });
+  handleResponse(res);
+  return res.text();
+}
+
+export async function submitOrder(dateStr, quantities) {
+  const body = new URLSearchParams();
+  Object.entries(quantities).forEach(([id, value]) => {
+    const v = value === "" || value == null ? "" : String(value).replace(",", ".");
+    body.set(`quantities[${id}]`, v);
+  });
+  const res = await fetch(`${base}/orders/make/${dateStr}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body.toString(),
+    credentials: "include",
+  });
+  handleResponse(res);
+}
