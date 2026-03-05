@@ -71,5 +71,19 @@
     "prev": "Previous",
     "next": "Next",
     "perPage": "Per page"
+  },
+  "updates": {
+    "update2": {
+      "date": "2026-03-05",
+      "version": "v1.1",
+      "emoji": "",
+      "text": "CORS protection, blocking the app's operation, bypassed."
+    },
+    "update1": {
+      "date": "2026-03-04",
+      "version": "v1.0",
+      "emoji": "",
+      "text": "The app is in test mode. If you notice errors, please report them to the developer."
+    }
   }
 }

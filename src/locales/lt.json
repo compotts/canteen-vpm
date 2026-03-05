@@ -71,5 +71,19 @@
     "prev": "Atgal",
     "next": "Pirmyn",
     "perPage": "Puslapyje"
+  },
+  "updates": {
+    "update2": {
+      "date": "2026-03-05",
+      "version": "v1.1",
+      "emoji": "",
+      "text": "CORS-apsauga, blokuojanti programėlės veikimą, išvengta."
+    },
+    "update1": {
+      "date": "2026-03-04",
+      "version": "v1.0",
+      "emoji": "",
+      "text": "Programėlė paleista testavimo režime. Jei pastebėsite klaidų, prašau pranešti kūrėjui."
+    }
   }
 }

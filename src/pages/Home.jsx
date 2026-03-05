@@ -3,6 +3,7 @@ import { CONTACT_URL } from "../constants.js";
 
 export default function Home() {
   const { t } = useTranslation();
+  const updates = ["update1", "update2"];
 
   return (
     <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-6 box-border">
@@ -40,22 +41,39 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <section className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] p-5">
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-2 mb-4">
           <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)]" aria-hidden="true">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10" />
               <polyline points="12 6 12 12 16 14" />
             </svg>
           </div>
+
           <h2 className="text-base font-semibold text-[var(--text)] m-0">
             {t("home.updatesTitle")}
           </h2>
         </div>
-        <p className="text-[var(--text-muted)] text-sm leading-relaxed m-0 pl-10">
-          …
-        </p>
+
+        <div className="pl-10 space-y-4">
+          {[...updates].reverse().map((key) => (
+            <div key={key} className="rounded-lg border border-[var(--border)] bg-[var(--surface-2, var(--surface))] p-3">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xs text-[var(--text-muted)]">
+                  {t(`updates.${key}.date`)}
+                </span>
+
+                <span className="text-[10px] px-2 py-0.5 rounded-md bg-[var(--border-subtle)] text-[var(--text-muted)]">
+                  {t(`updates.${key}.version`)}
+                </span>
+              </div>
+
+              <p className="text-sm text-[var(--text)] leading-relaxed m-0">
+                {t(`updates.${key}.emoji`)} {t(`updates.${key}.text`)}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );
