@@ -73,6 +73,12 @@
     "perPage": "Per page"
   },
   "updates": {
+    "update4": {
+      "date": "2026-03-07",
+      "version": "v1.3",
+      "emoji": "",
+      "text": "Now, in the food order menu, the names of the dishes are automatically translated into the language that you have in the application (with the exception of English), if the names of the dish are not translated, then you can inform the developer."
+    },
     "update3": {
       "date": "2026-03-06",
       "version": "v1.2",

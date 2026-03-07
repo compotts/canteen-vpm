@@ -73,6 +73,12 @@
     "perPage": "Puslapyje"
   },
   "updates": {
+    "update4": {
+      "date": "2026-03-07",
+      "version": "v1.3",
+      "emoji": "",
+      "text": "Dabar maisto užsakymo meniu patiekalų pavadinimai automatiškai išverčiami į kalbą, kurią turite programoje (išskyrus anglų kalbą), jei patiekalo pavadinimas nėra išverstas, galite pranešti kūrėjui"
+    },
     "update3": {
       "date": "2026-03-06",
       "version": "v1.2",
