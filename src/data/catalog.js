@@ -1,4 +1,4 @@
-export const CATEGORY_IDS = ['sriubos', 'main', 'salotos', 'drinks', 'other'];
+export const CATEGORY_IDS = ["sriubos", "main", "salotos", "drinks", "other"];
 export const catalogByCategory = {
   sriubos: [
     { id: 's1', name: 'Agurkinė sriuba', nameRu: 'Огуречный суп', weight: '250/20', priceStudent: 0.25, priceTeacher: 0.28 },
@@ -108,6 +108,33 @@ export const catalogByCategory = {
     { id: 'o3', name: 'Morkų ir svogūnų su česnaku padažas', nameRu: 'Соус из моркови и лука с чесноком', weight: '60', priceStudent: 0.04, priceTeacher: 0.04 },
     { id: 'o4', name: 'Nesaldintas jogurtas', nameRu: 'Несладкий йогурт', weight: '50', priceStudent: 0.33, priceTeacher: 0.36 },
     { id: 'o5', name: 'Švies. kviet. duona', nameRu: 'Белый пшеничный хлеб', weight: '20-25', priceStudent: 0.04, priceTeacher: 0.04 },
-    { id: 'o6', name: 'Viso grūdo rūginė duona', nameRu: 'Цельнозерновой ржаной хлеб', weight: '20-25', priceStudent: 0.04, priceTeacher: 0.04 },
+    { id: "o6", name: "Viso grūdo rūginė duona", nameRu: "Цельнозерновой ржаной хлеб", weight: "20-25", priceStudent: 0.04, priceTeacher: 0.04 },
+  ],
+  forTranslate: [
+    { name: "Virtų burokėlių salotos su pupel.ir raug.agurk.", nameRu: "Салат из вареных свеклы с фасолью и маринованными огурцами" },
+    { name: "Pomidorų -agurkų salotos su grietine", nameRu: "Салат из помидоров и огурцов со сметаной" },
+    { name: "Silkė su daržovėmis", nameRu: "Сельдь с овощами" },
+    { name: "Jogurtinis padažas", nameRu: "Йогуртовый соус" }
   ],
 };
+
+export function normalizeDishName(name) {
+  return (name || "")
+    .normalize("NFKC")
+    .replace(/\s+/g, " ")
+    .replace(/[.,;:]+$/u, "")
+    .trim()
+    .toLowerCase();
+}
+
+export const nameToRuMap = Object.freeze(
+  Object.values(catalogByCategory)
+    .flat()
+    .reduce((acc, item) => {
+      if (item.name && item.nameRu) {
+        const key = normalizeDishName(item.name);
+        if (key) acc[key] = item.nameRu;
+      }
+      return acc;
+    }, {})
+);

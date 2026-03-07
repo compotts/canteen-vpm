@@ -7,9 +7,12 @@ import {
   parseMenuFromHtml,
   submitOrder,
 } from "../services/valgykla.js";
+import { useLanguage } from "../hooks/useLanguage.js";
+import { nameToRuMap, normalizeDishName } from "../data/catalog.js";
 
 export default function Order() {
   const { t } = useTranslation();
+  const { lang } = useLanguage();
   const [linkInfo, setLinkInfo] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [menu, setMenu] = useState(null);
@@ -222,27 +225,36 @@ export default function Order() {
                 {section.title}
               </h2>
               <ul className="list-none m-0 p-0 space-y-3">
-                {section.items.map((item) => (
-                  <li key={item.id} className="flex flex-wrap items-center gap-2 gap-y-1">
-                    <div className="flex-1 min-w-0">
-                      <span className="text-[var(--text)]">{item.name}</span>
-                      {item.weight && (
-                        <span className="text-[var(--text-muted)] text-sm ml-1">({item.weight})</span>
-                      )}
-                    </div>
-                    <span className="text-[var(--text-muted)] text-sm tabular-nums">
-                      {item.price.toFixed(2)} €
-                    </span>
-                    <input
-                      type="text"
-                      inputMode="decimal"
-                      placeholder={t("menu.quantityPlaceholder")}
-                      value={quantities[item.id] ?? ""}
-                      onChange={(e) => setQuantity(item.id, e.target.value)}
-                      className={inputClass}
-                    />
-                  </li>
-                ))}
+                {section.items.map((item) => {
+                  const rawName = item.name || "";
+                  const key = normalizeDishName(rawName);
+                  const displayName =
+                    lang === "ru" ? nameToRuMap[key] || rawName.trim() : rawName.trim();
+
+                  return (
+                    <li key={item.id} className="flex flex-wrap items-center gap-2 gap-y-1">
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[var(--text)]">{displayName}</span>
+                        {item.weight && (
+                          <span className="text-[var(--text-muted)] text-sm ml-1">
+                            ({item.weight})
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[var(--text-muted)] text-sm tabular-nums">
+                        {item.price.toFixed(2)} €
+                      </span>
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        placeholder={t("menu.quantityPlaceholder")}
+                        value={quantities[item.id] ?? ""}
+                        onChange={(e) => setQuantity(item.id, e.target.value)}
+                        className={inputClass}
+                      />
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
