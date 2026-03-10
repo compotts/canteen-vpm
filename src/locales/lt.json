@@ -52,6 +52,7 @@
   },
   "catalog": {
     "title": "Katalogas",
+    "warning": "Meniu paimtas iš oficialios valgyklos svetainės https://valgykla.vpm.lt ir, panašu, seniai nebuvo atnaujintas. Negalime garantuoti kainų ir asortimento tikslumo.",
     "category": {
       "sriubos": "Sriubos",
       "main": "Pagrindiniai patiekalai",

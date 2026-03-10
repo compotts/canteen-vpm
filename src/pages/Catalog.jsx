@@ -58,7 +58,11 @@ export default function Catalog() {
 
   return (
     <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border pb-24">
-      <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] m-0 mb-4">{t("catalog.title")}</h1>
+      <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] m-0 mb-3">{t("catalog.title")}</h1>
+
+      <p className="text-xs md:text-sm text-[var(--text-muted)] mb-4 leading-relaxed">
+        {t("catalog.warning")}
+      </p>
 
       <div className="flex flex-wrap gap-2 mb-4">
         {CATEGORY_IDS.map((id) => (

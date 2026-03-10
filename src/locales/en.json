@@ -52,6 +52,7 @@
   },
   "catalog": {
     "title": "Catalog",
+    "warning": "The menu is taken from the official canteen website https://valgykla.vpm.lt and most likely has not been updated for a long time. We cannot guarantee that prices and items are accurate.",
     "category": {
       "sriubos": "Soups",
       "main": "Main dishes",
