@@ -20,3 +20,12 @@ export const VALGYKLA_BASE = "https://valgykla.vpm.lt";
 export const REMEMBER_ME_KEY = "valgyklos_remember_me";
 export const SAVED_USERNAME_KEY = "valgyklos_username";
 export const SAVED_PASSWORD_KEY = "valgyklos_password";
+
+export const SECTION_TITLE_KEYS = {
+  "dienos meniu": "menu.dailyMenu",
+  "sriubos": "catalog.category.sriubos",
+  "pagrindiniai patiekalai": "catalog.category.main",
+  "salotos": "catalog.category.salotos",
+  "gėrimai": "catalog.category.drinks",
+  "kita": "catalog.category.other",
+};

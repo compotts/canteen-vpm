@@ -29,6 +29,7 @@
     "error": "Sign in error"
   },
   "menu": {
+    "dailyMenu": "Daily menu",
     "today": "Today",
     "total": "Total",
     "submit": "Save",

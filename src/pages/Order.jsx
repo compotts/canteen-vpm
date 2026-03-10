@@ -7,8 +7,15 @@ import {
   parseMenuFromHtml,
   submitOrder,
 } from "../services/valgykla.js";
+import { SECTION_TITLE_KEYS } from "../constants.js"
 import { useLanguage } from "../hooks/useLanguage.js";
 import { nameToRuMap, normalizeDishName } from "../data/catalog.js";
+
+function getSectionDisplayTitle(title, t) {
+  if (!title || typeof title !== "string") return title || "";
+  const key = SECTION_TITLE_KEYS[title.trim().toLowerCase()];
+  return key ? t(key) : title;
+}
 
 export default function Order() {
   const { t } = useTranslation();
@@ -222,7 +229,7 @@ export default function Order() {
           {menu.sections.map((section) => (
             <div key={section.title} className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 shadow-[var(--shadow-sm)]">
               <h2 className="text-base font-semibold text-[var(--text)] mt-0 mb-3 border-b border-[var(--border)] pb-2">
-                {section.title}
+                {getSectionDisplayTitle(section.title, t)}
               </h2>
               <ul className="list-none m-0 p-0 space-y-3">
                 {section.items.map((item) => {

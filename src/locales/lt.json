@@ -29,6 +29,7 @@
     "error": "Prisijungimo klaida"
   },
   "menu": {
+    "dailyMenu": "Dienos meniu",
     "today": "Šiandien",
     "total": "Iš viso",
     "submit": "Išsaugoti",
