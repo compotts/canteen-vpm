@@ -40,6 +40,7 @@
     "loadError": "Nepavyko įkelti meniu",
     "parseError": "Nepavyko nuskaityti meniu. Galbūt svetainė pasikeitė.",
     "orderSuccess": "Užsakymas išsaugotas",
+    "bonAppetit": "Skanaus!",
     "orderError": "Klaida",
     "orderNumber": "Užsakymo nr.",
     "backToMenu": "Atgal į meniu",

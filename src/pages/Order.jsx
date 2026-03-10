@@ -50,6 +50,14 @@ export default function Order() {
     loadOrderLink();
   }, [loadOrderLink]);
 
+  useEffect(() => {
+    if (!submitSuccess) return;
+    const timeout = setTimeout(() => {
+      setSubmitSuccess(false);
+    }, 2200);
+    return () => clearTimeout(timeout);
+  }, [submitSuccess]);
+
   const loadMenuForDate = useCallback(async (date) => {
     setMenuLoading(true);
     setMenu(null);
@@ -219,8 +227,14 @@ export default function Order() {
       )}
 
       {submitSuccess && (
-        <div className="rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-700 dark:text-green-300 mb-4">
-          {t("menu.orderSuccess")}
+        <div className="fixed inset-0 z-[1100] flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="relative bg-[var(--surface)] border border-[var(--border)] rounded-2xl px-6 py-5 shadow-[0_10px_30px_rgba(0,0,0,0.35)] bon-appetit-popup text-center max-w-[260px] mx-4">
+            <div className="text-4xl mb-2" aria-hidden="true">😋</div>
+            <p className="m-0 text-[var(--text)] font-semibold text-lg">
+              {t("menu.bonAppetit")}
+            </p>
+          </div>
         </div>
       )}
 

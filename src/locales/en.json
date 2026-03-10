@@ -40,6 +40,7 @@
     "loadError": "Failed to load menu",
     "parseError": "Could not read menu. The site may have changed.",
     "orderSuccess": "Order saved",
+    "bonAppetit": "Enjoy your meal!",
     "orderError": "Error",
     "orderNumber": "Order number",
     "backToMenu": "Back to menu",
