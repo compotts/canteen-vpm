@@ -57,8 +57,8 @@ export default function Catalog() {
   };
 
   return (
-    <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-5 box-border pb-24">
-      <h1 className="text-xl font-semibold text-[var(--text)] m-0 mb-4">{t("catalog.title")}</h1>
+    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border pb-24">
+      <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] m-0 mb-4">{t("catalog.title")}</h1>
 
       <div className="flex flex-wrap gap-2 mb-4">
         {CATEGORY_IDS.map((id) => (
@@ -148,11 +148,11 @@ export default function Catalog() {
       {paginatedItems.length === 0 ? (
         <p className="text-[var(--text-muted)] py-8 text-center">{t("catalog.noResults")}</p>
       ) : (
-        <ul className="list-none p-0 m-0">
+        <ul className="list-none p-0 m-0 md:grid md:grid-cols-2 md:gap-4">
           {paginatedItems.map((item) => (
             <li
               key={item.id}
-              className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 mb-3 shadow-[var(--shadow-sm)]"
+              className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 mb-3 md:mb-0 shadow-[var(--shadow-sm)]"
             >
               <div className="font-medium text-[var(--text)] mb-2">{getItemName(item, lang)}</div>
               <div className="grid grid-cols-3 gap-2 text-sm text-[var(--text-muted)]">

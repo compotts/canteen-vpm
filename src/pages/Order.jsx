@@ -128,7 +128,7 @@ export default function Order() {
 
   if (loading) {
     return (
-      <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-5 box-border">
+      <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border">
         <p className="text-[var(--text-muted)]">{t("menu.loading")}</p>
         <button
           type="button"
@@ -143,7 +143,7 @@ export default function Order() {
 
   if (error || !linkInfo) {
     return (
-      <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-5 box-border">
+      <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border">
         <p className="text-[var(--text-muted)]">{t("menu.menuUnavailable")}</p>
         <button type="button" onClick={loadOrderLink} className="mt-2 text-sm text-[var(--accent)] underline">
           {t("menu.retry")}
@@ -154,7 +154,7 @@ export default function Order() {
 
   if (!selectedDate) {
     return (
-      <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-5 box-border">
+      <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border">
         <h1 className="text-xl font-semibold text-[var(--text)] m-0 mb-4">
           {t("nav.order")}
         </h1>
@@ -174,7 +174,7 @@ export default function Order() {
 
   if (menuLoading) {
     return (
-      <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-5 box-border">
+      <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border">
         <p className="text-[var(--text-muted)]">{t("menu.loading")}</p>
         <button
           type="button"
@@ -199,8 +199,8 @@ export default function Order() {
   }
 
   return (
-    <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-5 box-border">
-      <h1 className="text-xl font-semibold text-[var(--text)] m-0 mb-4">
+    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border">
+      <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] m-0 mb-4">
         {t("nav.order")} ({selectedDate})
       </h1>
 
@@ -225,7 +225,7 @@ export default function Order() {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div className="space-y-6">
+        <div className="space-y-6 md:grid md:grid-cols-2 md:gap-6 md:items-start">
           {menu.sections.map((section) => (
             <div key={section.title} className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 shadow-[var(--shadow-sm)]">
               <h2 className="text-base font-semibold text-[var(--text)] mt-0 mb-3 border-b border-[var(--border)] pb-2">
@@ -267,8 +267,8 @@ export default function Order() {
           ))}
         </div>
 
-        <div className="mt-4 flex items-center justify-between gap-4 flex-wrap">
-          <strong className="text-[var(--text)]">
+        <div className="mt-4 md:mt-6 flex items-center justify-between gap-4 flex-wrap md:col-span-2">
+          <strong className="text-[var(--text)] text-lg md:text-xl">
             {t("menu.total")}: {total.toFixed(2)} €
           </strong>
           <button

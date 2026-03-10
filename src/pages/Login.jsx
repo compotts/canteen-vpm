@@ -43,9 +43,9 @@ export default function Login() {
   };
 
   return (
-    <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-5 box-border">
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5 shadow-[var(--shadow-sm)] mt-8">
-        <h1 className="text-xl font-semibold text-[var(--text)] mt-0 mb-4">{t("login.title")}</h1>
+    <div className="flex-1 max-w-[430px] md:max-w-md mx-auto w-full px-4 md:px-6 py-5 md:py-8 box-border flex flex-col md:justify-center">
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5 md:p-6 shadow-[var(--shadow-sm)] mt-8 md:mt-0 w-full">
+        <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] mt-0 mb-4">{t("login.title")}</h1>
         {error && (
           <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-700 dark:text-red-300">
             {error}

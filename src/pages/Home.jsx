@@ -6,12 +6,13 @@ export default function Home() {
   const updates = ["update1", "update2", "update3", "update4", "update5"];
 
   return (
-    <div className="flex-1 max-w-[430px] mx-auto w-full px-4 py-6 box-border">
-      <h1 className="text-xl font-semibold text-[var(--text)] m-0 mb-5">
+    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border">
+      <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] m-0 mb-5">
         {t("nav.home")}
       </h1>
 
-      <section className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] p-5 mb-5">
+      <div className="md:grid md:grid-cols-2 md:gap-6 md:items-start">
+      <section className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] p-5 mb-5 md:mb-0">
         <div className="flex gap-3">
           <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)]" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -75,6 +76,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      </div>
     </div>
   );
 }

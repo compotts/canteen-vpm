@@ -21,25 +21,90 @@ export default function Header() {
   const closeDrawer = () => setDrawerOpen(false);
 
   return (
-    <header className="bg-[var(--surface)] border-b border-[var(--border)] px-4 py-3 shadow-[var(--shadow-sm)]">
-      <div className="max-w-[430px] mx-auto flex items-center justify-between">
+    <header className="bg-[var(--surface)] border-b border-[var(--border)] px-4 py-3 md:px-6 shadow-[var(--shadow-sm)]">
+      <div className="max-w-[430px] md:max-w-4xl mx-auto flex items-center justify-between">
         <a href="/" className="flex items-center gap-2 no-underline text-inherit">
           <img src="/icon.svg" alt="" width={45} height={18} className="block" />
           <span className="text-xl font-bold text-[var(--text)]">Valgyklos VPM</span>
         </a>
-        <div className="flex items-center">
+        <div className="flex items-center gap-3">
           {isAuth && (
-            <button
-              type="button"
-              className="flex flex-col gap-[5px] p-2 bg-transparent border-none cursor-pointer rounded"
-              onClick={() => setDrawerOpen(v => !v)}
-              aria-label={t("nav.catalog")}
-              aria-expanded={drawerOpen}
-            >
-              <span className="w-[22px] h-0.5 bg-[var(--text)] rounded-sm" />
-              <span className="w-[22px] h-0.5 bg-[var(--text)] rounded-sm" />
-              <span className="w-[22px] h-0.5 bg-[var(--text)] rounded-sm" />
-            </button>
+            <>
+              <button
+                type="button"
+                className="md:hidden flex flex-col gap-[5px] p-2 bg-transparent border-none cursor-pointer rounded"
+                onClick={() => setDrawerOpen(v => !v)}
+                aria-label={t("nav.catalog")}
+                aria-expanded={drawerOpen}
+              >
+                <span className="w-[22px] h-0.5 bg-[var(--text)] rounded-sm" />
+                <span className="w-[22px] h-0.5 bg-[var(--text)] rounded-sm" />
+                <span className="w-[22px] h-0.5 bg-[var(--text)] rounded-sm" />
+              </button>
+              <nav className="hidden md:flex items-center gap-1" aria-label={t("nav.catalog")}>
+                <Link
+                  to="/"
+                  className="px-3 py-2 rounded-lg text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--border-subtle)] transition-colors"
+                  onClick={closeDrawer}
+                >
+                  {t("nav.home")}
+                </Link>
+                <Link
+                  to="/menu"
+                  className="px-3 py-2 rounded-lg text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--border-subtle)] transition-colors"
+                  onClick={closeDrawer}
+                >
+                  {t("nav.catalog")}
+                </Link>
+                <Link
+                  to="/order"
+                  className="px-3 py-2 rounded-lg text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--border-subtle)] transition-colors"
+                  onClick={closeDrawer}
+                >
+                  {t("nav.order")}
+                </Link>
+              </nav>
+              <div className="hidden md:flex items-center gap-2 border-l border-[var(--border)] pl-3 ml-1">
+                {langs.map((l) => (
+                  <button
+                    key={l.code}
+                    type="button"
+                    onClick={() => setLang(l.code)}
+                    className={`px-2.5 py-1.5 text-sm font-medium border-none rounded-md cursor-pointer transition-colors ${
+                      lang === l.code
+                        ? "bg-[var(--accent)] text-[var(--btn-primary-color)]"
+                        : "bg-transparent text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)]"
+                    }`}
+                  >
+                    {l.label}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  className="flex items-center justify-center p-2 bg-[var(--border-subtle)] border-none rounded-lg cursor-pointer text-[var(--text)] hover:bg-[var(--border)] transition-colors"
+                  onClick={toggle}
+                  aria-label={isDark ? t("nav.themeLight") : t("nav.themeDark")}
+                >
+                  {isDark ? (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="4" />
+                      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                    </svg>
+                  ) : (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+              <button
+                type="button"
+                className="hidden md:block px-3 py-2 rounded-lg text-sm font-medium text-[var(--error-text)] hover:bg-red-500/10 transition-colors"
+                onClick={logout}
+              >
+                {t("nav.logout")}
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -48,11 +113,11 @@ export default function Header() {
         <>
           <div
             role="presentation"
-            className={`fixed inset-0 bg-black/50 z-[999] transition-all duration-200 ${drawerOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+            className={`md:hidden fixed inset-0 bg-black/50 z-[999] transition-all duration-200 ${drawerOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
             onClick={closeDrawer}
           />
           <nav
-            className="fixed top-0 left-0 z-[1000] h-full w-[min(280px,85vw)] bg-[var(--surface)] shadow-[4px_0_20px_rgba(0,0,0,0.15)] flex flex-col pt-6 transition-transform duration-200"
+            className="md:hidden fixed top-0 left-0 z-[1000] h-full w-[min(280px,85vw)] bg-[var(--surface)] shadow-[4px_0_20px_rgba(0,0,0,0.15)] flex flex-col pt-6 transition-transform duration-200"
             style={{
               transform: drawerOpen ? "translate3d(0,0,0)" : "translate3d(-100%,0,0)",
               willChange: "transform",
