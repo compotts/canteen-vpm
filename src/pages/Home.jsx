@@ -3,7 +3,7 @@ import { CONTACT_URL } from "../constants.js";
 
 export default function Home() {
   const { t } = useTranslation();
-  const updates = ["update1", "update2", "update3", "update4", "update5"];
+  const updates = ["update1", "update2", "update3", "update4", "update5", "update6"];
 
   return (
     <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border">

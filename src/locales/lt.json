@@ -74,6 +74,12 @@
     "perPage": "Puslapyje"
   },
   "updates": {
+    "update6": {
+      "date": "2026-03-10",
+      "version": "v1.5",
+      "emoji": "",
+      "text": "Pridėta Pilna visos svetainės pritaikymas planšetiniams kompiuteriams, jei radote klaidą, praneškite kūrėjui"
+    },
     "update5": {
       "date": "2026-03-10",
       "version": "v1.4",

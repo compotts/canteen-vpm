@@ -74,6 +74,12 @@
     "perPage": "Per page"
   },
   "updates": {
+    "update6": {
+      "date": "2026-03-10",
+      "version": "v1.5",
+      "emoji": "",
+      "text": "Added full adaptation of the entire website for tablets. If you find an error, please inform the developer."
+    },
     "update5": {
       "date": "2026-03-10",
       "version": "v1.4",
