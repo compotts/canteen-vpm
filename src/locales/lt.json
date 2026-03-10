@@ -74,6 +74,12 @@
     "perPage": "Puslapyje"
   },
   "updates": {
+    "update5": {
+      "date": "2026-03-10",
+      "version": "v1.4",
+      "emoji": "",
+      "text": "Užsakymo meniu 'Dienos meniu, Salotos' ir kiti meniu pavadinimai dabar yra išversti į jūsų pasirinktą kalbą programoje"
+    },
     "update4": {
       "date": "2026-03-07",
       "version": "v1.3",

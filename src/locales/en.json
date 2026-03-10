@@ -74,6 +74,12 @@
     "perPage": "Per page"
   },
   "updates": {
+    "update5": {
+      "date": "2026-03-10",
+      "version": "v1.4",
+      "emoji": "",
+      "text": "In the order menu, menu headings like 'Dienos meniu, Salotos' and others are now translated into the language you have selected in the application."
+    },
     "update4": {
       "date": "2026-03-07",
       "version": "v1.3",
