@@ -123,11 +123,13 @@ export const catalogByCategory = {
     {name: "Karališkas silkės salotos", nameRu: "Королевский салат с сельдью"},
     {name: "Kepti su garais kalakut. krūtin. kukulaičiai", nameRu: "Паровые тефтели из грудки индейки"},
     {name: "Perlinės košė su sviestu", nameRu: "Перловая каша с маслом"},
+    {name: "Perlinė košė su sviestu", nameRu: "Перловая каша с маслом"},
     {name: "Salotos „Mįslė“", nameRu: "Салат „Загадка“"},
     {name: "Kukurūzų salotos", nameRu: "Кукурузный салат"},
     {name: "Silkė su marinatu", nameRu: "Сельдь с маринадом"},
     {name: "Kiaulienos guliašas", nameRu: "Свиной гуляш"},
     {name: "Virta kiaulienos nugarine", nameRu: "Отварная свиная корейка"},
+    {name: "Virta kiaulienos nugarinė", nameRu: "Отварная свиная корейка"},
     {name: "Vištienos suktinukai Vaidilutė", nameRu: "Куриные рулетики „Вайдилуте“"},
   ],
 };
