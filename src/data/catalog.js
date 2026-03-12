@@ -131,6 +131,13 @@ export const catalogByCategory = {
     {name: "Virta kiaulienos nugarine", nameRu: "Отварная свиная корейка"},
     {name: "Virta kiaulienos nugarinė", nameRu: "Отварная свиная корейка"},
     {name: "Vištienos suktinukai Vaidilutė", nameRu: "Куриные рулетики „Вайдилуте“"},
+    {name: "Kalakutų šlaunelių mėsos troškinys(mork.paprik)", nameRu: "Тушеное мясо из окорочков индейки (морковь, паприка)"},
+    {name: "Kopūstų,agurkų, pomidorų ir paprikų salotos", nameRu: "Салат из капусты, огурцов, помидоров и перца"},
+    {name: "Korėjietiškos morkų salotos", nameRu: "Корейский салат из моркови"},
+    {name: "„Beržo“ kotletas (jautiena, kiauliena)", nameRu: "«Бяржо» котлета (говядина, свинина)"},
+    {name: "Silkė su svogūnais", nameRu: "Сельдь с луком"},
+    {name: "Troškinti kopūstai", nameRu: "Тушенная капуста"},
+    {name: "Kiauliena apkepta su sūriu", nameRu: "Свинина, запеченная с сыром"},
   ],
 };
 
