@@ -138,6 +138,10 @@ export const catalogByCategory = {
     {name: "Silkė su svogūnais", nameRu: "Сельдь с луком"},
     {name: "Troškinti kopūstai", nameRu: "Тушенная капуста"},
     {name: "Kiauliena apkepta su sūriu", nameRu: "Свинина, запеченная с сыром"},
+    {name: "Kepti su garais menkės filė kukulaičiai", nameRu: "Фрикадельки из филе трески, приготовленные на пару"},
+    {name: "Pekino kopūstų salotos su porais ir pomidorais", nameRu: "Салат из пекинской капусты с луком-пореем и помидорами"},
+    {name: "Vištienos maltinis (kotletas)", nameRu: "Куриный фарш (котлета)"},
+    {name: "Omletas su sūriu", nameRu: "Омлет с сыром"},
   ],
 };
 
