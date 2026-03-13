@@ -27,7 +27,9 @@
     "rememberMe": "Запомнить меня",
     "submit": "Войти",
     "submitting": "Вход…",
-    "error": "Ошибка входа"
+    "error": "Ошибка входа",
+    "hidePassword": "Скрыть пароль",
+    "showPassword": "Показать пароль"
   },
   "menu": {
     "dailyMenu": "Меню дня",

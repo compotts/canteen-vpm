@@ -27,7 +27,9 @@
     "rememberMe": "Remember me",
     "submit": "Sign in",
     "submitting": "Signing in…",
-    "error": "Sign in error"
+    "error": "Sign in error",
+    "hidePassword": "Hide password",
+    "showPassword": "Show password"
   },
   "menu": {
     "dailyMenu": "Daily menu",

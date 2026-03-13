@@ -27,7 +27,9 @@
     "rememberMe": "Prisiminti mane",
     "submit": "Prisijungti",
     "submitting": "Prisijungiama…",
-    "error": "Prisijungimo klaida"
+    "error": "Prisijungimo klaida",
+    "hidePassword": "Slėpti slaptažodį",
+    "showPassword": "Rodyti slaptažodį"
   },
   "menu": {
     "dailyMenu": "Dienos meniu",
