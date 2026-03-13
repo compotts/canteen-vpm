@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { CONTACT_URL } from "../constants.js";
+import { MessageSquare, ExternalLink, Clock } from "lucide-react";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -15,9 +16,7 @@ export default function Home() {
       <section className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] p-5 mb-5 md:mb-0">
         <div className="flex gap-3">
           <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)]" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
+          <MessageSquare className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-[var(--text)] text-[15px] leading-relaxed m-0 mb-3">
@@ -29,11 +28,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium no-underline transition-opacity hover:opacity-90"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                <polyline points="15 3 21 3 21 9" />
-                <line x1="10" y1="14" x2="21" y2="3" />
-              </svg>
+              <ExternalLink className="w-4 h-4" aria-hidden="true" />
               {CONTACT_URL.replace(/^https?:\/\//, "").replace(/\/$/, "")}
             </a>
             <p className="text-[var(--text-muted)] text-sm mt-3 mb-0 font-medium">
@@ -45,10 +40,7 @@ export default function Home() {
       <section className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] p-5">
         <div className="flex items-center gap-2 mb-4">
           <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)]" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
+            <Clock className="w-5 h-5" aria-hidden="true" />
           </div>
 
           <h2 className="text-base font-semibold text-[var(--text)] m-0">

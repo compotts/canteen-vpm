@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CATEGORY_IDS, catalogByCategory } from "../data/catalog.js";
+import { ChevronDown } from "lucide-react";
 
 const PER_PAGE_OPTIONS = [10, 20, 50];
 const SORT_KEYS = ["name", "weight", "priceStudent", "priceTeacher"];
@@ -88,7 +89,7 @@ export default function Catalog() {
           className="w-full flex items-center justify-between px-4 py-3 text-left text-[var(--text)] font-medium hover:bg-[var(--bg-card)] transition-colors"
         >
           <span>{filterOpen ? t("catalog.filters.collapse") : t("catalog.filters.expand")}</span>
-          <svg className={`w-5 h-5 transition-transform ${filterOpen ? "rotate-180" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <ChevronDown className={`w-5 h-5 transition-transform ${filterOpen ? "rotate-180" : ""}`} aria-hidden="true" />
         </button>
         {filterOpen && (
           <div className="px-4 pb-4 pt-0 border-t border-[var(--border)] space-y-3">
