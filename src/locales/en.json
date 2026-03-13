@@ -82,6 +82,12 @@
     "placeholder": "Your order history, all your orders, amounts and statistics for the selected period will soon appear here. The section is still under development."
   },
   "updates": {
+    "update7": {
+      "date": "2026-03-13",
+      "version": "v1.5.1",
+      "emoji": "",
+      "text": "Added a show/hide password toggle on the sign-in screen to make entering credentials more convenient."
+    },
     "update6": {
       "date": "2026-03-10",
       "version": "v1.5",

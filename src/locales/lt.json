@@ -82,6 +82,12 @@
     "placeholder": "Čia netrukus pasirodys jūsų Užsakymų istorija, visi jūsų užsakymai, sumos ir pasirinkto laikotarpio statistika. Kol kas skyrius kuriamas."
   },
   "updates": {
+    "update7": {
+      "date": "2026-03-13",
+      "version": "v1.5.1",
+      "emoji": "",
+      "text": "Prisijungimo lange pridėta slaptažodžio rodymo/slėpimo funkcija, kad būtų patogiau įvesti duomenis."
+    },
     "update6": {
       "date": "2026-03-10",
       "version": "v1.5",
