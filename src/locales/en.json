@@ -6,6 +6,7 @@
     "home": "Home",
     "catalog": "Catalog",
     "order": "Order",
+    "history": "History",
     "logout": "Log out",
     "theme": "Theme",
     "themeLight": "Light theme",
@@ -74,6 +75,9 @@
     "prev": "Previous",
     "next": "Next",
     "perPage": "Per page"
+  },
+  "history": {
+    "placeholder": "Your order history, all your orders, amounts and statistics for the selected period will soon appear here. The section is still under development."
   },
   "updates": {
     "update6": {

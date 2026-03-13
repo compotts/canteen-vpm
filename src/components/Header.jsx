@@ -63,6 +63,13 @@ export default function Header() {
                 >
                   {t("nav.order")}
                 </Link>
+                <Link
+                  to="/history"
+                  className="px-3 py-2 rounded-lg text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--border-subtle)] transition-colors"
+                  onClick={closeDrawer}
+                >
+                  {t("nav.history")}
+                </Link>
               </nav>
               <div className="hidden md:flex items-center gap-2 border-l border-[var(--border)] pl-3 ml-1">
                 {langs.map((l) => (
@@ -145,6 +152,13 @@ export default function Header() {
                 onClick={closeDrawer}
               >
                 {t("nav.order")}
+              </Link>
+              <Link
+                to="/history"
+                className="block py-3.5 px-5 text-[var(--text)] no-underline text-base font-medium border-none bg-transparent w-full text-left cursor-pointer font-[var(--font-sans)]"
+                onClick={closeDrawer}
+              >
+                {t("nav.history")}
               </Link>
               <button
                 type="button"

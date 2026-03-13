@@ -6,6 +6,7 @@
     "home": "Pradžia",
     "catalog": "Katalogas",
     "order": "Užsakyti",
+    "history": "Istorija",
     "logout": "Atsijungti",
     "theme": "Tema",
     "themeLight": "Šviesi tema",
@@ -74,6 +75,9 @@
     "prev": "Atgal",
     "next": "Pirmyn",
     "perPage": "Puslapyje"
+  },
+  "history": {
+    "placeholder": "Čia netrukus pasirodys jūsų Užsakymų istorija, visi jūsų užsakymai, sumos ir pasirinkto laikotarpio statistika. Kol kas skyrius kuriamas."
   },
   "updates": {
     "update6": {

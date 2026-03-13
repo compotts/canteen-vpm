@@ -9,6 +9,7 @@ import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import Catalog from "./pages/Catalog.jsx";
 import Order from "./pages/Order.jsx";
+import History from "./pages/History.jsx";
 
 function ProtectedRoute({ children }) {
   const { isAuth } = useAuth();
@@ -38,6 +39,7 @@ function AppRoutes() {
           <Route path="/" element={<HomeOrLogin />} />
           <Route path="/menu" element={<ProtectedRoute><Catalog /></ProtectedRoute>} />
           <Route path="/order" element={<ProtectedRoute><Order /></ProtectedRoute>} />
+          <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
