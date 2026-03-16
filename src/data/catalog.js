@@ -142,6 +142,14 @@ export const catalogByCategory = {
     {name: "Pekino kopūstų salotos su porais ir pomidorais", nameRu: "Салат из пекинской капусты с луком-пореем и помидорами"},
     {name: "Vištienos maltinis (kotletas)", nameRu: "Куриный фарш (котлета)"},
     {name: "Omletas su sūriu", nameRu: "Омлет с сыром"},
+    {name: "Jautienos troškinys su moliūgais", nameRu: "Рагу из говядины с тыквой"},
+    {name: "Morkų ir kopūstų salotos", nameRu: "Салат из моркови и капусты"},
+    {name: "Silkės salotos", nameRu: "Салат из сельди"},
+    {name: "Vištienos salotos su majonezu", nameRu: "Салат из курицы с майонезом"},
+    {name: "Vitaminų salotos", nameRu: "Витаминный салат"},
+    {name: "Jaunimo kepsnys su grybų padažu", nameRu: "Молодежный стейк с грибным соусом"},
+    {name: "Mėsos kukuliai su padažu", nameRu: "Мясные фрикадельки с соусом"},
+    {name: "Varškėčiai su grietine", nameRu: "Вареники со сметаной"},
   ],
 };
 
