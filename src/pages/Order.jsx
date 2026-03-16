@@ -7,14 +7,59 @@ import {
   parseMenuFromHtml,
   submitOrder,
 } from "../services/valgykla.js";
-import { SECTION_TITLE_KEYS } from "../constants.js"
+import { SECTION_TITLE_KEYS } from "../constants.js";
 import { useLanguage } from "../hooks/useLanguage.js";
 import { nameToRuMap, normalizeDishName } from "../data/catalog.js";
+import { saveOrderToHistory } from "../services/history.js";
 
 function getSectionDisplayTitle(title, t) {
   if (!title || typeof title !== "string") return title || "";
   const key = SECTION_TITLE_KEYS[title.trim().toLowerCase()];
   return key ? t(key) : title;
+}
+
+function getDishDisplayName(item, lang) {
+  const rawName = item.name || "";
+  const key = normalizeDishName(rawName);
+  if (lang === "ru") {
+    return nameToRuMap[key] || rawName.trim();
+  }
+  return rawName.trim();
+}
+
+function buildHistoryOrder(menu, quantities, lang, selectedDate) {
+  if (!menu || !menu.sections?.length) return null;
+  const items = [];
+
+  menu.sections.forEach((section) => {
+    section.items.forEach((item) => {
+      const rawQ = quantities[item.id];
+      const n = rawQ === "" || rawQ == null ? 0 : parseFloat(String(rawQ).replace(",", ".")) || 0;
+      if (!n || n <= 0) return;
+      const pricePerUnit = typeof item.price === "number" ? item.price : 0;
+      const totalPrice = pricePerUnit * n;
+      items.push({
+        id: item.id,
+        name: getDishDisplayName(item, lang),
+        weight: item.weight || "",
+        quantity: n,
+        pricePerUnit,
+        totalPrice,
+      });
+    });
+  });
+
+  if (!items.length) return null;
+
+  const orderTotal = items.reduce((sum, i) => sum + (typeof i.totalPrice === "number" ? i.totalPrice : 0), 0);
+
+  return {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    createdAt: new Date().toISOString(),
+    menuDate: selectedDate || null,
+    items,
+    orderTotal,
+  };
 }
 
 export default function Order() {
@@ -123,6 +168,8 @@ export default function Order() {
         });
       });
       await submitOrder(selectedDate, payload);
+      const historyOrder = buildHistoryOrder(menu, quantities, lang, selectedDate);
+      if (historyOrder) saveOrderToHistory(historyOrder);
       setSubmitSuccess(true);
     } catch (err) {
       if (err?.status === 401) window.dispatchEvent(new Event("auth:logout"));
@@ -247,10 +294,7 @@ export default function Order() {
               </h2>
               <ul className="list-none m-0 p-0 space-y-3">
                 {section.items.map((item) => {
-                  const rawName = item.name || "";
-                  const key = normalizeDishName(rawName);
-                  const displayName =
-                    lang === "ru" ? nameToRuMap[key] || rawName.trim() : rawName.trim();
+                  const displayName = getDishDisplayName(item, lang);
 
                   return (
                     <li key={item.id} className="flex flex-wrap items-center gap-2 gap-y-1">
