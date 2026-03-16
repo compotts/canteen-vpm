@@ -13,13 +13,14 @@ export const LOCALE_MAP = {
   en: "en-US",
 };
 
-export const APP_VERSION = "v1.5";
+export const APP_VERSION = "v1.6";
 export const CONTACT_URL = "https://quizzez.site/info#contact";
 
 export const VALGYKLA_BASE = "https://valgykla.vpm.lt";
 export const REMEMBER_ME_KEY = "valgyklos_remember_me";
 export const SAVED_USERNAME_KEY = "valgyklos_username";
 export const SAVED_PASSWORD_KEY = "valgyklos_password";
+export const ORDER_HISTORY_KEY = "valgyklos_order_history";
 
 export const SECTION_TITLE_KEYS = {
   "dienos meniu": "menu.dailyMenu",
