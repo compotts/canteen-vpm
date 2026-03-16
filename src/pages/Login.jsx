@@ -18,6 +18,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [helpOpen, setHelpOpen] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -126,7 +127,62 @@ export default function Login() {
             {loading ? t("login.submitting") : t("login.submit")}
           </button>
         </form>
+
+        <button
+          type="button"
+          onClick={() => setHelpOpen(true)}
+          className="mt-3 w-full text-sm text-[var(--accent)] underline underline-offset-2 decoration-[var(--accent)] text-left"
+        >
+          {t("login.cantLogin")}
+        </button>
       </div>
+
+      {helpOpen && (
+        <div className="fixed inset-0 z-[1200] flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setHelpOpen(false)}
+            aria-hidden="true"
+          />
+          <div
+            className="relative max-w-[420px] mx-4 bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="login-help-title"
+          >
+            <h2 id="login-help-title" className="text-lg font-semibold text-[var(--text)] mt-0 mb-3">
+              {t("login.helpTitle")}
+            </h2>
+            <p className="text-sm text-[var(--text)] leading-relaxed mb-3">
+              {t("login.helpIntro")}
+            </p>
+            <ul className="text-sm text-[var(--text)] leading-relaxed mb-3 pl-5 list-disc">
+              <li>{t("login.helpStudent")}</li>
+              <li>{t("login.helpStaff")}</li>
+            </ul>
+            <p className="text-sm text-[var(--text)] font-semibold mb-1">
+              {t("login.helpAdminTitle")}
+            </p>
+            <p className="text-sm text-[var(--text)] leading-relaxed mb-4">
+              {t("login.helpAdminName")}
+              <br />
+              <a
+                href="mailto:it.pagalba@vpm.lt"
+                className="text-[var(--accent)] underline underline-offset-2"
+              >
+                {t("login.helpAdminEmail")}
+              </a>
+            </p>
+            <button
+              type="button"
+              onClick={() => setHelpOpen(false)}
+              className="mt-1 inline-flex cursor-pointer items-center justify-center px-4 py-2 rounded-lg bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium w-full"
+            >
+              {t("login.helpClose")}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
