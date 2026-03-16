@@ -79,9 +79,24 @@
     "perPage": "Per page"
   },
   "history": {
-    "placeholder": "Your order history, all your orders, amounts and statistics for the selected period will soon appear here. The section is still under development."
+    "placeholder": "History is still empty. As soon as you start placing orders, they will appear here.",
+    "summaryTitle": "Total amount for the selected period:",
+    "summaryHint": "Only orders saved on this device are taken into account.",
+    "periodWeek": "Week",
+    "periodMonth": "Month",
+    "periodCustom": "Custom",
+    "clear": "Clear history",
+    "clearConfirm": "Clear all order history on this device? This action cannot be undone.",
+    "from": "From",
+    "to": "To"
   },
   "updates": {
+    "update8": {
+      "date": "2026-03-16",
+      "version": "v1.6",
+      "emoji": "",
+      "text": "An order history page has been added, now you can view saved orders (the latest ones at the top), open each order and view the line-up by position and total amount, see the total amount for the current week (starting on Monday) or the current month (starting on the 1st), select your period/specific day via the calendar, as well as the history cleanup function. (it is stored on the device). If you find an error, please let the developer know."
+    },
     "update7": {
       "date": "2026-03-13",
       "version": "v1.5.1",

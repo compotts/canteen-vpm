@@ -79,9 +79,24 @@
     "perPage": "Puslapyje"
   },
   "history": {
-    "placeholder": "Čia netrukus pasirodys jūsų Užsakymų istorija, visi jūsų užsakymai, sumos ir pasirinkto laikotarpio statistika. Kol kas skyrius kuriamas."
+    "placeholder": "Istorija dar tuščia. Kai tik pradėsite daryti užsakymus, jie atsiras čia.",
+    "summaryTitle": "Užsakymų suma pasirinktame laikotarpyje:",
+    "summaryHint": "Atsižvelgiama tik į užsakymus, išsaugotus šiame įrenginyje.",
+    "periodWeek": "Savaitė",
+    "periodMonth": "Mėnuo",
+    "periodCustom": "Laikotarpis",
+    "clear": "Išvalyti istoriją",
+    "clearConfirm": "Išvalyti visą užsakymų istoriją šiame įrenginyje? Šio veiksmo atšaukti negalima.",
+    "from": "Nuo",
+    "to": "Iki"
   },
   "updates": {
+    "update8": {
+      "date": "2026-03-16",
+      "version": "v1.6",
+      "emoji": "",
+      "text": "Pridėtas užsakymų istorijos puslapis, dabar galite peržiūrėti išsaugotus užsakymus (naujausius iš viršaus), atidaryti kiekvieną užsakymą ir peržiūrėti pozicijų sudėtį ir galutinę sumą, matyti bendrą sumą už einamąją savaitę (nuo pirmadienio) arba einamąjį mėnesį (nuo 1 dienos), pasirinkti savo laikotarpį / konkrečią dieną per kalendorių, taip pat istorijos valymo funkciją (ji saugoma įrenginyje). Jei pastebėsite klaidą, prašau pranešti kūrėjui."
+    },
     "update7": {
       "date": "2026-03-13",
       "version": "v1.5.1",
