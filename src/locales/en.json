@@ -29,7 +29,16 @@
     "submitting": "Signing in…",
     "error": "Sign in error",
     "hidePassword": "Hide password",
-    "showPassword": "Show password"
+    "showPassword": "Show password",
+    "cantLogin": "I can't sign in / I don't remember my details",
+    "helpTitle": "Having trouble signing in?",
+    "helpIntro": "If you are having trouble signing in, for example you forgot your username or password, you can contact:",
+    "helpStudent": "your homeroom teacher (if you are a student);",
+    "helpStaff": "the administrators (if you are a teacher, member of administration or another school staff member).",
+    "helpAdminTitle": "Administrator details:",
+    "helpAdminName": "Vitalijus Tirevičius",
+    "helpAdminEmail": "it.pagalba@vpm.lt",
+    "helpClose": "Got it"
   },
   "menu": {
     "dailyMenu": "Daily menu",

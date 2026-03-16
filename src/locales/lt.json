@@ -29,7 +29,16 @@
     "submitting": "Prisijungiama…",
     "error": "Prisijungimo klaida",
     "hidePassword": "Slėpti slaptažodį",
-    "showPassword": "Rodyti slaptažodį"
+    "showPassword": "Rodyti slaptažodį",
+    "cantLogin": "Negaliu prisijungti / Neprisimenu duomenų",
+    "helpTitle": "Prisijungimo problemos",
+    "helpIntro": "Jei turite problemų prisijungdami prie sistemos, pavyzdžiui, pamiršote prisijungimo vardą ar slaptažodį, galite kreiptis į:",
+    "helpStudent": "klasės auklėtoją (jei esate mokinys);",
+    "helpStaff": "administratorius (jei esate mokytojas, administracijos narys ar kitas mokyklos darbuotojas).",
+    "helpAdminTitle": "Administratoriaus duomenys:",
+    "helpAdminName": "Vitalijus Tirevičius",
+    "helpAdminEmail": "it.pagalba@vpm.lt",
+    "helpClose": "Supratau"
   },
   "menu": {
     "dailyMenu": "Dienos meniu",
