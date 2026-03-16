@@ -28,6 +28,17 @@ export function saveOrderToHistory(order) {
   }
 }
 
+export function removeOrderFromHistoryByMenuDate(menuDate) {
+  if (!menuDate) return;
+  if (typeof window === "undefined" || !window.localStorage) return;
+  try {
+    const existing = loadOrderHistory();
+    const next = existing.filter((o) => !o || o.menuDate !== menuDate);
+    window.localStorage.setItem(ORDER_HISTORY_KEY, JSON.stringify(next));
+  } catch {
+  }
+}
+
 export function clearOrderHistory() {
   if (typeof window === "undefined" || !window.localStorage) return;
   try {

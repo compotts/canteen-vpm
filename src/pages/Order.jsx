@@ -10,7 +10,7 @@ import {
 import { SECTION_TITLE_KEYS } from "../constants.js";
 import { useLanguage } from "../hooks/useLanguage.js";
 import { nameToRuMap, normalizeDishName } from "../data/catalog.js";
-import { saveOrderToHistory } from "../services/history.js";
+import { saveOrderToHistory, removeOrderFromHistoryByMenuDate } from "../services/history.js";
 
 function getSectionDisplayTitle(title, t) {
   if (!title || typeof title !== "string") return title || "";
@@ -170,6 +170,7 @@ export default function Order() {
       await submitOrder(selectedDate, payload);
       const historyOrder = buildHistoryOrder(menu, quantities, lang, selectedDate);
       if (historyOrder) saveOrderToHistory(historyOrder);
+      else removeOrderFromHistoryByMenuDate(selectedDate);
       setSubmitSuccess(true);
     } catch (err) {
       if (err?.status === 401) window.dispatchEvent(new Event("auth:logout"));
