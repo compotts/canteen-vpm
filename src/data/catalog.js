@@ -30,7 +30,7 @@ export const catalogByCategory = {
     {id: 's27', name: 'Sibiro barščiai', nameRu: 'Сибирский борщ', weight: '250/20', priceStudent: 0.12, priceTeacher: 0.13},
     {id: 's28', name: 'Šiupininė sriuba', nameRu: 'Суп с перловой крупой', weight: '250/10', priceStudent: 0.55, priceTeacher: 0.61},
     {id: 's29', name: 'Sriuba „Charčio“', nameRu: 'Суп харчо', weight: '250', priceStudent: 0.78, priceTeacher: 0.86},
-    {id: 's30', name: 'Sultinys su kepta juoda duona', nameRu: 'Бульон с чёрным хлебом', weight: '200/50', priceStudent: 0.1, priceTeacher: 0.11},
+    {id: 's30', name: 'Sultinys su kepta juoda duona', nameRu: 'Бульон с черным хлебом', weight: '200/50', priceStudent: 0.1, priceTeacher: 0.11},
     {id: 's31', name: 'Sultinys su pakepinta balta duona', nameRu: 'Бульон с гренками', weight: '200/30', priceStudent: 0.14, priceTeacher: 0.15},
     {id: 's32', name: 'Šv.daržovių sriuba', nameRu: 'Светлый овощной суп', weight: '250/20', priceStudent: 0.4, priceTeacher: 0.44},
     {id: 's33', name: 'Šviežių kopūstų sriuba', nameRu: 'Суп из свежей капусты', weight: '250', priceStudent: 0.4, priceTeacher: 0.44},
@@ -82,8 +82,8 @@ export const catalogByCategory = {
   ],
   salotos: [
     {id: 'a1', name: 'Baltųjų ridikų ir morkų salotos', nameRu: 'Салат из редиса и моркови', weight: '130', priceStudent: 0.46, priceTeacher: 0.51},
-    {id: 'a2', name: 'Burokėliai su aliejumi', nameRu: 'Свёкла с маслом', weight: '100/10', priceStudent: 0.12, priceTeacher: 0.13},
-    {id: 'a3', name: 'Burokėlių salotos su raug.kopūstais', nameRu: 'Салат из свёклы с квашеной капустой', weight: '100', priceStudent: 0.23, priceTeacher: 0.25},
+    {id: 'a2', name: 'Burokėliai su aliejumi', nameRu: 'Свекла с маслом', weight: '100/10', priceStudent: 0.12, priceTeacher: 0.13},
+    {id: 'a3', name: 'Burokėlių salotos su raug.kopūstais', nameRu: 'Салат из свеклы с квашеной капустой', weight: '100', priceStudent: 0.23, priceTeacher: 0.25},
     {id: 'a4', name: 'Daržovių salotos su alyv.aliejumi', nameRu: 'Овощной салат с оливковым маслом', weight: '140', priceStudent: 0.39, priceTeacher: 0.43},
     {id: 'a5', name: 'Graikinės salotos', nameRu: 'Греческий салат', weight: '150', priceStudent: 0.94, priceTeacher: 1.03},
     {id: 'a6', name: 'Itališkos salotos', nameRu: 'Итальянский салат', weight: '170', priceStudent: 1.01, priceTeacher: 1.11},
@@ -150,6 +150,17 @@ export const catalogByCategory = {
     {name: "Jaunimo kepsnys su grybų padažu", nameRu: "Молодежный стейк с грибным соусом"},
     {name: "Mėsos kukuliai su padažu", nameRu: "Мясные фрикадельки с соусом"},
     {name: "Varškėčiai su grietine", nameRu: "Вареники со сметаной"},
+    {name: "Kepti garuose vištienos kukuliai su sezamo sėklom", nameRu: "Паровые куриные тефтели с кунжутом"},
+    {name: "Kukurūzų košė su sviestu", nameRu: "Кукурузная каша со сливочным маслом"},
+    {name: "Silkė su kiaušiniais ir svogūnais", nameRu: "Сельдь с яйцами и луком"},
+    {name: "Kaimiškas kepsnys", nameRu: "Деревенский стейк"},
+    {name: "Kalak.šlaun.mės. ir darž.troškinys(bulv.,kopūst.)", nameRu: "Тушеное мясо индейки (бедро) с овощами (картофель, капуста)"},
+    {name: "Virtų burokėlių su žirneliais ir rau.agurkais", nameRu: "Салат из вареной свеклы с горошком и солеными огурцами"},
+    {name: "Raugintų kopūstų salotos", nameRu: "Салат из квашеной капусты"},
+    {name: "Sostinės salotos (su vištiena)", nameRu: "Столичный салат (с курицей)"},
+    {name: "Kepsnys „Romantika“ (višt.fil)", nameRu: "Стейк «Романтика» (куриное филе)"},
+    {name: "Kepta lašišos file", nameRu: "Жареное филе лосося"},
+    {name: "Naminis kotletas", nameRu: "Домашняя котлета"}
   ],
 };
 
