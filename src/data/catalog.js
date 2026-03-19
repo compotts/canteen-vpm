@@ -160,7 +160,10 @@ export const catalogByCategory = {
     {name: "Sostinės salotos (su vištiena)", nameRu: "Столичный салат (с курицей)"},
     {name: "Kepsnys „Romantika“ (višt.fil)", nameRu: "Стейк «Романтика» (куриное филе)"},
     {name: "Kepta lašišos file", nameRu: "Жареное филе лосося"},
-    {name: "Naminis kotletas", nameRu: "Домашняя котлета"}
+    {name: "Naminis kotletas", nameRu: "Домашняя котлета"},
+    {name: "Varškės apkepas su razinomis", nameRu: "Творожная запеканка с изюмом"},
+    {name: "Keptas vištienos šlaunelės", nameRu: "Жареные куриные бёдра"},
+    {name: "Vištienos verinukai", nameRu: "Куриные шашлычки"},
   ],
 };
 
