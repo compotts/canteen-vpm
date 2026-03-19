@@ -1,7 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { History as HistoryIcon, ChevronDown, CalendarRange, Trash2 } from "lucide-react";
-import { loadOrderHistory, clearOrderHistory } from "../services/history.js";
+import {
+  History as HistoryIcon,
+  ChevronDown,
+  CalendarRange,
+  Trash2,
+  Plus,
+  Minus,
+} from "lucide-react";
+import {
+  loadOrderHistory,
+  clearOrderHistory,
+  removeOrderFromHistoryByMenuDate,
+  updateOrderItemQuantityByMenuDate,
+} from "../services/history.js";
 
 const PER_PAGE = 5;
 
@@ -22,6 +34,11 @@ function formatDate(value, locale) {
   }
 }
 
+function formatQty(q) {
+  if (typeof q !== "number" || !Number.isFinite(q)) return q ?? "";
+  return q.toFixed(1).replace(/\.0$/, "");
+}
+
 export default function History() {
   const { t, i18n } = useTranslation();
   const [orders, setOrders] = useState([]);
@@ -37,6 +54,15 @@ export default function History() {
     setPage(1);
     setOpenId(list[0]?.id ?? null);
   }, []);
+
+  const reloadOrders = () => {
+    const list = loadOrderHistory();
+    setOrders(list);
+    setPage(1);
+    setOpenId((prev) =>
+      list.some((o) => o && o.id === prev) ? prev : list[0]?.id ?? null,
+    );
+  };
 
   const filteredOrders = useMemo(() => {
     if (!orders.length) return [];
@@ -101,14 +127,39 @@ export default function History() {
 
   const handleClear = () => {
     const confirmed = window.confirm(
-      t("history.clearConfirm") ||
-        t("history.clearConfirm"),
+      t("history.clearConfirm"),
     );
     if (!confirmed) return;
     clearOrderHistory();
-    setOrders([]);
-    setPage(1);
-    setOpenId(null);
+    reloadOrders();
+  };
+
+  const handleDeleteOrder = (order) => {
+    const menuDate = order?.menuDate;
+    if (!menuDate) return;
+
+    const confirmed = window.confirm(
+      t("history.deleteOrderConfirm"),
+    );
+    if (!confirmed) return;
+
+    removeOrderFromHistoryByMenuDate(menuDate);
+    reloadOrders();
+  };
+
+  const changeItemQty = (order, item, delta) => {
+    const menuDate = order?.menuDate;
+    if (!menuDate || !item?.id) return;
+
+    const current = typeof item.quantity === "number" ? item.quantity : 0;
+    const next = current + delta;
+
+    updateOrderItemQuantityByMenuDate(menuDate, item.id, next);
+    reloadOrders();
+  };
+
+  const removeItem = (order, item) => {
+    changeItemQty(order, item, -9999);
   };
 
   return (
@@ -140,6 +191,7 @@ export default function History() {
               >
                 {t("history.periodWeek")}
               </button>
+
               <button
                 type="button"
                 onClick={() => {
@@ -154,6 +206,7 @@ export default function History() {
               >
                 {t("history.periodMonth")}
               </button>
+
               <button
                 type="button"
                 onClick={() => {
@@ -170,6 +223,7 @@ export default function History() {
                 {t("history.periodCustom")}
               </button>
             </div>
+
             <button
               type="button"
               onClick={handleClear}
@@ -194,6 +248,7 @@ export default function History() {
                   className="input rounded-md border border-[var(--border)] bg-[var(--bg-card)] px-2 py-1 text-xs md:text-sm"
                 />
               </div>
+
               <div className="flex items-center gap-1">
                 <span>{t("history.to")}</span>
                 <input
@@ -218,6 +273,7 @@ export default function History() {
                 {totalForPeriod.toFixed(2)} €
               </p>
             </div>
+
             <p className="m-0 text-xs text-[var(--text-muted)] max-w-[220px] text-right">
               {t("history.summaryHint")}
             </p>
@@ -226,76 +282,167 @@ export default function History() {
           <div className="space-y-3">
             {paginatedOrders.map((order) => {
               const isOpen = openId === order.id;
-              const createdLabel = formatDate(order.createdAt, i18n.language || "ru-RU");
+
+              const createdLabel = formatDate(
+                order.createdAt,
+                i18n.language || "lt-LT",
+              );
               const menuDateLabel = order.menuDate || "";
-              const itemsCount = Array.isArray(order.items) ? order.items.length : 0;
+
+              const itemsCount = Array.isArray(order.items)
+                ? order.items.reduce(
+                    (sum, item) => sum + (Number(item?.quantity) || 0),
+                    0,
+                  )
+                : 0;
 
               return (
                 <div
                   key={order.id}
                   className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] overflow-hidden"
                 >
-                  <button
-                    type="button"
-                    onClick={() => setOpenId(isOpen ? null : order.id)}
-                    className="w-full flex items-center justify-between px-4 py-3 text-left"
-                  >
-                    <div className="flex flex-col gap-0.5">
-                      <span className="text-sm font-medium text-[var(--text)]">
-                        {createdLabel}
-                        {menuDateLabel && (
-                          <span className="text-[var(--text-muted)] text-xs ml-1">
-                            ({menuDateLabel})
-                          </span>
-                        )}
-                      </span>
-                      <span className="text-xs text-[var(--text-muted)]">
-                        {itemsCount} {t("menu.portions")}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-semibold text-[var(--text)] tabular-nums">
-                        {typeof order.orderTotal === "number" ? order.orderTotal.toFixed(2) : "0.00"} €
-                      </span>
-                      <ChevronDown
-                        className={`w-4 h-4 text-[var(--text-muted)] transition-transform ${isOpen ? "rotate-180" : ""}`}
-                        aria-hidden="true"
-                      />
-                    </div>
-                  </button>
+                  <div className="w-full flex items-center justify-between px-4 py-3 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setOpenId(isOpen ? null : order.id)}
+                      className="flex-1 min-w-0 flex items-center justify-between text-left"
+                      aria-expanded={isOpen}
+                    >
+                      <div className="flex flex-col gap-0.5 min-w-0">
+                        <span className="text-sm font-medium text-[var(--text)]">
+                          {createdLabel}
+                          {menuDateLabel && (
+                            <span className="text-[var(--text-muted)] text-xs ml-1">
+                              ({menuDateLabel})
+                            </span>
+                          )}
+                        </span>
 
-                  {isOpen && Array.isArray(order.items) && order.items.length > 0 && (
-                    <div className="border-t border-[var(--border)] px-4 py-3 text-sm">
-                      <ul className="list-none m-0 p-0 space-y-2">
-                        {order.items.map((item) => (
-                          <li key={item.id} className="flex items-start justify-between gap-3">
-                            <div className="flex-1 min-w-0">
-                              <span className="text-[var(--text)] break-words">
-                                {item.name}
-                              </span>
-                              <div className="text-xs text-[var(--text-muted)]">
-                                {item.weight && <span>{item.weight}</span>}
-                                {item.weight && " · "}
-                                <span>
-                                  {item.quantity}×{" "}
-                                  {typeof item.pricePerUnit === "number"
-                                    ? item.pricePerUnit.toFixed(2)
+                        <span className="text-xs text-[var(--text-muted)]">
+                          {itemsCount} {t("menu.portions")}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-3 ml-3">
+                        <span className="text-sm font-semibold text-[var(--text)] tabular-nums">
+                          {typeof order.orderTotal === "number"
+                            ? order.orderTotal.toFixed(2)
+                            : "0.00"}{" "}
+                          €
+                        </span>
+
+                        <ChevronDown
+                          className={`w-4 h-4 text-[var(--text-muted)] transition-transform ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDeleteOrder(order);
+                      }}
+                      className="inline-flex shrink-0 items-center justify-center rounded-lg p-2 text-red-500 hover:bg-red-500/10"
+                      aria-label={t("history.deleteOrder")}
+                      title={t("history.deleteOrder")}
+                    >
+                      <Trash2 className="w-4 h-4" aria-hidden="true" />
+                    </button>
+                  </div>
+
+                  {isOpen &&
+                    Array.isArray(order.items) &&
+                    order.items.length > 0 && (
+                      <div className="border-t border-[var(--border)] px-4 py-3 text-sm">
+                        <ul className="list-none m-0 p-0 space-y-2">
+                          {order.items.map((item) => (
+                            <li
+                              key={item.id}
+                              className="flex items-start justify-between gap-3"
+                            >
+                              <div className="flex-1 min-w-0">
+                                <span className="text-[var(--text)] break-words">
+                                  {item.name}
+                                </span>
+
+                                <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-[var(--text-muted)]">
+                                  {item.weight && <span>{item.weight}</span>}
+                                  {item.weight && <span>·</span>}
+
+                                  <div className="inline-flex items-center rounded-lg border border-[var(--border)] overflow-hidden">
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        changeItemQty(order, item, -0.5);
+                                      }}
+                                      className="px-2 py-1 hover:bg-[var(--border-subtle)] transition-colors"
+                                      aria-label={t("history.decreaseQty")}
+                                    >
+                                      −
+                                    </button>
+
+                                    <span className="px-2 py-1 min-w-[36px] text-center text-[var(--text)] tabular-nums">
+                                      {formatQty(item.quantity)}
+                                    </span>
+
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        changeItemQty(order, item, 0.5);
+                                      }}
+                                      className="px-2 py-1 hover:bg-[var(--border-subtle)] transition-colors"
+                                      aria-label={t("history.increaseQty")}
+                                    >
+                                      +
+                                    </button>
+                                  </div>
+
+                                  <span>
+                                    ×{" "}
+                                    {typeof item.pricePerUnit === "number"
+                                      ? item.pricePerUnit.toFixed(2)
+                                      : "0.00"}{" "}
+                                    €
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-2 shrink-0">
+                                <span className="text-sm font-medium text-[var(--text)] tabular-nums whitespace-nowrap">
+                                  {typeof item.totalPrice === "number"
+                                    ? item.totalPrice.toFixed(2)
                                     : "0.00"}{" "}
                                   €
                                 </span>
+
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    removeItem(order, item);
+                                  }}
+                                  className="inline-flex items-center justify-center rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)] transition-colors"
+                                  aria-label={t("history.deleteItem")}
+                                  title={t("history.deleteItem")}
+                                >
+                                  <Trash2 className="w-4 h-4" aria-hidden="true" />
+                                </button>
                               </div>
-                            </div>
-                            <span className="text-sm font-medium text-[var(--text)] tabular-nums whitespace-nowrap">
-                              {typeof item.totalPrice === "number"
-                                ? item.totalPrice.toFixed(2)
-                                : "0.00"}{" "}
-                              €
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                 </div>
               );
             })}
@@ -311,9 +458,11 @@ export default function History() {
               >
                 {t("catalog.prev")}
               </button>
+
               <span className="text-xs md:text-sm text-[var(--text-muted)]">
                 {t("catalog.page")} {currentPage} / {totalPages}
               </span>
+
               <button
                 type="button"
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}

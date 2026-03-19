@@ -97,9 +97,20 @@
     "clear": "Išvalyti istoriją",
     "clearConfirm": "Išvalyti visą užsakymų istoriją šiame įrenginyje? Šio veiksmo atšaukti negalima.",
     "from": "Nuo",
-    "to": "Iki"
+    "to": "Iki",
+    "deleteOrder": "Ištrinti užsakymą",
+    "deleteOrderConfirm": "Ištrinti šį užsakymą iš istorijos?",
+    "deleteItem": "Ištrinti poziciją",
+    "decreaseQty": "-0.5 porcijos",
+    "increaseQty": "+0.5 porcijos"
   },
   "updates": {
+    "update9": {
+      "date": "2026-03-19",
+      "version": "v1.7",
+      "emoji": "",
+      "text": "Pridėta užsakymų istorijos galimybė ištrinti užsakymą konkrečiai dienai, taip pat galima keisti kiekį porcijų su 0.5 (±) žingsniu, įskaitant atskirų porcijų ištrynimą, jei iš savo valgyklos kažkas buvo pašalinta/pakeista."
+    },
     "update8": {
       "date": "2026-03-16",
       "version": "v1.6",

@@ -97,9 +97,20 @@
     "clear": "Clear history",
     "clearConfirm": "Clear all order history on this device? This action cannot be undone.",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "deleteOrder": "Delete order",
+    "deleteOrderConfirm": "Delete this order from history?",
+    "deleteItem": "Delete item",
+    "decreaseQty": "-0.5 portions",
+    "increaseQty": "+0.5 portions"
   },
   "updates": {
+    "update9": {
+      "date": "2026-03-19",
+      "version": "v1.7",
+      "emoji": "",
+      "text": "Added order history ability to delete an order for a specific day, as well as edit the quantity of portions with a 0.5 (±) step, including the deletion of individual portions, in case something was removed/changed in the canteen."
+    },
     "update8": {
       "date": "2026-03-16",
       "version": "v1.6",
