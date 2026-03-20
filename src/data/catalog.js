@@ -164,6 +164,10 @@ export const catalogByCategory = {
     {name: "Varškės apkepas su razinomis", nameRu: "Творожная запеканка с изюмом"},
     {name: "Keptas vištienos šlaunelės", nameRu: "Жареные куриные бёдра"},
     {name: "Vištienos verinukai", nameRu: "Куриные шашлычки"},
+    {name: "Kepti su garais jautienos kukulaičiai", nameRu: "Говяжьи тефтели на пару"},
+    {name: "Pomidorų-agurkų salotos su ypač tyrų alyv.aliej.", nameRu: "Салат из помидоров и огурцов с оливковым маслом"},
+    {name: "Vištiena su grybais ir grietinėle", nameRu: "Курица с грибами в сливочном соусе"},
+    {name: "Perlinės kuskusas", nameRu: "Перловый кускус"},
   ],
 };
 
