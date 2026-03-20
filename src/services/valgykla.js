@@ -30,7 +30,7 @@ export function parseMenuFromHtml(html, dateStr) {
   const date = dateStr || extractDateFromDoc(doc);
   const sections = [];
   const tables = doc.querySelectorAll("form .container .form-control table");
-  if (!tables.length) throw new Error("PARSE_ERROR");
+  if (!tables.length) throw new Error("PARSE_ERROR contact with developer please");
 
   tables.forEach((table) => {
     const th = table.querySelector("thead tr th");
