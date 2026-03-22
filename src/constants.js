@@ -16,6 +16,8 @@ export const LOCALE_MAP = {
 export const APP_VERSION = "v1.7";
 export const CONTACT_URL = "https://quizzez.site/info#contact";
 
+export const API_BASE = "/api/history";
+
 export const VALGYKLA_BASE = "https://valgykla.vpm.lt";
 export const REMEMBER_ME_KEY = "valgyklos_remember_me";
 export const SAVED_USERNAME_KEY = "valgyklos_username";

@@ -1,6 +1,6 @@
-import { SAVED_USERNAME_KEY } from "../constants";
+import { SAVED_USERNAME_KEY, API_BASE } from "../constants";
 
-const base = "/api/history";
+
 
 function getUsername() {
   return (localStorage.getItem(SAVED_USERNAME_KEY) || "").trim();
@@ -34,29 +34,29 @@ async function request(url, options = {}) {
 }
 
 export async function loadOrderHistory() {
-  return request(base, { method: "GET" });
+  return request(API_BASE, { method: "GET" });
 }
 
 export async function saveOrderToHistory(order) {
-  return request(base, {
+  return request(API_BASE, {
     method: "POST",
     body: JSON.stringify(order),
   });
 }
 
 export async function updateOrderItemQuantityByMenuDate(menuDate, itemId, nextQuantity) {
-  return request(base, {
+  return request(API_BASE, {
     method: "PATCH",
     body: JSON.stringify({ menuDate, itemId, nextQuantity }),
   });
 }
 
 export async function removeOrderFromHistoryByMenuDate(menuDate) {
-  return request(`${base}?menuDate=${encodeURIComponent(menuDate)}`, {
+  return request(`${API_BASE}?menuDate=${encodeURIComponent(menuDate)}`, {
     method: "DELETE",
   });
 }
 
 export async function clearOrderHistory() {
-  return request(base, { method: "DELETE" });
+  return request(API_BASE, { method: "DELETE" });
 }
