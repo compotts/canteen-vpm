@@ -4,6 +4,7 @@ import {
   History as HistoryIcon,
   ChevronDown,
   CalendarRange,
+  Loader2,
   Trash2
 } from "lucide-react";
 import {
@@ -45,21 +46,24 @@ export default function History() {
   const [mode, setMode] = useState("week");
   const [customFrom, setCustomFrom] = useState("");
   const [customTo, setCustomTo] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let ignore = false;
+  
     (async () => {
       try {
+        setLoading(true);
         const list = await loadOrderHistory();
         if (ignore) return;
-  
         setOrders(Array.isArray(list) ? list : []);
         setPage(1);
         setOpenId(list?.[0]?.id ?? null);
-      } catch (e) {
+      } catch {
         if (ignore) return;
         setOrders([]);
-        setOpenId(null);
+      } finally {
+        if (!ignore) setLoading(false);
       }
     })();
   
@@ -69,14 +73,15 @@ export default function History() {
   }, []);
 
   const reloadOrders = async () => {
+    setLoading(true);
     const list = await loadOrderHistory();
     const safeList = Array.isArray(list) ? list : [];
-  
     setOrders(safeList);
     setPage(1);
     setOpenId((prev) =>
       safeList.some((o) => o && o.id === prev) ? prev : safeList[0]?.id ?? null,
     );
+    setLoading(false);
   };
 
   const filteredOrders = useMemo(() => {
@@ -180,6 +185,12 @@ export default function History() {
         <HistoryIcon className="w-5 h-5 text-[var(--text-muted)]" aria-hidden="true" />
         {t("nav.history")}
       </h1>
+
+      {loading && (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-[var(--text-muted)]" />
+        </div>
+      )}
 
       {orders.length === 0 ? (
         <p className="text-[var(--text-muted)] leading-relaxed">
