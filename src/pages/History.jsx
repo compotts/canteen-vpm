@@ -4,9 +4,7 @@ import {
   History as HistoryIcon,
   ChevronDown,
   CalendarRange,
-  Trash2,
-  Plus,
-  Minus,
+  Trash2
 } from "lucide-react";
 import {
   loadOrderHistory,
