@@ -32,8 +32,8 @@ export default function Login() {
         localStorage.setItem(SAVED_PASSWORD_KEY, password);
       } else {
         localStorage.removeItem(REMEMBER_ME_KEY);
-        localStorage.removeItem(SAVED_USERNAME_KEY);
         localStorage.removeItem(SAVED_PASSWORD_KEY);
+        localStorage.setItem(SAVED_USERNAME_KEY, username);
       }
       setAuth(true);
       navigate("/", { replace: true });
