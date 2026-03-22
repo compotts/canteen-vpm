@@ -104,6 +104,12 @@
     "increaseQty": "+0.5 portions"
   },
   "updates": {
+    "update10": {
+      "date": "2026-03-22",
+      "version": "v1.8",
+      "emoji": "",
+      "text": "The order history has finally been transferred to the database and now you can view your history on any device!"
+    },
     "update9": {
       "date": "2026-03-19",
       "version": "v1.7",

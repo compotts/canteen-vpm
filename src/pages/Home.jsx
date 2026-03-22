@@ -4,7 +4,12 @@ import { MessageSquare, ExternalLink, Clock } from "lucide-react";
 
 export default function Home() {
   const { t } = useTranslation();
-  const updates = ["update1", "update2", "update3", "update4", "update5", "update6", "update7", "update8", "update9"];
+  const updates = [
+    "update1", "update2", "update3", 
+    "update4", "update5", "update6", 
+    "update7", "update8", "update9", 
+    "update10"
+  ];
 
   return (
     <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border">
