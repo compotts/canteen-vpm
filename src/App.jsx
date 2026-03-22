@@ -12,7 +12,17 @@ import Order from "./pages/Order.jsx";
 import History from "./pages/History.jsx";
 
 function ProtectedRoute({ children }) {
-  const { isAuth } = useAuth();
+  const { isAuth, isChecking } = useAuth();
+  const { t } = useTranslation();
+
+  if (isChecking) {
+    return (
+      <div className="flex flex-1 items-center justify-center p-8">
+        <p className="text-[var(--text-muted)]">{t("common.loading")}</p>
+      </div>
+    );
+  }
+
   if (!isAuth) return <Navigate to="/" replace />;
   return children;
 }
