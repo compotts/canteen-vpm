@@ -3,6 +3,18 @@
     {
       "source": "/valgykla/(.*)",
       "destination": "https://valgykla.vpm.lt/$1"
+    },
+    {
+      "source": "/menu",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/order",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/history",
+      "destination": "/index.html"
     }
   ]
 }
