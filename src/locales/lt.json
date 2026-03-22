@@ -90,7 +90,6 @@
   "history": {
     "placeholder": "Istorija dar tuščia. Kai tik pradėsite daryti užsakymus, jie atsiras čia.",
     "summaryTitle": "Užsakymų suma pasirinktame laikotarpyje:",
-    "summaryHint": "Atsižvelgiama tik į užsakymus, išsaugotus šiame įrenginyje.",
     "periodWeek": "Savaitė",
     "periodMonth": "Mėnuo",
     "periodCustom": "Laikotarpis",

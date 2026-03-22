@@ -287,10 +287,6 @@ export default function History() {
                 {totalForPeriod.toFixed(2)} €
               </p>
             </div>
-
-            <p className="m-0 text-xs text-[var(--text-muted)] max-w-[220px] text-right">
-              {t("history.summaryHint")}
-            </p>
           </div>
 
           <div className="space-y-3">

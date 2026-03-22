@@ -90,7 +90,6 @@
   "history": {
     "placeholder": "History is still empty. As soon as you start placing orders, they will appear here.",
     "summaryTitle": "Total amount for the selected period:",
-    "summaryHint": "Only orders saved on this device are taken into account.",
     "periodWeek": "Week",
     "periodMonth": "Month",
     "periodCustom": "Custom",
