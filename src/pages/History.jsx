@@ -49,18 +49,35 @@ export default function History() {
   const [customTo, setCustomTo] = useState("");
 
   useEffect(() => {
-    const list = loadOrderHistory();
-    setOrders(list);
-    setPage(1);
-    setOpenId(list[0]?.id ?? null);
+    let ignore = false;
+    (async () => {
+      try {
+        const list = await loadOrderHistory();
+        if (ignore) return;
+  
+        setOrders(Array.isArray(list) ? list : []);
+        setPage(1);
+        setOpenId(list?.[0]?.id ?? null);
+      } catch (e) {
+        if (ignore) return;
+        setOrders([]);
+        setOpenId(null);
+      }
+    })();
+  
+    return () => {
+      ignore = true;
+    };
   }, []);
 
-  const reloadOrders = () => {
-    const list = loadOrderHistory();
-    setOrders(list);
+  const reloadOrders = async () => {
+    const list = await loadOrderHistory();
+    const safeList = Array.isArray(list) ? list : [];
+  
+    setOrders(safeList);
     setPage(1);
     setOpenId((prev) =>
-      list.some((o) => o && o.id === prev) ? prev : list[0]?.id ?? null,
+      safeList.some((o) => o && o.id === prev) ? prev : safeList[0]?.id ?? null,
     );
   };
 
@@ -125,37 +142,34 @@ export default function History() {
     return filteredOrders.slice(start, start + PER_PAGE);
   }, [filteredOrders, currentPage]);
 
-  const handleClear = () => {
-    const confirmed = window.confirm(
-      t("history.clearConfirm"),
-    );
+  const handleClear = async () => {
+    const confirmed = window.confirm(t("history.clearConfirm"));
     if (!confirmed) return;
-    clearOrderHistory();
-    reloadOrders();
+  
+    await clearOrderHistory();
+    await reloadOrders();
   };
 
-  const handleDeleteOrder = (order) => {
+  const handleDeleteOrder = async (order) => {
     const menuDate = order?.menuDate;
     if (!menuDate) return;
-
-    const confirmed = window.confirm(
-      t("history.deleteOrderConfirm"),
-    );
+  
+    const confirmed = window.confirm(t("history.deleteOrderConfirm"));
     if (!confirmed) return;
-
-    removeOrderFromHistoryByMenuDate(menuDate);
-    reloadOrders();
+  
+    await removeOrderFromHistoryByMenuDate(menuDate);
+    await reloadOrders();
   };
 
-  const changeItemQty = (order, item, delta) => {
+  const changeItemQty = async (order, item, delta) => {
     const menuDate = order?.menuDate;
     if (!menuDate || !item?.id) return;
-
+  
     const current = typeof item.quantity === "number" ? item.quantity : 0;
     const next = current + delta;
-
-    updateOrderItemQuantityByMenuDate(menuDate, item.id, next);
-    reloadOrders();
+  
+    await updateOrderItemQuantityByMenuDate(menuDate, item.id, next);
+    await reloadOrders();
   };
 
   const removeItem = (order, item) => {

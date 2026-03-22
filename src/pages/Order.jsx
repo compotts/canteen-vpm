@@ -169,8 +169,11 @@ export default function Order() {
       });
       await submitOrder(selectedDate, payload);
       const historyOrder = buildHistoryOrder(menu, quantities, lang, selectedDate);
-      if (historyOrder) saveOrderToHistory(historyOrder);
-      else removeOrderFromHistoryByMenuDate(selectedDate);
+      if (historyOrder) {
+        await saveOrderToHistory(historyOrder);
+      } else {
+        await removeOrderFromHistoryByMenuDate(selectedDate);
+      }
       setSubmitSuccess(true);
     } catch (err) {
       if (err?.status === 401) window.dispatchEvent(new Event("auth:logout"));
