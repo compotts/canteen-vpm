@@ -186,13 +186,11 @@ export default function History() {
         {t("nav.history")}
       </h1>
 
-      {loading && (
+      {loading ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-[var(--text-muted)]" />
         </div>
-      )}
-
-      {orders.length === 0 ? (
+      ) : orders.length === 0 ? (
         <p className="text-[var(--text-muted)] leading-relaxed">
           {t("history.placeholder")} 🙂
         </p>
