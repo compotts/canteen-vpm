@@ -175,8 +175,8 @@ export const catalogByCategory = {
   ],
 };
 
-export function normalizeDishName(name) {
-  return (name || "")
+export function normalizeDishName(name = "") {
+  return name
     .normalize("NFKC")
     .replace(/\s+/g, " ")
     .replace(/[.,;:]+$/u, "")
@@ -185,13 +185,10 @@ export function normalizeDishName(name) {
 }
 
 export const nameToRuMap = Object.freeze(
-  Object.values(catalogByCategory)
-    .flat()
-    .reduce((acc, item) => {
-      if (item.name && item.nameRu) {
-        const key = normalizeDishName(item.name);
-        if (key) acc[key] = item.nameRu;
-      }
-      return acc;
-    }, {})
+  Object.fromEntries(
+    Object.values(catalogByCategory)
+      .flat()
+      .filter(({ name, nameRu }) => name && nameRu)
+      .map(({ name, nameRu }) => [normalizeDishName(name), nameRu])
+  )
 );
