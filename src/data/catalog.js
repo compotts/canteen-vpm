@@ -168,6 +168,10 @@ export const catalogByCategory = {
     {name: "Pomidorų-agurkų salotos su ypač tyrų alyv.aliej.", nameRu: "Салат из помидоров и огурцов с оливковым маслом"},
     {name: "Vištiena su grybais ir grietinėle", nameRu: "Курица с грибами в сливочном соусе"},
     {name: "Perlinės kuskusas", nameRu: "Перловый кускус"},
+    {name: "Virti viso grūdo makaronai su sviestu", nameRu: "Отварные цельнозерновые макароны со сливочным маслом"},
+    {name: "Vištienos kumpelių guliašas pomidorų tyrėje", nameRu: "Гуляш из куриных бедрышек в томатном соусе"},
+    {name: "Kopūstų salotos su pomid.ir agurk.", nameRu: "Капустный салат с помидорами и огурцами"},
+    {name: "Troškintos daržovių mišinys Bondiuelle", nameRu: "Тушёная овощная смесь Bonduelle"},
   ],
 };
 
