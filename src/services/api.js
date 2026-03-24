@@ -1,4 +1,4 @@
-const base = "/valgykla";
+import { API_BASE } from "../constants";
 
 function handleResponse(res) {
   if (res.status === 401) {
@@ -17,7 +17,7 @@ function parseLoginResponse(html) {
 }
 
 export async function login(username, password) {
-  const res = await fetch(`${base}/login`, {
+  const res = await fetch(`${API_BASE}/login`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({ username, password }),
@@ -33,18 +33,18 @@ export async function login(username, password) {
 }
 
 export async function checkAuth() {
-  const res = await fetch(`${base}/main/rules`, { method: "GET", credentials: "include" });
+  const res = await fetch(`${API_BASE}/main/rules`, { method: "GET", credentials: "include" });
   handleResponse(res);
 }
 
 export async function getOrderMakePage() {
-  const res = await fetch(`${base}/orders/make`, { method: "GET", credentials: "include" });
+  const res = await fetch(`${API_BASE}/orders/make`, { method: "GET", credentials: "include" });
   handleResponse(res);
   return res.text();
 }
 
 export async function getOrderPage(dateStr) {
-  const res = await fetch(`${base}/orders/make/${dateStr}`, { method: "GET", credentials: "include" });
+  const res = await fetch(`${API_BASE}/orders/make/${dateStr}`, { method: "GET", credentials: "include" });
   handleResponse(res);
   return res.text();
 }
@@ -55,7 +55,7 @@ export async function submitOrder(dateStr, quantities) {
     const v = value === "" || value == null ? "" : String(value).replace(",", ".");
     body.set(`quantities[${id}]`, v);
   });
-  const res = await fetch(`${base}/orders/make/${dateStr}`, {
+  const res = await fetch(`${API_BASE}/orders/make/${dateStr}`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: body.toString(),
