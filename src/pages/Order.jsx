@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   getOrderMakePage,
@@ -51,7 +51,10 @@ function buildHistoryOrder(menu, quantities, lang, selectedDate) {
 
   if (!items.length) return null;
 
-  const orderTotal = items.reduce((sum, i) => sum + (typeof i.totalPrice === "number" ? i.totalPrice : 0), 0);
+  const orderTotal = items.reduce(
+    (sum, i) => sum + (typeof i.totalPrice === "number" ? i.totalPrice : 0),
+    0
+  );
 
   return {
     id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
@@ -60,6 +63,41 @@ function buildHistoryOrder(menu, quantities, lang, selectedDate) {
     items,
     orderTotal,
   };
+}
+
+function TotalBar({ total, submitLoading, t, variant }) {
+  const isFixed = variant === "fixed";
+  return (
+    <div
+      className={
+        isFixed
+          ? "flex items-center justify-between gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/80 px-5 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.18)]"
+          : "flex items-center justify-between gap-4 mt-4 md:mt-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-5 py-3.5 shadow-[var(--shadow-sm)]"
+      }
+      style={
+        isFixed
+          ? { backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }
+          : undefined
+      }
+    >
+      <div className="flex flex-col leading-tight">
+        <span className="text-xs text-[var(--text-muted)] uppercase tracking-widest font-medium">
+          {t("menu.total")}
+        </span>
+        <strong className="text-[var(--text)] text-xl md:text-2xl tabular-nums">
+          {total.toFixed(2)} €
+        </strong>
+      </div>
+      <button
+        form="order-form"
+        type="submit"
+        disabled={submitLoading}
+        className="inline-flex items-center justify-center font-[var(--font-sans)] text-base font-semibold py-2.5 px-6 rounded-xl border-none cursor-pointer bg-[var(--accent)] text-[var(--btn-primary-color)] disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 active:scale-95 transition-all"
+      >
+        {submitLoading ? t("menu.submitting") : t("menu.submit")}
+      </button>
+    </div>
+  );
 }
 
 export default function Order() {
@@ -74,6 +112,19 @@ export default function Order() {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [inlineVisible, setInlineVisible] = useState(true);
+  const sentinelRef = useRef(null);
+
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInlineVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [menu]);
 
   const loadOrderLink = useCallback(async () => {
     setLoading(true);
@@ -97,9 +148,7 @@ export default function Order() {
 
   useEffect(() => {
     if (!submitSuccess) return;
-    const timeout = setTimeout(() => {
-      setSubmitSuccess(false);
-    }, 2200);
+    const timeout = setTimeout(() => setSubmitSuccess(false), 2200);
     return () => clearTimeout(timeout);
   }, [submitSuccess]);
 
@@ -146,13 +195,21 @@ export default function Order() {
     setSubmitSuccess(false);
   };
 
-  const total = menu ? menu.sections.reduce((sum, sec) => {
-    return sum + sec.items.reduce((s, item) => {
-      const q = quantities[item.id];
-      const n = q === "" || q == null ? 0 : parseFloat(String(q).replace(",", ".")) || 0;
-      return s + item.price * n;
-    }, 0);
-  }, 0) : 0;
+  const total = menu
+    ? menu.sections.reduce((sum, sec) => {
+      return (
+        sum +
+        sec.items.reduce((s, item) => {
+          const q = quantities[item.id];
+          const n =
+            q === "" || q == null
+              ? 0
+              : parseFloat(String(q).replace(",", ".")) || 0;
+          return s + item.price * n;
+        }, 0)
+      );
+    }, 0)
+    : 0;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -189,11 +246,7 @@ export default function Order() {
     return (
       <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border">
         <p className="text-[var(--text-muted)]">{t("menu.loading")}</p>
-        <button
-          type="button"
-          onClick={loadOrderLink}
-          className="mt-2 text-sm text-[var(--accent)] underline"
-        >
+        <button type="button" onClick={loadOrderLink} className="mt-2 text-sm text-[var(--accent)] underline">
           {t("menu.retry")}
         </button>
       </div>
@@ -214,12 +267,8 @@ export default function Order() {
   if (!selectedDate) {
     return (
       <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border">
-        <h1 className="text-xl font-semibold text-[var(--text)] m-0 mb-4">
-          {t("nav.order")}
-        </h1>
-        <p className="text-[var(--text-muted)] text-sm mb-4">
-          {t("menu.orderChooseDate")}
-        </p>
+        <h1 className="text-xl font-semibold text-[var(--text)] m-0 mb-4">{t("nav.order")}</h1>
+        <p className="text-[var(--text-muted)] text-sm mb-4">{t("menu.orderChooseDate")}</p>
         <button
           type="button"
           onClick={openOrderForm}
@@ -235,11 +284,7 @@ export default function Order() {
     return (
       <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border">
         <p className="text-[var(--text-muted)]">{t("menu.loading")}</p>
-        <button
-          type="button"
-          onClick={backToDateChoice}
-          className="mt-2 text-sm text-[var(--accent)] underline"
-        >
+        <button type="button" onClick={backToDateChoice} className="mt-2 text-sm text-[var(--accent)] underline">
           {t("menu.backToMenu")}
         </button>
       </div>
@@ -263,11 +308,7 @@ export default function Order() {
         {t("nav.order")} ({selectedDate})
       </h1>
 
-      <button
-        type="button"
-        onClick={backToDateChoice}
-        className="mb-4 text-sm text-[var(--accent)] underline"
-      >
+      <button type="button" onClick={backToDateChoice} className="mb-4 text-sm text-[var(--accent)] underline">
         {t("menu.backToMenu")}
       </button>
 
@@ -282,24 +323,24 @@ export default function Order() {
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative bg-[var(--surface)] border border-[var(--border)] rounded-2xl px-6 py-5 shadow-[0_10px_30px_rgba(0,0,0,0.35)] bon-appetit-popup text-center max-w-[260px] mx-4">
             <div className="text-4xl mb-2" aria-hidden="true">😋</div>
-            <p className="m-0 text-[var(--text)] font-semibold text-lg">
-              {t("menu.bonAppetit")}
-            </p>
+            <p className="m-0 text-[var(--text)] font-semibold text-lg">{t("menu.bonAppetit")}</p>
           </div>
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
+      <form id="order-form" onSubmit={handleSubmit}>
         <div className="space-y-6 md:grid md:grid-cols-2 md:gap-6 md:items-start">
           {menu.sections.map((section) => (
-            <div key={section.title} className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 shadow-[var(--shadow-sm)]">
+            <div
+              key={section.title}
+              className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 shadow-[var(--shadow-sm)]"
+            >
               <h2 className="text-base font-semibold text-[var(--text)] mt-0 mb-3 border-b border-[var(--border)] pb-2">
                 {getSectionDisplayTitle(section.title, t)}
               </h2>
               <ul className="list-none m-0 p-0 space-y-3">
                 {section.items.map((item) => {
                   const displayName = getDishDisplayName(item, lang);
-
                   return (
                     <li key={item.id} className="flex flex-wrap items-center gap-2 gap-y-1">
                       <div className="flex-1 min-w-0">
@@ -329,19 +370,24 @@ export default function Order() {
           ))}
         </div>
 
-        <div className="mt-4 md:mt-6 flex items-center justify-between gap-4 flex-wrap md:col-span-2">
-          <strong className="text-[var(--text)] text-lg md:text-xl">
-            {t("menu.total")}: {total.toFixed(2)} €
-          </strong>
-          <button
-            type="submit"
-            disabled={submitLoading}
-            className="inline-flex items-center justify-center font-[var(--font-sans)] text-base font-medium py-2.5 px-5 rounded-lg border-none cursor-pointer bg-[var(--accent)] text-[var(--btn-primary-color)] disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {submitLoading ? t("menu.submitting") : t("menu.submit")}
-          </button>
+        <div ref={sentinelRef}>
+          <TotalBar total={total} submitLoading={submitLoading} t={t} variant="inline" />
         </div>
       </form>
+
+      <div
+        className="fixed bottom-0 left-0 right-0 z-[900] flex justify-center"
+        style={{
+          opacity: inlineVisible ? 0 : 1,
+          transform: inlineVisible ? "translateY(12px)" : "translateY(0)",
+          pointerEvents: inlineVisible ? "none" : "auto",
+          transition: "opacity 0.2s ease, transform 0.2s ease",
+        }}
+      >
+        <div className="w-full max-w-[430px] md:max-w-4xl mx-auto px-4 md:px-6 pb-4">
+          <TotalBar total={total} submitLoading={submitLoading} t={t} variant="fixed" />
+        </div>
+      </div>
     </div>
   );
 }
