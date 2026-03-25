@@ -177,9 +177,9 @@ export const catalogByCategory = {
     { name: "Kepta jūros lydekų filė", nameRu: "Жареное филе морской щуки (хек)" },
     { name: "Kiaulienos šašlyk. su kečupu", nameRu: "Шашлык из свинины с кетчупом" },
     { name: "Omletas su kumpiu", nameRu: "Омлет с ветчиной" },
-    {name: "Kiaulienos ir morkų troškinys su porais", nameRu: "Тушёная свинина с морковью и луком-пореем"},
-    {name: "Varškės pudingas su razinomis", nameRu: "Творожный пудинг с изюмом"},
-    {name: "Vengriškas kepsnys", nameRu: "Венгерский шницель"},
+    { name: "Kiaulienos ir morkų troškinys su porais", nameRu: "Тушёная свинина с морковью и луком-пореем"},
+    { name: "Varškės pudingas su razinomis", nameRu: "Творожный пудинг с изюмом"},
+    { name: "Vengriškas kepsnys", nameRu: "Венгерский шницель"},
   ],
 };
 
