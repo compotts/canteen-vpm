@@ -180,6 +180,9 @@ export const catalogByCategory = {
     { name: "Kiaulienos ir morkų troškinys su porais", nameRu: "Тушёная свинина с морковью и луком-пореем"},
     { name: "Varškės pudingas su razinomis", nameRu: "Творожный пудинг с изюмом"},
     { name: "Vengriškas kepsnys", nameRu: "Венгерский шницель"},
+    { name: "Žuvis troškinta su daržovėmis", nameRu: "Тушёная рыба с овощами"},
+    { name: "Kiaulienos sprandinė su dž.abrikosais", nameRu: "Свиная шея с курагой"},
+    { name: "Keptas kepenys", nameRu: "Жареная печень"},
   ],
 };
 
