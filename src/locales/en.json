@@ -17,7 +17,8 @@
   "home": {
     "feedback": "If you noticed errors in the app, please report them to the developer here",
     "thanks": "Thank you for your help!",
-    "updatesTitle": "Latest updates:"
+    "updatesTitle": "Latest updates:",
+    "noUpdates": "Updates list is empty"
   },
   "login": {
     "title": "Sign in",
