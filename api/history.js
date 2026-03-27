@@ -1,14 +1,6 @@
 import crypto from "node:crypto";
 import { sql } from "./_db.js";
-
-function getUsername(req) {
-  const value =
-    req.headers["x-username"] ||
-    req.query?.username ||
-    req.body?.username;
-
-  return typeof value === "string" ? value.trim() : "";
-}
+import { getUsername } from "./_auth.js";
 
 function json(res, status, data) {
   res.status(status).setHeader("Content-Type", "application/json");
