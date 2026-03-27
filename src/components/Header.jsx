@@ -6,6 +6,7 @@ import { useLanguage } from "../hooks/useLanguage.js";
 import { useTheme } from "../hooks/useTheme.js";
 import { APP_VERSION } from "../constants.js";
 import { Sun, Moon } from "lucide-react";
+import { isStoredUserAdmin } from "../services/userStorage.js";
 
 export default function Header() {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ export default function Header() {
   const { isDark, toggle } = useTheme();
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const isAdmin = isStoredUserAdmin();
 
   useEffect(() => {
     setDrawerOpen(false);
@@ -50,6 +52,15 @@ export default function Header() {
                 >
                   {t("nav.home")}
                 </Link>
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="px-3 py-2 rounded-lg text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--border-subtle)] transition-colors"
+                    onClick={closeDrawer}
+                  >
+                    {t("nav.admin")}
+                  </Link>
+                )}
                 <Link
                   to="/menu"
                   className="px-3 py-2 rounded-lg text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--border-subtle)] transition-colors"
@@ -152,6 +163,15 @@ export default function Header() {
               >
                 {t("nav.history")}
               </Link>
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="block py-3.5 px-5 text-[var(--text)] no-underline text-base font-medium border-none bg-transparent w-full text-left cursor-pointer font-[var(--font-sans)]"
+                  onClick={closeDrawer}
+                >
+                  {t("nav.admin")}
+                </Link>
+              )}
               <button
                 type="button"
                 className="block py-3.5 px-5 text-[var(--error-text)] no-underline text-base font-medium border-none bg-transparent w-full text-left cursor-pointer font-[var(--font-sans)]"
