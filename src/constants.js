@@ -24,6 +24,10 @@ export const REMEMBER_ME_KEY = "valgyklos_remember_me";
 export const SAVED_USERNAME_KEY = "valgyklos_username";
 export const SAVED_PASSWORD_KEY = "valgyklos_password";
 export const ORDER_HISTORY_KEY = "valgyklos_order_history";
+export const ADMIN_USERNAMES = (import.meta.env.ADMIN_USERNAMES || "")
+  .split(",")
+  .map((v) => v.trim().toLowerCase())
+  .filter(Boolean);
 
 export const SECTION_TITLE_KEYS = {
   "dienos meniu": "menu.dailyMenu",
