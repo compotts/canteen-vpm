@@ -6,6 +6,7 @@ export default defineConfig(() => {
 
   return {
     plugins: [react(), tailwindcss()],
+    envPrefix: ["ADMIN_"],
     base: './',
     server: {
       proxy: {
