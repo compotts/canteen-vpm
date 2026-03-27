@@ -1,13 +1,8 @@
-import { SAVED_USERNAME_KEY, HISTORY_API_BASE } from "../constants";
-
-
-
-function getUsername() {
-  return (localStorage.getItem(SAVED_USERNAME_KEY) || "").trim();
-}
+import { HISTORY_API_BASE } from "../constants";
+import { getStoredUsername } from "./userStorage.js";
 
 async function request(url, options = {}) {
-  const username = getUsername();
+  const username = getStoredUsername();
 
   if (!username) {
     throw new Error("No username found");
