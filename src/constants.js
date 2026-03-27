@@ -13,7 +13,6 @@ export const LOCALE_MAP = {
   en: "en-US",
 };
 
-export const APP_VERSION = "v1.7";
 export const CONTACT_URL = "https://quizzez.site/info#contact";
 
 export const HISTORY_API_BASE = "/api/history";
