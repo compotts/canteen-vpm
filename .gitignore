@@ -49,3 +49,5 @@ android/build/
 
 # MSW (optional, if you want to ignore generated worker in some setups)
 # public/mockServiceWorker.js
+.vercel
+.env*.local
