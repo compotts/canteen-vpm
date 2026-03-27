@@ -1,15 +1,42 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CONTACT_URL } from "../constants.js";
-import { MessageSquare, ExternalLink, Clock } from "lucide-react";
+import { MessageSquare, ExternalLink, Clock, Loader2 } from "lucide-react";
+import { loadUpdates } from "../services/updates.js";
+
+function pickTextByLang(map, lang) {
+  if (!map || typeof map !== "object") return "";
+  const order = [lang, "lt", "ru", "en"];
+  for (const key of order) {
+    const value = map[key];
+    if (typeof value === "string" && value.trim()) {
+      return value;
+    }
+  }
+  return "";
+}
 
 export default function Home() {
-  const { t } = useTranslation();
-  const updates = [
-    "update1", "update2", "update3", 
-    "update4", "update5", "update6", 
-    "update7", "update8", "update9", 
-    "update10"
-  ];
+  const { t, i18n } = useTranslation();
+  const [dbUpdates, setDbUpdates] = useState(null);
+
+  useEffect(() => {
+    let ignore = false;
+    (async () => {
+      try {
+        const list = await loadUpdates();
+        if (ignore) return;
+        setDbUpdates(Array.isArray(list) ? list : []);
+      } catch {
+        if (ignore) return;
+        setDbUpdates([]);
+      }
+    })();
+    return () => {
+      ignore = true;
+    };
+  }, []);
+  const lang = i18n.language || "lt";
 
   return (
     <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border">
@@ -54,23 +81,37 @@ export default function Home() {
         </div>
 
         <div className="pl-10 space-y-4">
-          {[...updates].reverse().map((key) => (
-            <div key={key} className="rounded-lg border border-[var(--border)] bg-[var(--surface-2, var(--surface))] p-3">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs text-[var(--text-muted)]">
-                  {t(`updates.${key}.date`)}
-                </span>
-
-                <span className="text-[10px] px-2 py-0.5 rounded-md bg-[var(--border-subtle)] text-[var(--text-muted)]">
-                  {t(`updates.${key}.version`)}
-                </span>
-              </div>
-
-              <p className="text-sm text-[var(--text)] leading-relaxed m-0">
-                {t(`updates.${key}.emoji`)} {t(`updates.${key}.text`)}
-              </p>
+          {dbUpdates === null ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-7 w-7 animate-spin text-[var(--text-muted)]" aria-hidden="true" />
             </div>
-          ))}
+          ) : dbUpdates.length === 0 ? (
+            <p className="text-sm text-[var(--text-muted)] leading-relaxed m-0">
+              {t("home.noUpdates")}
+            </p>
+          ) : (
+            dbUpdates.map((u) => (
+                <div key={u.id} className="rounded-lg border border-[var(--border)] bg-[var(--surface-2, var(--surface))] p-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    {u.dateLabel && (
+                      <span className="text-xs text-[var(--text-muted)]">
+                        {u.dateLabel}
+                      </span>
+                    )}
+
+                    {u.version && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-[var(--border-subtle)] text-[var(--text-muted)]">
+                        {u.version}
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-sm text-[var(--text)] leading-relaxed m-0">
+                    {u.emoji || ""} {pickTextByLang(u.text, lang)}
+                  </p>
+                </div>
+              ))
+          )}
         </div>
       </section>
       </div>
