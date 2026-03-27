@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "Home",
+    "admin": "Admin",
     "catalog": "Catalog",
     "order": "Order",
     "history": "History",
@@ -102,6 +103,26 @@
     "deleteItem": "Delete item",
     "decreaseQty": "-0.5 portions",
     "increaseQty": "+0.5 portions"
+  },
+  "admin": {
+    "title": "Admin · Updates",
+    "accessDenied": "This page is available to administrators only.",
+    "goHome": "Go home",
+    "textPlaceholder": "Update text",
+    "versionPlaceholder": "Version (e.g. v1.8)",
+    "emojiPlaceholder": "Emoji",
+    "saving": "Saving…",
+    "saveChanges": "Save changes",
+    "addUpdate": "Add update",
+    "cancel": "Cancel",
+    "loadingUpdates": "Loading updates…",
+    "emptyUpdates": "No updates yet.",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this update?",
+    "loadError": "Load error",
+    "saveError": "Save error",
+    "atLeastOneLanguageRequired": "Fill text in at least one language."
   },
   "updates": {
     "update10": {

@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "Pradžia",
+    "admin": "Administravimas",
     "catalog": "Katalogas",
     "order": "Užsakyti",
     "history": "Istorija",
@@ -102,6 +103,26 @@
     "deleteItem": "Ištrinti poziciją",
     "decreaseQty": "-0.5 porcijos",
     "increaseQty": "+0.5 porcijos"
+  },
+  "admin": {
+    "title": "Admin · Atnaujinimai",
+    "accessDenied": "Prieiga prie šio puslapio suteikta tik administratoriams.",
+    "goHome": "Į pradžią",
+    "textPlaceholder": "Atnaujinimo tekstas",
+    "versionPlaceholder": "Versija (pvz., v1.8)",
+    "emojiPlaceholder": "Emodži",
+    "saving": "Saugoma…",
+    "saveChanges": "Išsaugoti pakeitimus",
+    "addUpdate": "Pridėti atnaujinimą",
+    "cancel": "Atšaukti",
+    "loadingUpdates": "Kraunami atnaujinimai…",
+    "emptyUpdates": "Atnaujinimų kol kas nėra.",
+    "edit": "Redaguoti",
+    "delete": "Ištrinti",
+    "deleteConfirm": "Ištrinti atnaujinimą?",
+    "loadError": "Įkėlimo klaida",
+    "saveError": "Išsaugojimo klaida",
+    "atLeastOneLanguageRequired": "Užpildykite tekstą bent viena kalba."
   },
   "updates": {
     "update10": {

@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "Главная",
+    "admin": "Админка",
     "catalog": "Каталог",
     "order": "Заказать",
     "history": "История",
@@ -102,6 +103,26 @@
     "deleteItem": "Удалить позицию",
     "decreaseQty": "-0.5 порции",
     "increaseQty": "+0.5 порции"
+  },
+  "admin": {
+    "title": "Админ · Обновления",
+    "accessDenied": "Доступ к этой странице есть только у администраторов.",
+    "goHome": "На главную",
+    "textPlaceholder": "Текст обновления",
+    "versionPlaceholder": "Версия (например v1.8)",
+    "emojiPlaceholder": "Эмодзи",
+    "saving": "Сохраняю…",
+    "saveChanges": "Сохранить изменения",
+    "addUpdate": "Добавить обновление",
+    "cancel": "Отмена",
+    "loadingUpdates": "Загружаю обновления…",
+    "emptyUpdates": "Пока нет обновлений.",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "deleteConfirm": "Удалить обновление?",
+    "loadError": "Ошибка загрузки",
+    "saveError": "Ошибка сохранения",
+    "atLeastOneLanguageRequired": "Заполни текст хотя бы на одном языке."
   },
   "updates": {
     "update10": {
