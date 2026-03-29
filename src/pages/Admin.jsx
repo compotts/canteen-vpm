@@ -4,18 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Clock, Plus, Trash2, Pencil, X, Save } from "lucide-react";
 import { createUpdate, deleteUpdate, loadUpdates, updateUpdate } from "../services/updates.js";
 import { isStoredUserAdmin } from "../services/userStorage.js";
-
-function pickTextByLang(map, lang) {
-  if (!map || typeof map !== "object") return "";
-  const order = [lang, "lt", "ru", "en"];
-  for (const key of order) {
-    const value = map[key];
-    if (typeof value === "string" && value.trim()) {
-      return value;
-    }
-  }
-  return "";
-}
+import { pickTextByLang } from "../utils/textHelpers.js";
 
 export default function Admin() {
   const { t, i18n } = useTranslation();

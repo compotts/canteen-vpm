@@ -3,18 +3,7 @@ import { useTranslation } from "react-i18next";
 import { CONTACT_URL } from "../constants.js";
 import { MessageSquare, ExternalLink, Clock, Loader2 } from "lucide-react";
 import { loadUpdates } from "../services/updates.js";
-
-function pickTextByLang(map, lang) {
-  if (!map || typeof map !== "object") return "";
-  const order = [lang, "lt", "ru", "en"];
-  for (const key of order) {
-    const value = map[key];
-    if (typeof value === "string" && value.trim()) {
-      return value;
-    }
-  }
-  return "";
-}
+import { pickTextByLang } from "../utils/textHelpers.js";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
