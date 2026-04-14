@@ -228,13 +228,13 @@ export default function Order() {
         });
       });
       await submitOrder(selectedDate, payload);
+      setSubmitSuccess(true);
       const historyOrder = buildHistoryOrder(menu, quantities, lang, selectedDate);
       if (historyOrder) {
         await saveOrderToHistory(historyOrder);
       } else {
         await removeOrderFromHistoryByMenuDate(selectedDate);
       }
-      setSubmitSuccess(true);
     } catch (err) {
       if (err?.status === 401) window.dispatchEvent(new Event("auth:logout"));
     } finally {
@@ -325,7 +325,7 @@ export default function Order() {
         <div className="fixed inset-0 z-[1100] flex items-center justify-center">
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative bg-[var(--surface)] border border-[var(--border)] rounded-2xl px-6 py-5 shadow-[0_10px_30px_rgba(0,0,0,0.35)] bon-appetit-popup text-center max-w-[260px] mx-4">
-            <div className="text-4xl mb-2" aria-hidden="true">😋</div>
+            <img src="/face-savoring-food.png" alt="bon appetit" className="h-16 w-16 object-contain mx-auto mb-2" />
             <p className="m-0 text-[var(--text)] font-semibold text-lg">{t("menu.bonAppetit")}</p>
           </div>
         </div>
