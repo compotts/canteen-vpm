@@ -7,7 +7,9 @@ const PER_PAGE_OPTIONS = [10, 20, 50];
 const SORT_KEYS = ["name", "weight", "priceStudent", "priceTeacher"];
 
 function getItemName(item, lang) {
-  return (lang === "ru" && item.nameRu) ? item.nameRu : item.name;
+  if (lang === "ru" && item.nameRu) return item.nameRu;
+  if (lang === "en" && item.nameEn) return item.nameEn;
+  return item.name;
 }
 
 function sortItems(items, sortBy, sortAsc, lang) {
@@ -38,7 +40,9 @@ export default function Catalog() {
     if (search.trim()) {
       const q = search.trim().toLowerCase();
       list = list.filter((i) =>
-        i.name.toLowerCase().includes(q) || (i.nameRu && i.nameRu.toLowerCase().includes(q))
+        i.name.toLowerCase().includes(q) || 
+        (i.nameRu && i.nameRu.toLowerCase().includes(q)) ||
+        (i.nameEn && i.nameEn.toLowerCase().includes(q))
       );
     }
     return sortItems(list, sortBy, sortAsc, lang);

@@ -9,7 +9,7 @@ import {
 } from "../services/valgykla.js";
 import { SECTION_TITLE_KEYS } from "../constants.js";
 import { useLanguage } from "../hooks/useLanguage.js";
-import { nameToRuMap, normalizeDishName } from "../data/catalog.js";
+import { nameToRuMap, nameToEnMap, normalizeDishName } from "../data/catalog.js";
 import { saveOrderToHistory, removeOrderFromHistoryByMenuDate } from "../services/history.js";
 
 function getSectionDisplayTitle(title, t) {
@@ -23,6 +23,9 @@ function getDishDisplayName(item, lang) {
   const key = normalizeDishName(rawName);
   if (lang === "ru") {
     return nameToRuMap[key] || rawName.trim();
+  }
+  if (lang === "en") {
+    return nameToEnMap[key] || rawName.trim();
   }
   return rawName.trim();
 }
