@@ -184,6 +184,7 @@ export const catalogByCategory = {
     { name: "Kiaulienos sprandinė su dž.abrikosais", nameRu: "Свиная шея с курагой", nameEn: "Pork neck with dried apricots" },
     { name: "Keptas kepenys", nameRu: "Жареная печень", nameEn: "Fried liver" },
     { name: "Švž.pomidorai", nameRu: "Свежие помидоры", nameEn: "Fresh tomatoes" },
+    { name: "Kalakutų guliašas", nameRu: "Гуляш из индейки", nameEn: "Turkey goulash" },
   ],
 };
 
