@@ -6,6 +6,7 @@ import {
   getOrderPage,
   parseMenuFromHtml,
   submitOrder,
+  loadTranslations,
 } from "../services/valgykla.js";
 import { SECTION_TITLE_KEYS } from "../constants.js";
 import { useLanguage } from "../hooks/useLanguage.js";
@@ -18,16 +19,26 @@ function getSectionDisplayTitle(title, t) {
   return key ? t(key) : title;
 }
 
+let dbTranslations = null;
+
 function getDishDisplayName(item, lang) {
   const rawName = item.name || "";
+  const trimmedName = rawName.trim();
+  const lowerName = trimmedName.toLowerCase();
+  
+  if (dbTranslations && dbTranslations[lowerName]) {
+    if (lang === "ru") return dbTranslations[lowerName].ru;
+    if (lang === "en") return dbTranslations[lowerName].en;
+  }
+  
   const key = normalizeDishName(rawName);
   if (lang === "ru") {
-    return nameToRuMap[key] || rawName.trim();
+    return nameToRuMap[key] || trimmedName;
   }
   if (lang === "en") {
-    return nameToEnMap[key] || rawName.trim();
+    return nameToEnMap[key] || trimmedName;
   }
-  return rawName.trim();
+  return trimmedName;
 }
 
 function buildHistoryOrder(menu, quantities, lang, selectedDate) {
@@ -147,6 +158,7 @@ export default function Order() {
 
   useEffect(() => {
     loadOrderLink();
+    loadTranslations().then(t => { dbTranslations = t; });
   }, [loadOrderLink]);
 
   useEffect(() => {
@@ -159,6 +171,9 @@ export default function Order() {
     setMenuLoading(true);
     setMenu(null);
     try {
+      if (!dbTranslations) {
+        dbTranslations = await loadTranslations();
+      }
       const html = await getOrderPage(date);
       const parsed = parseMenuFromHtml(html, date);
       setMenu(parsed);
@@ -198,6 +213,12 @@ export default function Order() {
     setSubmitSuccess(false);
   };
 
+  useEffect(() => {
+    if (menu && dbTranslations) {
+      setMenu(prev => ({ ...prev }));
+    }
+  }, [lang]);
+
   const total = menu
     ? menu.sections.reduce((sum, sec) => {
       return (
@@ -217,6 +238,9 @@ export default function Order() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!menu || !selectedDate) return;
+    if (!dbTranslations) {
+      dbTranslations = await loadTranslations();
+    }
     setSubmitLoading(true);
     setSubmitSuccess(false);
     try {

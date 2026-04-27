@@ -6,6 +6,30 @@ export const getOrderMakePage = api.getOrderMakePage;
 export const getOrderPage = api.getOrderPage;
 export const submitOrder = api.submitOrder;
 
+let translationsCache = null;
+
+export async function loadTranslations() {
+  if (translationsCache) return translationsCache;
+  try {
+    const res = await fetch("/api/dishes");
+    if (!res.ok) throw new Error("Failed to load translations");
+    const data = await res.json();
+    translationsCache = {};
+    data.forEach((t) => {
+      if (t.name) {
+        translationsCache[t.name.toLowerCase().trim()] = {
+          ru: t.nameRu || t.name,
+          en: t.nameEn || t.name,
+        };
+      }
+    });
+    return translationsCache;
+  } catch (err) {
+    console.error("Error loading translations:", err);
+    return {};
+  }
+}
+
 export function parseOrderMakeLink(html) {
   const doc = new DOMParser().parseFromString(html, "text/html");
   const a = doc.querySelector('a[href^="orders/make/"]');
