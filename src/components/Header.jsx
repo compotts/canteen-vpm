@@ -52,22 +52,13 @@ export default function Header() {
                   {t("nav.home")}
                 </Link>
                 {isAdmin && (
-                  <>
-                    <Link
-                      to="/admin"
-                      className="px-3 py-2 rounded-lg text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--border-subtle)] transition-colors"
-                      onClick={closeDrawer}
-                    >
-                      {t("nav.admin")}
-                    </Link>
-                    <Link
-                      to="/admin/dishes"
-                      className="px-3 py-2 rounded-lg text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--border-subtle)] transition-colors"
-                      onClick={closeDrawer}
-                    >
-                      Dishes
-                    </Link>
-                  </>
+                  <Link
+                    to="/admin"
+                    className="px-3 py-2 rounded-lg text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--border-subtle)] transition-colors"
+                    onClick={closeDrawer}
+                  >
+                    {t("nav.admin")}
+                  </Link>
                 )}
                 <Link
                   to="/menu"
@@ -172,22 +163,13 @@ export default function Header() {
                 {t("nav.history")}
               </Link>
               {isAdmin && (
-                <>
-                  <Link
-                    to="/admin"
-                    className="block py-3.5 px-5 text-[var(--text)] no-underline text-base font-medium border-none bg-transparent w-full text-left cursor-pointer font-[var(--font-sans)]"
-                    onClick={closeDrawer}
-                  >
-                    {t("nav.admin")}
-                  </Link>
-                  <Link
-                    to="/admin/dishes"
-                    className="block py-3.5 px-5 text-[var(--text)] no-underline text-base font-medium border-none bg-transparent w-full text-left cursor-pointer font-[var(--font-sans)]"
-                    onClick={closeDrawer}
-                  >
-                    Dishes
-                  </Link>
-                </>
+                <Link
+                  to="/admin"
+                  className="block py-3.5 px-5 text-[var(--text)] no-underline text-base font-medium border-none bg-transparent w-full text-left cursor-pointer font-[var(--font-sans)]"
+                  onClick={closeDrawer}
+                >
+                  {t("nav.admin")}
+                </Link>
               )}
               <button
                 type="button"

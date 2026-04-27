@@ -11,7 +11,6 @@ import Catalog from "./pages/Catalog.jsx";
 import Order from "./pages/Order.jsx";
 import History from "./pages/History.jsx";
 import Admin from "./pages/Admin.jsx";
-import AdminDishes from "./pages/AdminDishes.jsx";
 
 function ProtectedRoute({ children }) {
   const { isAuth, isChecking } = useAuth();
@@ -53,7 +52,6 @@ function AppRoutes() {
           <Route path="/order" element={<ProtectedRoute><Order /></ProtectedRoute>} />
           <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
           <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-          <Route path="/admin/dishes" element={<ProtectedRoute><AdminDishes /></ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

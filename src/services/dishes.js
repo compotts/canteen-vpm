@@ -1,9 +1,9 @@
-import { userStorage } from "./userStorage.js";
+import { getStoredUsername } from "./userStorage.js";
 
 function request(method, body) {
   const headers = {
     "Content-Type": "application/json",
-    "x-username": userStorage.getUsername() || ""
+    "x-username": getStoredUsername() || ""
   };
   
   const options = {
@@ -49,7 +49,7 @@ export async function deleteDish(id) {
   return fetch(`/api/dishes?id=${id}`, {
     method: "DELETE",
     headers: {
-      "x-username": userStorage.getUsername() || ""
+      "x-username": getStoredUsername() || ""
     }
   }).then(res => {
     if (!res.ok) {
