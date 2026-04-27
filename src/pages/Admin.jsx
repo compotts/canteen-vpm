@@ -34,7 +34,6 @@ export default function Admin() {
   const [dishSearch, setDishSearch] = useState("");
   const [dishFilterOpen, setDishFilterOpen] = useState(true);
   const [editingDishId, setEditingDishId] = useState(null);
-  const [dishActiveLang, setDishActiveLang] = useState("lt");
   const [dishId, setDishId] = useState("");
   const [dishCategory, setDishCategory] = useState("sriubos");
   const [dishName, setDishName] = useState("");
@@ -177,11 +176,10 @@ export default function Admin() {
     setDishPriceStudent("");
     setDishPriceTeacher("");
     setEditingDishId(null);
-    setDishActiveLang("lt");
   };
 
   const handleDishDelete = async (id) => {
-    if (!window.confirm("Delete this dish?")) return;
+    if (!window.confirm(t("admin.dishes.deleteConfirm"))) return;
     await deleteDish(id);
     setDishes(prev => prev.filter(d => d.id !== id));
   };
@@ -196,7 +194,6 @@ export default function Admin() {
     setDishWeight(d.weight || "");
     setDishPriceStudent(d.priceStudent ? String(d.priceStudent) : "");
     setDishPriceTeacher(d.priceTeacher ? String(d.priceTeacher) : "");
-    setDishActiveLang("lt");
   };
 
   const filteredDishes = useMemo(() => {
@@ -233,20 +230,20 @@ export default function Admin() {
           ) : (
             <UtensilsCrossed className="w-5 h-5 text-[var(--text-muted)]" />
           )}
-          {activeTab === "updates" ? t("admin.title") : "Manage Dishes"}
+          {activeTab === "updates" ? t("admin.title") : t("admin.dishesTitle")}
         </h1>
         <div className="flex bg-[var(--surface)] border border-[var(--border)] rounded-lg p-1">
           <button
             onClick={() => { setActiveTab("updates"); setError(null); }}
             className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${activeTab === "updates" ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"}`}
           >
-            Updates
+            {t("admin.tabs.updates")}
           </button>
           <button
             onClick={() => { setActiveTab("dishes"); setError(null); }}
             className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${activeTab === "dishes" ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"}`}
           >
-            Dishes
+            {t("admin.tabs.dishes")}
           </button>
         </div>
       </div>
@@ -317,59 +314,77 @@ export default function Admin() {
       ) : (
         <>
           <form onSubmit={handleDishSubmit} className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 mb-6 space-y-3">
-            <div className="inline-flex items-center gap-1 rounded-full bg-[var(--surface)] border border-[var(--border)] p-1 mb-1">
-              {["lt", "ru", "en"].map((lng) => (
-                <button
-                  key={lng}
-                  type="button"
-                  onClick={() => setDishActiveLang(lng)}
-                  className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-medium ${dishActiveLang === lng ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"}`}
-                >
-                  {lng.toUpperCase()}
-                </button>
-              ))}
-            </div>
             <div className="space-y-3">
               <div className="flex gap-3">
-                <input type="text" placeholder="ID (e.g. s1)" className="w-24 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishId} onChange={(e) => setDishId(e.target.value)} disabled={!!editingDishId} />
-                <select className="flex-1 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishCategory} onChange={(e) => setDishCategory(e.target.value)}>
-                  {CATEGORY_IDS.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                </select>
+                <div className="w-24">
+                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">ID</label>
+                  <input type="text" placeholder={t("admin.dishes.idPlaceholder")} className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishId} onChange={(e) => setDishId(e.target.value)} disabled={!!editingDishId} />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("admin.dishes.categoryLabel")}</label>
+                  <select className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishCategory} onChange={(e) => setDishCategory(e.target.value)}>
+                    {CATEGORY_IDS.map(cat => <option key={cat} value={cat}>{t(`catalog.category.${cat}`)}</option>)}
+                  </select>
+                </div>
               </div>
-              {dishActiveLang === "lt" && <input type="text" placeholder="Name (LT)" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishName} onChange={(e) => setDishName(e.target.value)} />}
-              {dishActiveLang === "ru" && <input type="text" placeholder="Name (RU)" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishNameRu} onChange={(e) => setDishNameRu(e.target.value)} />}
-              {dishActiveLang === "en" && <input type="text" placeholder="Name (EN)" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishNameEn} onChange={(e) => setDishNameEn(e.target.value)} />}
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.name")}</label>
+                  <input type="text" placeholder="Agurkinė sriuba" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishName} onChange={(e) => setDishName(e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.name")} (RU)</label>
+                  <input type="text" placeholder="Огуречный суп" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishNameRu} onChange={(e) => setDishNameRu(e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.name")} (EN)</label>
+                  <input type="text" placeholder="Cucumber soup" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishNameEn} onChange={(e) => setDishNameEn(e.target.value)} />
+                </div>
+              </div>
+
               <div className="grid grid-cols-3 gap-3">
-                <input type="text" placeholder="Weight" className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishWeight} onChange={(e) => setDishWeight(e.target.value)} />
-                <input type="number" step="0.01" placeholder="Stud. €" className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishPriceStudent} onChange={(e) => setDishPriceStudent(e.target.value)} />
-                <input type="number" step="0.01" placeholder="Teach. €" className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishPriceTeacher} onChange={(e) => setDishPriceTeacher(e.target.value)} />
+                <div>
+                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.weight")}</label>
+                  <input type="text" placeholder={t("admin.dishes.weightPlaceholder")} className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishWeight} onChange={(e) => setDishWeight(e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.studentPrice")}</label>
+                  <input type="number" step="0.01" placeholder={t("admin.dishes.studentPricePlaceholder")} className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishPriceStudent} onChange={(e) => setDishPriceStudent(e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.teacherPrice")}</label>
+                  <input type="number" step="0.01" placeholder={t("admin.dishes.teacherPricePlaceholder")} className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishPriceTeacher} onChange={(e) => setDishPriceTeacher(e.target.value)} />
+                </div>
               </div>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 pt-2">
               <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium flex-1 disabled:opacity-50">
                 {editingDishId ? <Save className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                {submitting ? "Saving..." : editingDishId ? "Save Changes" : "Add Dish"}
+                {submitting ? t("admin.dishes.saving") : editingDishId ? t("admin.dishes.save") : t("admin.dishes.add")}
               </button>
               {editingDishId && (
                 <button type="button" onClick={resetDishForm} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-[var(--border-subtle)] text-[var(--text)] hover:bg-[var(--border)] transition-colors">
-                  <X className="w-4 h-4" /> Cancel
+                  <X className="w-4 h-4" /> {t("admin.dishes.cancel")}
                 </button>
               )}
             </div>
           </form>
 
           <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] mb-4 overflow-hidden">
-            <button onClick={() => setDishFilterOpen(!dishFilterOpen)} className="w-full flex items-center justify-between px-4 py-3 text-left text-[var(--text)] font-medium hover:bg-[var(--bg-card)] transition-colors">
-              <span>{dishFilterOpen ? "Hide Filters" : "Show Filters"}</span>
+            <button onClick={() => setDishFilterOpen(!dishFilterOpen)} className="w-full flex items-center justify-between px-4 py-3 text-left text-[var(--text)] font-medium hover:bg-[var(--border-subtle)] transition-colors">
+              <span>{dishFilterOpen ? t("admin.dishes.hideFilters") : t("admin.dishes.showFilters")}</span>
               <ChevronDown className={`w-5 h-5 transition-transform ${dishFilterOpen ? "rotate-180" : ""}`} />
             </button>
             {dishFilterOpen && (
               <div className="px-4 pb-4 pt-0 border-t border-[var(--border)] space-y-3">
-                <input type="text" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" placeholder="Search dishes..." value={dishSearch} onChange={(e) => setDishSearch(e.target.value)} />
+                <div className="pt-3">
+                  <input type="text" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" placeholder={t("admin.dishes.searchPlaceholder")} value={dishSearch} onChange={(e) => setDishSearch(e.target.value)} />
+                </div>
                 <div className="flex flex-wrap gap-2">
                   {CATEGORY_IDS.map(cat => (
                     <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${selectedCategory === cat ? "bg-[var(--accent)] text-[var(--btn-primary-color)] border-[var(--accent)]" : "bg-[var(--surface)] text-[var(--text)] border-[var(--border)] hover:bg-[var(--border-subtle)]"}`}>
-                      {cat}
+                      {t(`catalog.category.${cat}`)}
                     </button>
                   ))}
                 </div>
@@ -378,14 +393,14 @@ export default function Admin() {
           </div>
 
           <div className="space-y-2">
-            {loading ? <p className="text-[var(--text-muted)] text-sm py-4">Loading dishes...</p> : filteredDishes.length === 0 ? <p className="text-[var(--text-muted)] text-sm py-4">No dishes found</p> : filteredDishes.map((dish) => (
+            {loading ? <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.dishes.loading")}</p> : filteredDishes.length === 0 ? <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.dishes.noResults")}</p> : filteredDishes.map((dish) => (
               <div key={dish.id} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3 flex justify-between gap-3 items-start">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--border-subtle)] text-[var(--text-muted)]">{dish.id}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--border-subtle)] text-[var(--text-muted)]">{dish.category}</span>
+                    <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--border-subtle)] text-[var(--text-muted)]">{t(`catalog.category.${dish.category}`)}</span>
                   </div>
-                  <p className="m-0 text-sm font-medium text-[var(--text)] truncate">{dish.name}</p>
+                  <p className="m-0 text-sm font-medium text-[var(--text)] truncate">{appLang === 'ru' ? (dish.nameRu || dish.name) : appLang === 'en' ? (dish.nameEn || dish.name) : dish.name}</p>
                   <div className="flex items-center gap-2 mt-1 text-xs text-[var(--text-muted)]">
                     {dish.weight && <span>{dish.weight}</span>}
                     <span>{dish.priceStudent.toFixed(2)} € / {dish.priceTeacher.toFixed(2)} €</span>

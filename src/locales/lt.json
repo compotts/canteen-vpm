@@ -34,7 +34,7 @@
     "showPassword": "Rodyti slaptažodį",
     "cantLogin": "Negaliu prisijungti / Neprisimenu duomenų",
     "helpTitle": "Prisijungimo problemos",
-    "helpIntro": "Jei turite problemų prisijungdami prie sistemos, pavyzdžiui, pamiršote prisijungimo vardą ar slaptažodį, galite kreiptis į:",
+    "helpIntro": "Jei turite problemų prisijungdami prie sistemos, pavyzdžiui, pamiršote prisijungimo vardą ar slaptažодį, galite kreiptis į:",
     "helpStudent": "klasės auklėtoją (jei esate mokinys);",
     "helpStaff": "administratorius (jei esate mokytojas, administracijos narys ar kitas mokyklos darbuotojas).",
     "helpAdminTitle": "Administratoriaus duomenys:",
@@ -107,6 +107,28 @@
   },
   "admin": {
     "title": "Admin · Atnaujinimai",
+    "dishesTitle": "Admin · Patiekalai",
+    "tabs": {
+      "updates": "Atnaujinimai",
+      "dishes": "Patiekalai"
+    },
+    "dishes": {
+      "add": "Pridėti patiekalą",
+      "save": "Išsaugoti pakeitimus",
+      "saving": "Saugoma…",
+      "cancel": "Atšaukti",
+      "deleteConfirm": "Ištrinti šį patiekalą?",
+      "noResults": "Patiekalų nerasta",
+      "loading": "Kraunami patiekalai…",
+      "idPlaceholder": "ID (pvz., s1)",
+      "weightPlaceholder": "Svoris",
+      "studentPricePlaceholder": "Mok. €",
+      "teacherPricePlaceholder": "Mokyt. €",
+      "searchPlaceholder": "Ieškoti patiekalų…",
+      "showFilters": "Rodyti filtrus",
+      "hideFilters": "Slėpti filtrus",
+      "categoryLabel": "Kategorija"
+    },
     "accessDenied": "Prieiga prie šio puslapio suteikta tik administratoriams.",
     "goHome": "Į pradžią",
     "textPlaceholder": "Atnaujinimo tekstas",
