@@ -1,12 +1,11 @@
 import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { Clock, Plus, Trash2, Pencil, X, Save, UtensilsCrossed, ChevronDown } from "lucide-react";
+import { Clock, Plus, Trash2, Pencil, X, Save } from "lucide-react";
 import { createUpdate, deleteUpdate, loadUpdates, updateUpdate } from "../services/updates.js";
 import { loadDishes, createDish, updateDish, deleteDish } from "../services/dishes.js";
 import { isStoredUserAdmin } from "../services/userStorage.js";
 import { pickTextByLang } from "../utils/textHelpers.js";
-import { CATEGORY_IDS } from "../data/catalog.js";
 
 export default function Admin() {
   const { t, i18n } = useTranslation();
@@ -14,7 +13,7 @@ export default function Admin() {
   const isAdmin = isStoredUserAdmin();
   const appLang = i18n.language || "lt";
 
-  const [activeTab, setActiveTab] = useState("updates"); // "updates" or "dishes"
+  const [activeTab, setActiveTab] = useState("updates");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -28,20 +27,13 @@ export default function Admin() {
   const [emoji, setEmoji] = useState("");
   const [updateText, setUpdateText] = useState({ lt: "", ru: "", en: "" });
 
-  // Dishes State
-  const [dishes, setDishes] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("sriubos");
-  const [dishSearch, setDishSearch] = useState("");
-  const [dishFilterOpen, setDishFilterOpen] = useState(true);
-  const [editingDishId, setEditingDishId] = useState(null);
-  const [dishId, setDishId] = useState("");
-  const [dishCategory, setDishCategory] = useState("sriubos");
-  const [dishName, setDishName] = useState("");
-  const [dishNameRu, setDishNameRu] = useState("");
-  const [dishNameEn, setDishNameEn] = useState("");
-  const [dishWeight, setDishWeight] = useState("");
-  const [dishPriceStudent, setDishPriceStudent] = useState("");
-  const [dishPriceTeacher, setDishPriceTeacher] = useState("");
+  // Translations State
+  const [translations, setTranslations] = useState([]);
+  const [translationSearch, setTranslationSearch] = useState("");
+  const [editingTranslationId, setEditingTranslationId] = useState(null);
+  const [translationName, setTranslationName] = useState("");
+  const [translationNameRu, setTranslationNameRu] = useState("");
+  const [translationNameEn, setTranslationNameEn] = useState("");
 
   useEffect(() => {
     if (!isAdmin) {
@@ -57,8 +49,8 @@ export default function Admin() {
           const list = await loadUpdates();
           setUpdates(Array.isArray(list) ? list : []);
         } else {
-          const list = await loadDishes(selectedCategory);
-          setDishes(Array.isArray(list) ? list : []);
+          const list = await loadDishes();
+          setTranslations(Array.isArray(list) ? list : []);
         }
       } catch (e) {
         setError(e.message || "Failed to load data");
@@ -68,7 +60,7 @@ export default function Admin() {
     };
 
     fetchData();
-  }, [isAdmin, activeTab, selectedCategory]);
+  }, [isAdmin, activeTab]);
 
   // Update Handlers
   const handleUpdateSubmit = async (e) => {
@@ -130,81 +122,67 @@ export default function Admin() {
     setUpdateActiveLang("lt");
   };
 
-  // Dish Handlers
-  const handleDishSubmit = async (e) => {
+  // Translation Handlers
+  const handleTranslationSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
     try {
-      if (!dishId || !dishCategory || !dishName) {
-        throw new Error("ID, category, and name are required");
+      if (!translationName) {
+        throw new Error("Name is required");
       }
 
       const payload = {
-        id: dishId,
-        category: dishCategory,
-        name: dishName,
-        nameRu: dishNameRu || null,
-        nameEn: dishNameEn || null,
-        weight: dishWeight || null,
-        priceStudent: dishPriceStudent ? parseFloat(dishPriceStudent) : 0,
-        priceTeacher: dishPriceTeacher ? parseFloat(dishPriceTeacher) : 0
+        ...(editingTranslationId ? { id: editingTranslationId } : {}),
+        name: translationName,
+        nameRu: translationNameRu || null,
+        nameEn: translationNameEn || null
       };
 
-      if (editingDishId) {
+      if (editingTranslationId) {
         const updated = await updateDish(payload);
-        setDishes(prev => prev.map(d => d.id === updated.id ? updated : d));
+        setTranslations(prev => prev.map(t => t.id === updated.id ? updated : t));
       } else {
         const created = await createDish(payload);
-        setDishes(prev => [created, ...prev]);
+        setTranslations(prev => [...prev, created]);
       }
-      resetDishForm();
+      resetTranslationForm();
     } catch (e) {
-      setError(e.message || "Failed to save dish");
+      setError(e.message || "Failed to save translation");
     } finally {
       setSubmitting(false);
     }
   };
 
-  const resetDishForm = () => {
-    setDishId("");
-    setDishCategory("sriubos");
-    setDishName("");
-    setDishNameRu("");
-    setDishNameEn("");
-    setDishWeight("");
-    setDishPriceStudent("");
-    setDishPriceTeacher("");
-    setEditingDishId(null);
+  const resetTranslationForm = () => {
+    setTranslationName("");
+    setTranslationNameRu("");
+    setTranslationNameEn("");
+    setEditingTranslationId(null);
   };
 
-  const handleDishDelete = async (id) => {
+  const handleTranslationDelete = async (id) => {
     if (!window.confirm(t("admin.dishes.deleteConfirm"))) return;
     await deleteDish(id);
-    setDishes(prev => prev.filter(d => d.id !== id));
+    setTranslations(prev => prev.filter(t => t.id !== id));
   };
 
-  const startDishEdit = (d) => {
-    setEditingDishId(d.id);
-    setDishId(d.id);
-    setDishCategory(d.category);
-    setDishName(d.name);
-    setDishNameRu(d.nameRu || "");
-    setDishNameEn(d.nameEn || "");
-    setDishWeight(d.weight || "");
-    setDishPriceStudent(d.priceStudent ? String(d.priceStudent) : "");
-    setDishPriceTeacher(d.priceTeacher ? String(d.priceTeacher) : "");
+  const startTranslationEdit = (tr) => {
+    setEditingTranslationId(tr.id);
+    setTranslationName(tr.name);
+    setTranslationNameRu(tr.nameRu || "");
+    setTranslationNameEn(tr.nameEn || "");
   };
 
-  const filteredDishes = useMemo(() => {
-    const q = dishSearch.toLowerCase().trim();
-    if (!q) return dishes;
-    return dishes.filter(d => 
-      d.name.toLowerCase().includes(q) || 
-      (d.nameRu && d.nameRu.toLowerCase().includes(q)) ||
-      (d.nameEn && d.nameEn.toLowerCase().includes(q))
+  const filteredTranslations = useMemo(() => {
+    const q = translationSearch.toLowerCase().trim();
+    if (!q) return translations;
+    return translations.filter(t => 
+      t.name.toLowerCase().includes(q) || 
+      (t.nameRu && t.nameRu.toLowerCase().includes(q)) ||
+      (t.nameEn && t.nameEn.toLowerCase().includes(q))
     );
-  }, [dishes, dishSearch]);
+  }, [translations, translationSearch]);
 
   if (!isAdmin) {
     return (
@@ -225,11 +203,7 @@ export default function Admin() {
     <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border pb-24">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] m-0 flex items-center gap-2">
-          {activeTab === "updates" ? (
-            <Clock className="w-5 h-5 text-[var(--text-muted)]" />
-          ) : (
-            <UtensilsCrossed className="w-5 h-5 text-[var(--text-muted)]" />
-          )}
+          <Clock className="w-5 h-5 text-[var(--text-muted)]" />
           {activeTab === "updates" ? t("admin.title") : t("admin.dishesTitle")}
         </h1>
         <div className="flex bg-[var(--surface)] border border-[var(--border)] rounded-lg p-1">
@@ -313,102 +287,54 @@ export default function Admin() {
         </>
       ) : (
         <>
-          <form onSubmit={handleDishSubmit} className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 mb-6 space-y-3">
+          <form onSubmit={handleTranslationSubmit} className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 mb-6 space-y-3">
             <div className="space-y-3">
-              <div className="flex gap-3">
-                <div className="w-24">
-                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">ID</label>
-                  <input type="text" placeholder={t("admin.dishes.idPlaceholder")} className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishId} onChange={(e) => setDishId(e.target.value)} disabled={!!editingDishId} />
-                </div>
-                <div className="flex-1">
-                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("admin.dishes.categoryLabel")}</label>
-                  <select className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishCategory} onChange={(e) => setDishCategory(e.target.value)}>
-                    {CATEGORY_IDS.map(cat => <option key={cat} value={cat}>{t(`catalog.category.${cat}`)}</option>)}
-                  </select>
-                </div>
+              <div>
+                <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.name")}</label>
+                <input type="text" placeholder="Agurkinė sriuba" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={translationName} onChange={(e) => setTranslationName(e.target.value)} />
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.name")}</label>
-                  <input type="text" placeholder="Agurkinė sriuba" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishName} onChange={(e) => setDishName(e.target.value)} />
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.name")} (RU)</label>
-                  <input type="text" placeholder="Огуречный суп" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishNameRu} onChange={(e) => setDishNameRu(e.target.value)} />
+                  <input type="text" placeholder="Огуречный суп" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={translationNameRu} onChange={(e) => setTranslationNameRu(e.target.value)} />
                 </div>
                 <div>
                   <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.name")} (EN)</label>
-                  <input type="text" placeholder="Cucumber soup" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishNameEn} onChange={(e) => setDishNameEn(e.target.value)} />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.weight")}</label>
-                  <input type="text" placeholder={t("admin.dishes.weightPlaceholder")} className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishWeight} onChange={(e) => setDishWeight(e.target.value)} />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.studentPrice")}</label>
-                  <input type="number" step="0.01" placeholder={t("admin.dishes.studentPricePlaceholder")} className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishPriceStudent} onChange={(e) => setDishPriceStudent(e.target.value)} />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.teacherPrice")}</label>
-                  <input type="number" step="0.01" placeholder={t("admin.dishes.teacherPricePlaceholder")} className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={dishPriceTeacher} onChange={(e) => setDishPriceTeacher(e.target.value)} />
+                  <input type="text" placeholder="Cucumber soup" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={translationNameEn} onChange={(e) => setTranslationNameEn(e.target.value)} />
                 </div>
               </div>
             </div>
             <div className="flex flex-wrap gap-2 pt-2">
               <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium flex-1 disabled:opacity-50">
-                {editingDishId ? <Save className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                {submitting ? t("admin.dishes.saving") : editingDishId ? t("admin.dishes.save") : t("admin.dishes.add")}
+                {editingTranslationId ? <Save className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                {submitting ? t("admin.dishes.saving") : editingTranslationId ? t("admin.dishes.save") : t("admin.dishes.add")}
               </button>
-              {editingDishId && (
-                <button type="button" onClick={resetDishForm} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-[var(--border-subtle)] text-[var(--text)] hover:bg-[var(--border)] transition-colors">
+              {editingTranslationId && (
+                <button type="button" onClick={resetTranslationForm} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-[var(--border-subtle)] text-[var(--text)] hover:bg-[var(--border)] transition-colors">
                   <X className="w-4 h-4" /> {t("admin.dishes.cancel")}
                 </button>
               )}
             </div>
           </form>
 
-          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] mb-4 overflow-hidden">
-            <button onClick={() => setDishFilterOpen(!dishFilterOpen)} className="w-full flex items-center justify-between px-4 py-3 text-left text-[var(--text)] font-medium hover:bg-[var(--border-subtle)] transition-colors">
-              <span>{dishFilterOpen ? t("admin.dishes.hideFilters") : t("admin.dishes.showFilters")}</span>
-              <ChevronDown className={`w-5 h-5 transition-transform ${dishFilterOpen ? "rotate-180" : ""}`} />
-            </button>
-            {dishFilterOpen && (
-              <div className="px-4 pb-4 pt-0 border-t border-[var(--border)] space-y-3">
-                <div className="pt-3">
-                  <input type="text" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" placeholder={t("admin.dishes.searchPlaceholder")} value={dishSearch} onChange={(e) => setDishSearch(e.target.value)} />
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {CATEGORY_IDS.map(cat => (
-                    <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${selectedCategory === cat ? "bg-[var(--accent)] text-[var(--btn-primary-color)] border-[var(--accent)]" : "bg-[var(--surface)] text-[var(--text)] border-[var(--border)] hover:bg-[var(--border-subtle)]"}`}>
-                      {t(`catalog.category.${cat}`)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
+          <div className="mb-4">
+            <input type="text" className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" placeholder={t("admin.dishes.searchPlaceholder")} value={translationSearch} onChange={(e) => setTranslationSearch(e.target.value)} />
           </div>
 
           <div className="space-y-2">
-            {loading ? <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.dishes.loading")}</p> : filteredDishes.length === 0 ? <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.dishes.noResults")}</p> : filteredDishes.map((dish) => (
-              <div key={dish.id} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3 flex justify-between gap-3 items-start">
+            {loading ? <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.dishes.loading")}</p> : filteredTranslations.length === 0 ? <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.dishes.noResults")}</p> : filteredTranslations.map((tr) => (
+              <div key={tr.id} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3 flex justify-between gap-3 items-start">
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--border-subtle)] text-[var(--text-muted)]">{dish.id}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--border-subtle)] text-[var(--text-muted)]">{t(`catalog.category.${dish.category}`)}</span>
-                  </div>
-                  <p className="m-0 text-sm font-medium text-[var(--text)] truncate">{appLang === 'ru' ? (dish.nameRu || dish.name) : appLang === 'en' ? (dish.nameEn || dish.name) : dish.name}</p>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-[var(--text-muted)]">
-                    {dish.weight && <span>{dish.weight}</span>}
-                    <span>{dish.priceStudent.toFixed(2)} € / {dish.priceTeacher.toFixed(2)} €</span>
+                  <p className="m-0 text-sm font-medium text-[var(--text)]">{appLang === 'ru' ? (tr.nameRu || tr.name) : appLang === 'en' ? (tr.nameEn || tr.name) : tr.name}</p>
+                  <div className="mt-1 space-y-0.5 text-xs text-[var(--text-muted)]">
+                    {tr.nameRu && <p className="m-0">{tr.nameRu}</p>}
+                    {tr.nameEn && <p className="m-0">{tr.nameEn}</p>}
                   </div>
                 </div>
                 <div className="flex items-center gap-1 flex-shrink-0">
-                  <button onClick={() => startDishEdit(dish)} className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)] rounded-lg"><Pencil className="w-4 h-4" /></button>
-                  <button onClick={() => handleDishDelete(dish.id)} className="p-1.5 text-red-500 hover:bg-red-500/10 rounded-lg"><Trash2 className="w-4 h-4" /></button>
+                  <button onClick={() => startTranslationEdit(tr)} className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)] rounded-lg"><Pencil className="w-4 h-4" /></button>
+                  <button onClick={() => handleTranslationDelete(tr.id)} className="p-1.5 text-red-500 hover:bg-red-500/10 rounded-lg"><Trash2 className="w-4 h-4" /></button>
                 </div>
               </div>
             ))}

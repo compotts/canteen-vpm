@@ -14,36 +14,23 @@ function assertAdmin(username) {
   }
 }
 
-function formatDish(row) {
+function formatTranslation(row) {
   return {
     id: row.id,
-    category: row.category,
     name: row.name_lt,
     nameRu: row.name_ru,
-    nameEn: row.name_en,
-    weight: row.weight,
-    priceStudent: parseFloat(row.price_student),
-    priceTeacher: parseFloat(row.price_teacher)
+    nameEn: row.name_en
   };
 }
 
 export default async function handler(req, res) {
   try {
     if (req.method === "GET") {
-      const { category } = req.query;
-      
-      let rows;
-      if (category) {
-        rows = await sql`
-          SELECT * FROM dishes WHERE category = ${category} ORDER BY id ASC
-        `;
-      } else {
-        rows = await sql`
-          SELECT * FROM dishes ORDER BY category, id ASC
-        `;
-      }
+      const rows = await sql`
+        SELECT * FROM translations ORDER BY id ASC
+      `;
 
-      const result = rows.map(formatDish);
+      const result = rows.map(formatTranslation);
       return json(res, 200, result);
     }
 
@@ -51,47 +38,34 @@ export default async function handler(req, res) {
     assertAdmin(username);
 
     if (req.method === "POST") {
-      const { id, category, name, nameRu, nameEn, weight, priceStudent, priceTeacher } = req.body || {};
+      const { name, nameRu, nameEn } = req.body || {};
       
-      if (!id || !category || !name) {
-        return json(res, 400, { error: "id, category, and name are required" });
+      if (!name) {
+        return json(res, 400, { error: "name is required" });
       }
 
       const rows = await sql`
-        INSERT INTO dishes (id, category, name_lt, name_ru, name_en, weight, price_student, price_teacher)
-        VALUES (${id}, ${category}, ${name}, ${nameRu || null}, ${nameEn || null}, ${weight || null}, ${priceStudent || 0}, ${priceTeacher || 0})
-        ON CONFLICT (id) DO UPDATE SET
-          category = EXCLUDED.category,
-          name_lt = EXCLUDED.name_lt,
-          name_ru = EXCLUDED.name_ru,
-          name_en = EXCLUDED.name_en,
-          weight = EXCLUDED.weight,
-          price_student = EXCLUDED.price_student,
-          price_teacher = EXCLUDED.price_teacher,
-          updated_at = CURRENT_TIMESTAMP
+        INSERT INTO translations (name_lt, name_ru, name_en)
+        VALUES (${name}, ${nameRu || null}, ${nameEn || null})
         RETURNING *
       `;
 
-      return json(res, 201, formatDish(rows[0]));
+      return json(res, 201, formatTranslation(rows[0]));
     }
 
     if (req.method === "PATCH") {
-      const { id, category, name, nameRu, nameEn, weight, priceStudent, priceTeacher } = req.body || {};
+      const { id, name, nameRu, nameEn } = req.body || {};
       
       if (!id) {
         return json(res, 400, { error: "id is required" });
       }
 
       const rows = await sql`
-        UPDATE dishes
+        UPDATE translations
         SET
-          category = COALESCE(${category}, category),
           name_lt = COALESCE(${name}, name_lt),
           name_ru = COALESCE(${nameRu}, name_ru),
           name_en = COALESCE(${nameEn}, name_en),
-          weight = COALESCE(${weight}, weight),
-          price_student = COALESCE(${priceStudent}, price_student),
-          price_teacher = COALESCE(${priceTeacher}, price_teacher),
           updated_at = CURRENT_TIMESTAMP
         WHERE id = ${id}
         RETURNING *
@@ -101,14 +75,14 @@ export default async function handler(req, res) {
         return json(res, 404, { error: "not found" });
       }
 
-      return json(res, 200, formatDish(rows[0]));
+      return json(res, 200, formatTranslation(rows[0]));
     }
 
     if (req.method === "DELETE") {
       const { id } = req.query || {};
       if (!id) return json(res, 400, { error: "id is required" });
 
-      await sql`DELETE FROM dishes WHERE id = ${id}`;
+      await sql`DELETE FROM translations WHERE id = ${id}`;
       return res.status(204).end();
     }
 

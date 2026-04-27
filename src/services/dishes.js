@@ -27,9 +27,8 @@ function request(method, body) {
     });
 }
 
-export async function loadDishes(category) {
-  const url = category ? `/api/dishes?category=${category}` : "/api/dishes";
-  const res = await fetch(url);
+export async function loadDishes() {
+  const res = await fetch("/api/dishes");
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: "Unknown error" }));
     throw new Error(err.error || `HTTP ${res.status}`);
@@ -37,12 +36,12 @@ export async function loadDishes(category) {
   return res.json();
 }
 
-export async function createDish(dish) {
-  return request("POST", dish);
+export async function createDish(translation) {
+  return request("POST", translation);
 }
 
-export async function updateDish(dish) {
-  return request("PATCH", dish);
+export async function updateDish(translation) {
+  return request("PATCH", translation);
 }
 
 export async function deleteDish(id) {
