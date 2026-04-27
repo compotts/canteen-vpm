@@ -1,7 +1,6 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { CATEGORY_IDS } from "../data/catalog.js";
-import { loadDishes } from "../services/dishes.js";
+import { catalogByCategory, CATEGORY_IDS } from "../data/catalog.js";
 import { ChevronDown } from "lucide-react";
 
 const PER_PAGE_OPTIONS = [10, 20, 50];
@@ -35,16 +34,8 @@ export default function Catalog() {
   const [sortAsc, setSortAsc] = useState(true);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
-  const [allDishes, setAllDishes] = useState([]);
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    loadDishes(category)
-      .then(setAllDishes)
-      .catch(err => console.error("Failed to load dishes:", err))
-      .finally(() => setLoading(false));
-  }, [category]);
+  const allDishes = catalogByCategory[category] || [];
 
   const items = useMemo(() => {
     let list = allDishes;
@@ -165,9 +156,7 @@ export default function Catalog() {
         </button>
       </div>
 
-      {loading ? (
-        <p className="text-[var(--text-muted)] py-8 text-center">{t("catalog.loading") || "Loading..."}</p>
-      ) : paginatedItems.length === 0 ? (
+      {paginatedItems.length === 0 ? (
         <p className="text-[var(--text-muted)] py-8 text-center">{t("catalog.noResults")}</p>
       ) : (
         <ul className="list-none p-0 m-0 md:grid md:grid-cols-2 md:gap-4">
