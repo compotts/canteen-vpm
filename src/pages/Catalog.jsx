@@ -91,59 +91,61 @@ export default function Catalog() {
   };
 
   return (
-    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border pb-24">
-      <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] m-0 mb-3">{t("catalog.title")}</h1>
+    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border pb-28">
+      <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] m-0 mb-2">{t("catalog.title")}</h1>
 
       <p className="text-xs md:text-sm text-[var(--text-muted)] mb-4 leading-relaxed">
         {t("catalog.warning")}
       </p>
 
-      <div className="flex flex-wrap gap-2 mb-4">
-        {CATEGORY_IDS.map((id) => (
-          <button
-            key={id}
-            type="button"
-            onClick={() => { setCategory(id); setPage(1); }}
-            className={`px-3 py-2 rounded-lg text-sm font-medium border transition-colors ${
-              category === id
-                ? "bg-[var(--accent)] text-[var(--btn-primary-color)] border-[var(--accent)]"
-                : "bg-[var(--surface)] text-[var(--text)] border-[var(--border)] hover:bg-[var(--border-subtle)]"
-            }`}
-          >
-            {t(`catalog.category.${id}`)}
-          </button>
-        ))}
+      <div className="glass rounded-full p-1 mb-4">
+        <div className="flex gap-1 overflow-x-auto no-scrollbar">
+          {CATEGORY_IDS.map((id) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => { setCategory(id); setPage(1); }}
+              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all active:scale-95 ${
+                category === id
+                  ? "bg-[var(--accent)] text-[var(--btn-primary-color)] shadow-sm"
+                  : "text-[var(--text-muted)] hover:text-[var(--text)]"
+              }`}
+            >
+              {t(`catalog.category.${id}`)}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] mb-4 overflow-hidden">
+      <div className="glass rounded-[var(--radius-lg)] mb-4 overflow-hidden">
         <button
           type="button"
           onClick={() => setFilterOpen((o) => !o)}
-          className="w-full flex items-center justify-between px-4 py-3 text-left text-[var(--text)] font-medium hover:bg-[var(--bg-card)] transition-colors"
+          className="w-full flex items-center justify-between px-4 py-3 text-left text-[var(--text)] font-medium"
         >
           <span>{filterOpen ? t("catalog.filters.collapse") : t("catalog.filters.expand")}</span>
           <ChevronDown className={`w-5 h-5 transition-transform ${filterOpen ? "rotate-180" : ""}`} aria-hidden="true" />
         </button>
         {filterOpen && (
-          <div className="px-4 pb-4 pt-0 border-t border-[var(--border)] space-y-3">
+          <div className="px-4 pb-4 pt-0 space-y-3">
             <div>
-              <label className="block text-sm font-medium text-[var(--text-muted)] mb-1">{t("catalog.filters.name")}</label>
+              <label className="block text-xs font-medium text-[var(--text-muted)] mb-1.5 uppercase tracking-wider">{t("catalog.filters.name")}</label>
               <input
                 type="text"
-                className="input w-full box-border rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm font-[var(--font-sans)] text-[var(--text)]"
+                className="w-full box-border rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--bg-card)] px-3.5 py-2.5 text-sm font-[var(--font-sans)] text-[var(--text)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--text-muted)]/30"
                 placeholder={t("catalog.searchPlaceholder")}
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
               />
             </div>
             <div className="flex flex-wrap gap-2 items-center">
-              <span className="text-sm text-[var(--text-muted)]">{t("catalog.perPage")}:</span>
+              <span className="text-xs text-[var(--text-muted)] uppercase tracking-wider">{t("catalog.perPage")}</span>
               {PER_PAGE_OPTIONS.map((n) => (
                 <button
                   key={n}
                   type="button"
                   onClick={() => { setPerPage(n); setPage(1); }}
-                  className={`px-2 py-1 rounded text-sm ${perPage === n ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "bg-[var(--border-subtle)] text-[var(--text)]"}`}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all active:scale-95 ${perPage === n ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text)]"}`}
                 >
                   {n}
                 </button>
@@ -155,8 +157,8 @@ export default function Catalog() {
                   key={key}
                   type="button"
                   onClick={() => toggleSort(key)}
-                  className={`px-2 py-1 rounded text-sm flex items-center gap-1 ${
-                    sortBy === key ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "bg-[var(--border-subtle)] text-[var(--text)]"
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1 transition-all active:scale-95 ${
+                    sortBy === key ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text)]"
                   }`}
                 >
                   {t(`catalog.filters.${key === "name" ? "name" : key === "weight" ? "weight" : key === "priceStudent" ? "studentPrice" : "teacherPrice"}`)}
@@ -166,21 +168,6 @@ export default function Catalog() {
             </div>
           </div>
         )}
-      </div>
-
-      <div className="hidden sm:grid grid-cols-[1fr_auto_auto_auto] gap-2 px-2 py-2 text-sm font-semibold text-[var(--text-muted)] border-b border-[var(--border)]">
-        <button type="button" onClick={() => toggleSort("name")} className="text-left">
-          {t("catalog.filters.name")} {sortBy === "name" && (sortAsc ? "↑" : "↓")}
-        </button>
-        <button type="button" onClick={() => toggleSort("weight")} className="text-right">
-          {t("catalog.filters.weight")} {sortBy === "weight" && (sortAsc ? "↑" : "↓")}
-        </button>
-        <button type="button" onClick={() => toggleSort("priceStudent")} className="text-right">
-          {t("catalog.filters.studentPrice")} {sortBy === "priceStudent" && (sortAsc ? "↑" : "↓")}
-        </button>
-        <button type="button" onClick={() => toggleSort("priceTeacher")} className="text-right">
-          {t("catalog.filters.teacherPrice")} {sortBy === "priceTeacher" && (sortAsc ? "↑" : "↓")}
-        </button>
       </div>
 
       {loading ? (
@@ -196,26 +183,26 @@ export default function Catalog() {
             return (
               <li
                 key={item.id}
-                className="bg-[var(--surface)] border border-[var(--border)] rounded-xl mb-3 md:mb-0 shadow-[var(--shadow-sm)] overflow-hidden flex"
+                className="glass-card rounded-[var(--radius-lg)] mb-3 md:mb-0 overflow-hidden flex animate-glass-rise"
               >
                 {item.photoUrl && (
                   <button
                     type="button"
                     onClick={() => setLightboxPhoto({ url: item.photoUrl, name })}
-                    className="p-0 border-0 bg-transparent cursor-zoom-in flex-shrink-0 self-stretch w-24 md:w-28"
+                    className="p-0 border-0 bg-transparent cursor-zoom-in flex-shrink-0 self-stretch w-24 md:w-28 group overflow-hidden"
                     aria-label={name}
                   >
                     <img
                       src={item.photoUrl}
                       alt={name}
                       loading="lazy"
-                      className="w-full h-full object-cover hover:opacity-85 transition-opacity"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   </button>
                 )}
-                <div className="flex-1 min-w-0 p-3.5 flex flex-col justify-between gap-2.5">
+                <div className="flex-1 min-w-0 p-4 flex flex-col justify-between gap-3">
                   <div className="flex items-start justify-between gap-2">
-                    <span className="font-medium text-[var(--text)] leading-snug">{name}</span>
+                    <span className="font-semibold text-[var(--text)] leading-snug">{name}</span>
                     {item.weight && (
                       <span className="text-xs text-[var(--text-muted)] bg-[var(--border-subtle)] rounded-full px-2.5 py-1 whitespace-nowrap flex-shrink-0">
                         {item.weight}
@@ -246,18 +233,18 @@ export default function Catalog() {
             type="button"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={currentPage <= 1}
-            className="px-3 py-2 rounded-lg text-sm font-medium bg-[var(--border-subtle)] text-[var(--text)] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 rounded-full text-sm font-medium glass text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
           >
             {t("catalog.prev")}
           </button>
-          <span className="text-sm text-[var(--text-muted)]">
+          <span className="text-sm text-[var(--text-muted)] tabular-nums">
             {t("catalog.page")} {currentPage} / {totalPages}
           </span>
           <button
             type="button"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage >= totalPages}
-            className="px-3 py-2 rounded-lg text-sm font-medium bg-[var(--border-subtle)] text-[var(--text)] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 rounded-full text-sm font-medium glass text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
           >
             {t("catalog.next")}
           </button>
