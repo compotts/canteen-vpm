@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Clock, Plus, Trash2, Pencil, X, Save } from "lucide-react";
 import { createUpdate, deleteUpdate, loadUpdates, updateUpdate } from "../services/updates.js";
-import { loadDishes, createDish, updateDish, deleteDish } from "../services/dishes.js";
+import { loadTranslations, createTranslation, updateTranslation, deleteTranslation } from "../services/translations.js";
 import { isStoredUserAdmin } from "../services/userStorage.js";
 import { pickTextByLang } from "../utils/textHelpers.js";
 
@@ -47,7 +47,7 @@ export default function Admin() {
           const list = await loadUpdates();
           setUpdates(Array.isArray(list) ? list : []);
         } else {
-          const list = await loadDishes();
+          const list = await loadTranslations();
           setTranslations(Array.isArray(list) ? list : []);
         }
       } catch (e) {
@@ -136,10 +136,10 @@ export default function Admin() {
       };
 
       if (editingTranslationId) {
-        const updated = await updateDish(payload);
+        const updated = await updateTranslation(payload);
         setTranslations(prev => prev.map(t => t.id === updated.id ? updated : t));
       } else {
-        const created = await createDish(payload);
+        const created = await createTranslation(payload);
         setTranslations(prev => [...prev, created]);
       }
       resetTranslationForm();
@@ -159,7 +159,7 @@ export default function Admin() {
 
   const handleTranslationDelete = async (id) => {
     if (!window.confirm(t("admin.dishes.deleteConfirm"))) return;
-    await deleteDish(id);
+    await deleteTranslation(id);
     setTranslations(prev => prev.filter(t => t.id !== id));
   };
 

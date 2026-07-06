@@ -28,6 +28,8 @@ export const ADMIN_USERNAMES = (import.meta.env.ADMIN_USERNAMES || "")
   .map((v) => v.trim().toLowerCase())
   .filter(Boolean);
 
+export const CATEGORY_IDS = ["sriubos", "main", "salotos", "drinks", "other"];
+
 export const SECTION_TITLE_KEYS = {
   "dienos meniu": "menu.dailyMenu",
   "sriubos": "catalog.category.sriubos",

@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { catalogByCategory, CATEGORY_IDS } from "../data/catalog.js";
+import { CATEGORY_IDS } from "../constants.js";
+import { loadDishes } from "../services/dishes.js";
 import { ChevronDown } from "lucide-react";
 
 const PER_PAGE_OPTIONS = [10, 20, 50];
@@ -34,8 +35,31 @@ export default function Catalog() {
   const [sortAsc, setSortAsc] = useState(true);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
+  const [dishes, setDishes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
-  const allDishes = catalogByCategory[category] || [];
+  useEffect(() => {
+    let active = true;
+    loadDishes()
+      .then((list) => {
+        if (active) setDishes(Array.isArray(list) ? list : []);
+      })
+      .catch(() => {
+        if (active) setLoadError(true);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const allDishes = useMemo(
+    () => dishes.filter((d) => d.category === category),
+    [dishes, category]
+  );
 
   const items = useMemo(() => {
     let list = allDishes;
@@ -156,7 +180,11 @@ export default function Catalog() {
         </button>
       </div>
 
-      {paginatedItems.length === 0 ? (
+      {loading ? (
+        <p className="text-[var(--text-muted)] py-8 text-center">{t("admin.dishes.loading")}</p>
+      ) : loadError ? (
+        <p className="text-[var(--text-muted)] py-8 text-center">{t("catalog.noResults")}</p>
+      ) : paginatedItems.length === 0 ? (
         <p className="text-[var(--text-muted)] py-8 text-center">{t("catalog.noResults")}</p>
       ) : (
         <ul className="list-none p-0 m-0 md:grid md:grid-cols-2 md:gap-4">
@@ -168,8 +196,8 @@ export default function Catalog() {
               <div className="font-medium text-[var(--text)] mb-2">{getItemName(item, lang)}</div>
               <div className="grid grid-cols-3 gap-2 text-sm text-[var(--text-muted)]">
                 <span><span className="text-[var(--text-muted)] opacity-80">{t("catalog.filters.weight")}:</span> {item.weight}</span>
-                <span><span className="text-[var(--text-muted)] opacity-80">{t("catalog.filters.studentPrice")}:</span> {item.priceStudent.toFixed(2)} €</span>
-                <span><span className="text-[var(--text-muted)] opacity-80">{t("catalog.filters.teacherPrice")}:</span> {item.priceTeacher.toFixed(2)} €</span>
+                <span><span className="text-[var(--text-muted)] opacity-80">{t("catalog.filters.studentPrice")}:</span> {Number(item.priceStudent ?? 0).toFixed(2)} €</span>
+                <span><span className="text-[var(--text-muted)] opacity-80">{t("catalog.filters.teacherPrice")}:</span> {Number(item.priceTeacher ?? 0).toFixed(2)} €</span>
               </div>
             </li>
           ))}

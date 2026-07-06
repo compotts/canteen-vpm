@@ -1,4 +1,5 @@
 import * as api from "./api.js";
+import { normalizeDishName } from "../utils/textHelpers.js";
 
 export const login = api.login;
 export const checkAuth = api.checkAuth;
@@ -8,21 +9,31 @@ export const submitOrder = api.submitOrder;
 
 let translationsCache = null;
 
+function addToMap(map, list) {
+  if (!Array.isArray(list)) return;
+  list.forEach((t) => {
+    if (!t?.name) return;
+    map[normalizeDishName(t.name)] = {
+      ru: t.nameRu || t.name,
+      en: t.nameEn || t.name,
+    };
+  });
+}
+
+// Builds a lookup of dish name -> { ru, en } from the database, combining the
+// priced catalog (/api/dishes) with the manually maintained translations
+// (/api/translations). Manual translations take priority on name collisions.
 export async function loadTranslations() {
   if (translationsCache) return translationsCache;
   try {
-    const res = await fetch("/api/dishes");
-    if (!res.ok) throw new Error("Failed to load translations");
-    const data = await res.json();
-    translationsCache = {};
-    data.forEach((t) => {
-      if (t.name) {
-        translationsCache[t.name.toLowerCase().trim()] = {
-          ru: t.nameRu || t.name,
-          en: t.nameEn || t.name,
-        };
-      }
-    });
+    const [dishesRes, translationsRes] = await Promise.all([
+      fetch("/api/dishes"),
+      fetch("/api/translations"),
+    ]);
+    const map = {};
+    if (dishesRes.ok) addToMap(map, await dishesRes.json());
+    if (translationsRes.ok) addToMap(map, await translationsRes.json());
+    translationsCache = map;
     return translationsCache;
   } catch (err) {
     console.error("Error loading translations:", err);

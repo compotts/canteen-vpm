@@ -1,3 +1,12 @@
+export function normalizeDishName(name = "") {
+  return name
+    .normalize("NFKC")
+    .replace(/\s+/g, " ")
+    .replace(/[.,;:]+$/u, "")
+    .trim()
+    .toLowerCase();
+}
+
 export function pickTextByLang(map, lang) {
   if (!map || typeof map !== "object") return "";
   const order = [lang, "lt", "ru", "en"];

@@ -15,7 +15,7 @@ function request(method, body) {
     options.body = JSON.stringify(body);
   }
 
-  return fetch("/api/dishes", options)
+  return fetch("/api/translations", options)
     .then(res => {
       if (res.status === 204) return null;
       if (!res.ok) {
@@ -27,8 +27,8 @@ function request(method, body) {
     });
 }
 
-export async function loadDishes() {
-  const res = await fetch("/api/dishes");
+export async function loadTranslations() {
+  const res = await fetch("/api/translations");
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: "Unknown error" }));
     throw new Error(err.error || `HTTP ${res.status}`);
@@ -36,16 +36,16 @@ export async function loadDishes() {
   return res.json();
 }
 
-export async function createDish(dish) {
-  return request("POST", dish);
+export async function createTranslation(translation) {
+  return request("POST", translation);
 }
 
-export async function updateDish(dish) {
-  return request("PATCH", dish);
+export async function updateTranslation(translation) {
+  return request("PATCH", translation);
 }
 
-export async function deleteDish(id) {
-  return fetch(`/api/dishes?id=${id}`, {
+export async function deleteTranslation(id) {
+  return fetch(`/api/translations?id=${id}`, {
     method: "DELETE",
     headers: {
       "x-username": getStoredUsername() || ""

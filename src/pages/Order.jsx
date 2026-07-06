@@ -10,7 +10,7 @@ import {
 } from "../services/valgykla.js";
 import { SECTION_TITLE_KEYS } from "../constants.js";
 import { useLanguage } from "../hooks/useLanguage.js";
-import { nameToRuMap, nameToEnMap, normalizeDishName } from "../data/catalog.js";
+import { normalizeDishName } from "../utils/textHelpers.js";
 import { saveOrderToHistory, removeOrderFromHistoryByMenuDate } from "../services/history.js";
 
 function getSectionDisplayTitle(title, t) {
@@ -24,19 +24,11 @@ let dbTranslations = null;
 function getDishDisplayName(item, lang) {
   const rawName = item.name || "";
   const trimmedName = rawName.trim();
-  const lowerName = trimmedName.toLowerCase();
-  
-  if (dbTranslations && dbTranslations[lowerName]) {
-    if (lang === "ru") return dbTranslations[lowerName].ru;
-    if (lang === "en") return dbTranslations[lowerName].en;
-  }
-  
-  const key = normalizeDishName(rawName);
-  if (lang === "ru") {
-    return nameToRuMap[key] || trimmedName;
-  }
-  if (lang === "en") {
-    return nameToEnMap[key] || trimmedName;
+  const entry = dbTranslations && dbTranslations[normalizeDishName(rawName)];
+
+  if (entry) {
+    if (lang === "ru") return entry.ru || trimmedName;
+    if (lang === "en") return entry.en || trimmedName;
   }
   return trimmedName;
 }
