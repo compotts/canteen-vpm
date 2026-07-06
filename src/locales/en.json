@@ -1,6 +1,7 @@
 {
   "common": {
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "close": "Close"
   },
   "nav": {
     "home": "Home",
@@ -82,6 +83,10 @@
       "studentPrice": "Student price",
       "teacherPrice": "Teacher price"
     },
+    "priceShort": {
+      "student": "Student",
+      "teacher": "Teacher"
+    },
     "searchPlaceholder": "Search by name…",
     "noResults": "No results for the selected filters",
     "page": "Page",
@@ -108,9 +113,19 @@
   "admin": {
     "title": "Admin · Updates",
     "dishesTitle": "Admin · Dishes",
+    "photosTitle": "Admin · Photos",
     "tabs": {
       "updates": "Updates",
-      "dishes": "Dishes"
+      "dishes": "Dishes",
+      "photos": "Photos"
+    },
+    "photos": {
+      "source": {
+        "dishes": "Catalog",
+        "translations": "Translations"
+      },
+      "deleteConfirm": "Delete this photo?",
+      "uploadError": "Failed to upload photo"
     },
     "dishes": {
       "add": "Add dish",

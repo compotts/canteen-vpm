@@ -1,6 +1,7 @@
 {
   "common": {
-    "loading": "Загрузка…"
+    "loading": "Загрузка…",
+    "close": "Закрыть"
   },
   "nav": {
     "home": "Главная",
@@ -82,6 +83,10 @@
       "studentPrice": "Цена для учеников",
       "teacherPrice": "Цена для учителей"
     },
+    "priceShort": {
+      "student": "Ученик",
+      "teacher": "Учитель"
+    },
     "searchPlaceholder": "Поиск по названию…",
     "noResults": "По фильтрам ничего не найдено",
     "page": "Стр.",
@@ -108,9 +113,19 @@
   "admin": {
     "title": "Админ · Обновления",
     "dishesTitle": "Админ · Блюда",
+    "photosTitle": "Админ · Фотографии",
     "tabs": {
       "updates": "Обновления",
-      "dishes": "Блюда"
+      "dishes": "Блюда",
+      "photos": "Фотографии"
+    },
+    "photos": {
+      "source": {
+        "dishes": "Каталог",
+        "translations": "Переводы"
+      },
+      "deleteConfirm": "Удалить эту фотографию?",
+      "uploadError": "Не удалось загрузить фото"
     },
     "dishes": {
       "add": "Добавить блюдо",

@@ -1,6 +1,7 @@
 {
   "common": {
-    "loading": "Kraunama…"
+    "loading": "Kraunama…",
+    "close": "Uždaryti"
   },
   "nav": {
     "home": "Pradžia",
@@ -82,6 +83,10 @@
       "studentPrice": "Mokinių kaina",
       "teacherPrice": "Mokytojų kaina"
     },
+    "priceShort": {
+      "student": "Mokinys",
+      "teacher": "Mokytojas"
+    },
     "searchPlaceholder": "Ieškoti pagal pavadinimą…",
     "noResults": "Pagal filtrus nieko nerasta",
     "page": "Psl.",
@@ -108,9 +113,19 @@
   "admin": {
     "title": "Admin · Atnaujinimai",
     "dishesTitle": "Admin · Patiekalai",
+    "photosTitle": "Admin · Nuotraukos",
     "tabs": {
       "updates": "Atnaujinimai",
-      "dishes": "Patiekalai"
+      "dishes": "Patiekalai",
+      "photos": "Nuotraukos"
+    },
+    "photos": {
+      "source": {
+        "dishes": "Katalogas",
+        "translations": "Vertimai"
+      },
+      "deleteConfirm": "Ištrinti šią nuotrauką?",
+      "uploadError": "Nepavyko įkelti nuotraukos"
     },
     "dishes": {
       "add": "Pridėti patiekalą",

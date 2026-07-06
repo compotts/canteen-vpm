@@ -19,7 +19,8 @@ function formatTranslation(row) {
     id: row.id,
     name: row.name_lt,
     nameRu: row.name_ru,
-    nameEn: row.name_en
+    nameEn: row.name_en,
+    photoUrl: row.photo_url
   };
 }
 

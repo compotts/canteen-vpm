@@ -29,7 +29,8 @@ function formatDish(row) {
     nameEn: row.name_en,
     weight: row.weight,
     priceStudent: row.price_student === null ? null : Number(row.price_student),
-    priceTeacher: row.price_teacher === null ? null : Number(row.price_teacher)
+    priceTeacher: row.price_teacher === null ? null : Number(row.price_teacher),
+    photoUrl: row.photo_url
   };
 }
 
