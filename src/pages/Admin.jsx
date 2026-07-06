@@ -18,7 +18,6 @@ export default function Admin() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  // Updates State
   const [updates, setUpdates] = useState([]);
   const [editingUpdateId, setEditingUpdateId] = useState(null);
   const [updateActiveLang, setUpdateActiveLang] = useState("lt");
@@ -27,7 +26,6 @@ export default function Admin() {
   const [emoji, setEmoji] = useState("");
   const [updateText, setUpdateText] = useState({ lt: "", ru: "", en: "" });
 
-  // Translations State
   const [translations, setTranslations] = useState([]);
   const [translationSearch, setTranslationSearch] = useState("");
   const [editingTranslationId, setEditingTranslationId] = useState(null);
@@ -62,7 +60,6 @@ export default function Admin() {
     fetchData();
   }, [isAdmin, activeTab]);
 
-  // Update Handlers
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -122,7 +119,6 @@ export default function Admin() {
     setUpdateActiveLang("lt");
   };
 
-  // Translation Handlers
   const handleTranslationSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
