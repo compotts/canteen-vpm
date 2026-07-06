@@ -12,6 +12,7 @@ import { SECTION_TITLE_KEYS } from "../constants.js";
 import { useLanguage } from "../hooks/useLanguage.js";
 import { normalizeDishName } from "../utils/textHelpers.js";
 import { saveOrderToHistory, removeOrderFromHistoryByMenuDate } from "../services/history.js";
+import PhotoLightbox from "../components/PhotoLightbox.jsx";
 
 function getSectionDisplayTitle(title, t) {
   if (!title || typeof title !== "string") return title || "";
@@ -31,6 +32,11 @@ function getDishDisplayName(item, lang) {
     if (lang === "en") return entry.en || trimmedName;
   }
   return trimmedName;
+}
+
+function getDishPhoto(item) {
+  const entry = dbTranslations && dbTranslations[normalizeDishName(item.name || "")];
+  return entry?.photo || null;
 }
 
 function buildHistoryOrder(menu, quantities, lang, selectedDate) {
@@ -119,6 +125,7 @@ export default function Order() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [inlineVisible, setInlineVisible] = useState(true);
+  const [lightboxPhoto, setLightboxPhoto] = useState(null);
   const sentinelRef = useRef(null);
 
   useEffect(() => {
@@ -360,8 +367,19 @@ export default function Order() {
               <ul className="list-none m-0 p-0 space-y-3">
                 {section.items.map((item) => {
                   const displayName = getDishDisplayName(item, lang);
+                  const photo = getDishPhoto(item);
                   return (
                     <li key={item.id} className="flex flex-wrap items-center gap-2 gap-y-1">
+                      {photo && (
+                        <button
+                          type="button"
+                          onClick={() => setLightboxPhoto({ url: photo, name: displayName })}
+                          className="p-0 border-0 bg-transparent cursor-zoom-in flex-shrink-0"
+                          aria-label={displayName}
+                        >
+                          <img src={photo} alt={displayName} loading="lazy" className="w-11 h-11 object-cover rounded-lg border border-[var(--border)] hover:opacity-85 active:scale-95 transition-all" />
+                        </button>
+                      )}
                       <div className="flex-1 min-w-0">
                         <span className="text-[var(--text)]">{displayName}</span>
                         {item.weight && (
@@ -407,6 +425,8 @@ export default function Order() {
           <TotalBar total={total} submitLoading={submitLoading} t={t} variant="fixed" />
         </div>
       </div>
+
+      <PhotoLightbox photo={lightboxPhoto} onClose={() => setLightboxPhoto(null)} />
     </div>
   );
 }

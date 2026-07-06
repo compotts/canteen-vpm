@@ -13,16 +13,15 @@ function addToMap(map, list) {
   if (!Array.isArray(list)) return;
   list.forEach((t) => {
     if (!t?.name) return;
-    map[normalizeDishName(t.name)] = {
+    const key = normalizeDishName(t.name);
+    map[key] = {
       ru: t.nameRu || t.name,
       en: t.nameEn || t.name,
+      photo: t.photoUrl || map[key]?.photo || null,
     };
   });
 }
 
-// Builds a lookup of dish name -> { ru, en } from the database, combining the
-// priced catalog (/api/dishes) with the manually maintained translations
-// (/api/translations). Manual translations take priority on name collisions.
 export async function loadTranslations() {
   if (translationsCache) return translationsCache;
   try {

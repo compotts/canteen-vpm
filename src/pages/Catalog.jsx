@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { CATEGORY_IDS } from "../constants.js";
 import { loadDishes } from "../services/dishes.js";
 import { ChevronDown } from "lucide-react";
+import PhotoLightbox from "../components/PhotoLightbox.jsx";
 
 const PER_PAGE_OPTIONS = [10, 20, 50];
 const SORT_KEYS = ["name", "weight", "priceStudent", "priceTeacher"];
@@ -38,6 +39,7 @@ export default function Catalog() {
   const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
+  const [lightboxPhoto, setLightboxPhoto] = useState(null);
 
   useEffect(() => {
     let active = true;
@@ -71,7 +73,8 @@ export default function Catalog() {
         (i.nameEn && i.nameEn.toLowerCase().includes(q))
       );
     }
-    return sortItems(list, sortBy, sortAsc, lang);
+    const sorted = sortItems(list, sortBy, sortAsc, lang);
+    return [...sorted.filter((i) => i.photoUrl), ...sorted.filter((i) => !i.photoUrl)];
   }, [allDishes, search, sortBy, sortAsc, lang]);
 
   const totalPages = Math.max(1, Math.ceil(items.length / perPage));
@@ -188,19 +191,52 @@ export default function Catalog() {
         <p className="text-[var(--text-muted)] py-8 text-center">{t("catalog.noResults")}</p>
       ) : (
         <ul className="list-none p-0 m-0 md:grid md:grid-cols-2 md:gap-4">
-          {paginatedItems.map((item) => (
-            <li
-              key={item.id}
-              className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 mb-3 md:mb-0 shadow-[var(--shadow-sm)]"
-            >
-              <div className="font-medium text-[var(--text)] mb-2">{getItemName(item, lang)}</div>
-              <div className="grid grid-cols-3 gap-2 text-sm text-[var(--text-muted)]">
-                <span><span className="text-[var(--text-muted)] opacity-80">{t("catalog.filters.weight")}:</span> {item.weight}</span>
-                <span><span className="text-[var(--text-muted)] opacity-80">{t("catalog.filters.studentPrice")}:</span> {Number(item.priceStudent ?? 0).toFixed(2)} €</span>
-                <span><span className="text-[var(--text-muted)] opacity-80">{t("catalog.filters.teacherPrice")}:</span> {Number(item.priceTeacher ?? 0).toFixed(2)} €</span>
-              </div>
-            </li>
-          ))}
+          {paginatedItems.map((item) => {
+            const name = getItemName(item, lang);
+            return (
+              <li
+                key={item.id}
+                className="bg-[var(--surface)] border border-[var(--border)] rounded-xl mb-3 md:mb-0 shadow-[var(--shadow-sm)] overflow-hidden flex"
+              >
+                {item.photoUrl && (
+                  <button
+                    type="button"
+                    onClick={() => setLightboxPhoto({ url: item.photoUrl, name })}
+                    className="p-0 border-0 bg-transparent cursor-zoom-in flex-shrink-0 self-stretch w-24 md:w-28"
+                    aria-label={name}
+                  >
+                    <img
+                      src={item.photoUrl}
+                      alt={name}
+                      loading="lazy"
+                      className="w-full h-full object-cover hover:opacity-85 transition-opacity"
+                    />
+                  </button>
+                )}
+                <div className="flex-1 min-w-0 p-3.5 flex flex-col justify-between gap-2.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="font-medium text-[var(--text)] leading-snug">{name}</span>
+                    {item.weight && (
+                      <span className="text-xs text-[var(--text-muted)] bg-[var(--border-subtle)] rounded-full px-2.5 py-1 whitespace-nowrap flex-shrink-0">
+                        {item.weight}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="flex items-baseline gap-1.5">
+                      <span className="text-xs text-[var(--text-muted)]">{t("catalog.priceShort.student")}</span>
+                      <span className="text-sm font-semibold tabular-nums text-[var(--text)]">{Number(item.priceStudent ?? 0).toFixed(2)} €</span>
+                    </span>
+                    <span className="w-px h-4 bg-[var(--border)]" aria-hidden="true" />
+                    <span className="flex items-baseline gap-1.5">
+                      <span className="text-xs text-[var(--text-muted)]">{t("catalog.priceShort.teacher")}</span>
+                      <span className="text-sm font-semibold tabular-nums text-[var(--text)]">{Number(item.priceTeacher ?? 0).toFixed(2)} €</span>
+                    </span>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
 
@@ -227,6 +263,8 @@ export default function Catalog() {
           </button>
         </div>
       )}
+
+      <PhotoLightbox photo={lightboxPhoto} onClose={() => setLightboxPhoto(null)} />
     </div>
   );
 }
