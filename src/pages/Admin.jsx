@@ -417,8 +417,11 @@ export default function Admin() {
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className="m-0 text-sm font-medium text-[var(--text)] truncate">{item.name}</p>
-                  {item.nameRu && <p className="m-0 mt-0.5 text-xs text-[var(--text-muted)] truncate">{item.nameRu}</p>}
+                  <p className="m-0 text-sm font-medium text-[var(--text)]">{appLang === 'ru' ? (item.nameRu || item.name) : appLang === 'en' ? (item.nameEn || item.name) : item.name}</p>
+                  <div className="mt-1 space-y-0.5 text-xs text-[var(--text-muted)]">
+                    {item.nameRu && <p className="m-0">{item.nameRu}</p>}
+                    {item.nameEn && <p className="m-0">{item.nameEn}</p>}
+                  </div>
                 </div>
                 <div className="flex items-center gap-1 flex-shrink-0">
                   <label className={`p-1.5 rounded-lg cursor-pointer text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)] ${uploadingPhotoId === item.id ? "opacity-50 pointer-events-none" : ""}`}>
