@@ -51,3 +51,4 @@ android/build/
 # public/mockServiceWorker.js
 .vercel
 .env*.local
+.env*
