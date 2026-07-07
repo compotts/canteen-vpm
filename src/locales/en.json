@@ -6,6 +6,7 @@
   "nav": {
     "home": "Home",
     "admin": "Administration",
+    "adminShort": "Admin",
     "catalog": "Catalog",
     "order": "Order",
     "history": "History",

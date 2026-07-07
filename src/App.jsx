@@ -5,6 +5,7 @@ import i18n from "i18next";
 import { DEFAULT_LANG } from "./constants.js";
 import { AuthProvider, useAuth } from "./contexts/AuthContext.jsx";
 import Header from "./components/Header.jsx";
+import BottomTabBar from "./components/BottomTabBar.jsx";
 import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import Catalog from "./pages/Catalog.jsx";
@@ -45,7 +46,7 @@ function AppRoutes() {
   return (
     <>
       <Header />
-      <main className="flex flex-1 flex-col">
+      <main className="flex flex-1 flex-col pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0">
         <Routes>
           <Route path="/" element={<HomeOrLogin />} />
           <Route path="/menu" element={<ProtectedRoute><Catalog /></ProtectedRoute>} />
@@ -55,6 +56,7 @@ function AppRoutes() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
+      <BottomTabBar />
     </>
   );
 }

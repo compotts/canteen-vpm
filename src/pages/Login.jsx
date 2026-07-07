@@ -6,7 +6,7 @@ import { login as valgyklaLogin } from "../services/valgykla.js";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { REMEMBER_ME_KEY, SAVED_USERNAME_KEY, SAVED_PASSWORD_KEY } from "../constants.js";
 
-const inputClass = "w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2.5 text-base text-[var(--text)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--text-muted)] focus:ring-offset-2 focus:ring-offset-[var(--surface)]";
+const inputClass = "w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg-card)] px-3.5 py-2.5 text-base text-[var(--text)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--text-muted)]/40 focus:border-[var(--text-muted)]";
 
 export default function Login() {
   const { t } = useTranslation();
@@ -46,8 +46,8 @@ export default function Login() {
 
   return (
     <div className="flex-1 max-w-[430px] md:max-w-md mx-auto w-full px-4 md:px-6 py-5 md:py-8 box-border flex flex-col md:justify-center">
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5 md:p-6 shadow-[var(--shadow-sm)] mt-8 md:mt-0 w-full">
-        <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] mt-0 mb-4">
+      <div className="glass-strong rounded-[var(--radius-xl)] p-5 md:p-6 mt-8 md:mt-0 w-full animate-glass-rise">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] mt-0 mb-4">
           {t("login.title")}
         </h1>
 
@@ -121,7 +121,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="inline-flex items-center justify-center font-[var(--font-sans)] text-base font-medium py-2.5 px-4 rounded-lg border-none cursor-pointer min-h-12 w-full bg-[var(--accent)] text-[var(--btn-primary-color)] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center justify-center font-[var(--font-sans)] text-base font-semibold py-2.5 px-4 rounded-full border-none cursor-pointer min-h-12 w-full bg-[var(--accent)] text-[var(--btn-primary-color)] hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={loading}
           >
             {loading ? t("login.submitting") : t("login.submit")}
@@ -145,7 +145,7 @@ export default function Login() {
             aria-hidden="true"
           />
           <div
-            className="relative max-w-[420px] mx-4 bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+            className="glass-strong relative max-w-[420px] mx-4 rounded-[var(--radius-xl)] p-5 animate-glass-rise"
             role="dialog"
             aria-modal="true"
             aria-labelledby="login-help-title"
@@ -176,7 +176,7 @@ export default function Login() {
             <button
               type="button"
               onClick={() => setHelpOpen(false)}
-              className="mt-1 inline-flex cursor-pointer items-center justify-center px-4 py-2 rounded-lg bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium w-full"
+              className="mt-1 inline-flex cursor-pointer items-center justify-center px-4 py-2 rounded-full bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium w-full hover:opacity-90 active:scale-[0.98] transition-all"
             >
               {t("login.helpClose")}
             </button>

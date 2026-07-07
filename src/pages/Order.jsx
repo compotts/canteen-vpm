@@ -81,16 +81,9 @@ function TotalBar({ total, submitLoading, t, variant }) {
   const isFixed = variant === "fixed";
   return (
     <div
-      className={
-        isFixed
-          ? "flex items-center justify-between gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/80 px-5 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.18)]"
-          : "flex items-center justify-between gap-4 mt-4 md:mt-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-5 py-3.5 shadow-[var(--shadow-sm)]"
-      }
-      style={
-        isFixed
-          ? { backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }
-          : undefined
-      }
+      className={`flex items-center justify-between gap-4 rounded-[var(--radius-lg)] px-5 py-3.5 ${
+        isFixed ? "glass-strong" : "glass-card mt-4 md:mt-6"
+      }`}
     >
       <div className="flex flex-col leading-tight">
         <span className="text-xs text-[var(--text-muted)] uppercase tracking-widest font-medium">
@@ -104,7 +97,7 @@ function TotalBar({ total, submitLoading, t, variant }) {
         form="order-form"
         type="submit"
         disabled={submitLoading}
-        className="inline-flex items-center justify-center font-[var(--font-sans)] text-base font-semibold py-2.5 px-6 rounded-xl border-none cursor-pointer bg-[var(--accent)] text-[var(--btn-primary-color)] disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 active:scale-95 transition-all"
+        className="inline-flex items-center justify-center font-[var(--font-sans)] text-base font-semibold py-2.5 px-6 rounded-full border-none cursor-pointer bg-[var(--accent)] text-[var(--btn-primary-color)] disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 active:scale-95 transition-all"
       >
         {submitLoading ? t("menu.submitting") : t("menu.submit")}
       </button>
@@ -298,7 +291,7 @@ export default function Order() {
         <button
           type="button"
           onClick={openOrderForm}
-          className="w-full inline-flex items-center justify-center font-[var(--font-sans)] text-base font-medium py-3 px-5 rounded-xl border-2 border-[var(--accent)] bg-[var(--accent)] text-[var(--btn-primary-color)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--surface)] transition-opacity"
+          className="w-full inline-flex items-center justify-center font-[var(--font-sans)] text-base font-medium py-3 px-5 rounded-full border-none bg-[var(--accent)] text-[var(--btn-primary-color)] hover:opacity-90 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--surface)] transition-all"
         >
           {linkInfo.label}
         </button>
@@ -339,7 +332,7 @@ export default function Order() {
       </button>
 
       {menu && (
-        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-[var(--text)] mb-4">
+        <div className="rounded-[var(--radius-md)] border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-[var(--text)] mb-4">
           {t("menu.deadlineWarning")}
         </div>
       )}
@@ -347,7 +340,7 @@ export default function Order() {
       {submitSuccess && (
         <div className="fixed inset-0 z-[1100] flex items-center justify-center">
           <div className="absolute inset-0 bg-black/40" />
-          <div className="relative bg-[var(--surface)] border border-[var(--border)] rounded-2xl px-6 py-5 shadow-[0_10px_30px_rgba(0,0,0,0.35)] bon-appetit-popup text-center max-w-[260px] mx-4">
+          <div className="glass-strong relative rounded-[var(--radius-xl)] px-6 py-5 bon-appetit-popup text-center max-w-[260px] mx-4">
             <img src="/face-savoring-food.png" alt="bon appetit" className="h-16 w-16 object-contain mx-auto mb-2" />
             <p className="m-0 text-[var(--text)] font-semibold text-lg">{t("menu.bonAppetit")}</p>
           </div>
@@ -359,9 +352,9 @@ export default function Order() {
           {menu.sections.map((section) => (
             <div
               key={section.title}
-              className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 shadow-[var(--shadow-sm)]"
+              className="glass-card rounded-[var(--radius-lg)] p-4 animate-glass-rise"
             >
-              <h2 className="text-base font-semibold text-[var(--text)] mt-0 mb-3 border-b border-[var(--border)] pb-2">
+              <h2 className="text-base font-semibold text-[var(--text)] mt-0 mb-3 border-b border-[var(--glass-border)] pb-2">
                 {getSectionDisplayTitle(section.title, t)}
               </h2>
               <ul className="list-none m-0 p-0 space-y-3">
@@ -421,7 +414,7 @@ export default function Order() {
           transition: "opacity 0.2s ease, transform 0.2s ease",
         }}
       >
-        <div className="w-full max-w-[430px] md:max-w-4xl mx-auto px-4 md:px-6 pb-4">
+        <div className="w-full max-w-[430px] md:max-w-4xl mx-auto px-4 md:px-6 pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-4">
           <TotalBar total={total} submitLoading={submitLoading} t={t} variant="fixed" />
         </div>
       </div>

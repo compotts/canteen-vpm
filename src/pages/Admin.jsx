@@ -232,7 +232,7 @@ export default function Admin() {
         <button
           type="button"
           onClick={() => navigate("/")}
-          className="mt-4 inline-flex items-center justify-center px-4 py-2 rounded-lg bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium"
+          className="mt-4 inline-flex items-center justify-center px-4 py-2 rounded-full bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium"
         >
           {t("admin.goHome")}
         </button>
@@ -241,28 +241,28 @@ export default function Admin() {
   }
 
   return (
-    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border pb-24">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] m-0 flex items-center gap-2">
+    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border">
+      <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] m-0 flex items-center gap-2">
           <Clock className="w-5 h-5 text-[var(--text-muted)]" />
           {activeTab === "updates" ? t("admin.title") : activeTab === "dishes" ? t("admin.dishesTitle") : t("admin.photosTitle")}
         </h1>
-        <div className="flex bg-[var(--surface)] border border-[var(--border)] rounded-lg p-1">
+        <div className="glass flex rounded-full p-1">
           <button
             onClick={() => { setActiveTab("updates"); setError(null); }}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${activeTab === "updates" ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"}`}
+            className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${activeTab === "updates" ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"}`}
           >
             {t("admin.tabs.updates")}
           </button>
           <button
             onClick={() => { setActiveTab("dishes"); setError(null); }}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${activeTab === "dishes" ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"}`}
+            className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${activeTab === "dishes" ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"}`}
           >
             {t("admin.tabs.dishes")}
           </button>
           <button
             onClick={() => { setActiveTab("photos"); setError(null); }}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${activeTab === "photos" ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"}`}
+            className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${activeTab === "photos" ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"}`}
           >
             {t("admin.tabs.photos")}
           </button>
@@ -277,14 +277,14 @@ export default function Admin() {
 
       {activeTab === "updates" ? (
         <>
-          <form onSubmit={handleUpdateSubmit} className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 mb-6 space-y-3">
-            <div className="inline-flex items-center gap-1 rounded-full bg-[var(--surface)] border border-[var(--border)] p-1 mb-1">
+          <form onSubmit={handleUpdateSubmit} className="glass-card rounded-[var(--radius-lg)] p-4 mb-6 space-y-3">
+            <div className="inline-flex items-center gap-1 glass rounded-full p-1 mb-1">
               {["lt", "ru", "en"].map((lng) => (
                 <button
                   key={lng}
                   type="button"
                   onClick={() => setUpdateActiveLang(lng)}
-                  className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-medium ${updateActiveLang === lng ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"}`}
+                  className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-medium ${updateActiveLang === lng ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"}`}
                 >
                   {lng.toUpperCase()}
                   {updateText[lng]?.trim() && <span className="ml-1 inline-block h-1.5 w-1.5 rounded-full bg-green-500" />}
@@ -303,7 +303,7 @@ export default function Admin() {
               <input type="text" placeholder={t("admin.emojiPlaceholder")} className="w-20 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)]" value={emoji} onChange={(e) => setEmoji(e.target.value)} />
             </div>
             <div className="flex flex-wrap gap-2">
-              <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium flex-1 disabled:opacity-50">
+              <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium flex-1 disabled:opacity-50">
                 {editingUpdateId ? <Save className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                 {submitting ? t("admin.saving") : editingUpdateId ? t("admin.saveChanges") : t("admin.addUpdate")}
               </button>
@@ -316,7 +316,7 @@ export default function Admin() {
           </form>
           <div className="space-y-3">
             {loading ? <p className="text-[var(--text-muted)] text-sm">{t("admin.loadingUpdates")}</p> : updates.length === 0 ? <p className="text-[var(--text-muted)] text-sm">{t("admin.emptyUpdates")}</p> : updates.map((u) => (
-              <div key={u.id} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3 flex justify-between gap-3 items-start">
+              <div key={u.id} className="glass-card rounded-[var(--radius-md)] p-3 flex justify-between gap-3 items-start">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     {u.dateLabel && <span className="text-xs text-[var(--text-muted)]">{u.dateLabel}</span>}
@@ -325,7 +325,7 @@ export default function Admin() {
                   <p className="m-0 text-sm text-[var(--text)] whitespace-pre-wrap">{u.emoji || ""} {pickTextByLang(u.text, appLang)}</p>
                 </div>
                 <div className="flex items-center gap-1">
-                  <button onClick={() => startUpdateEdit(u)} className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)] rounded-lg"><Pencil className="w-4 h-4" /></button>
+                  <button onClick={() => startUpdateEdit(u)} className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] rounded-lg"><Pencil className="w-4 h-4" /></button>
                   <button onClick={() => handleUpdateDelete(u.id)} className="p-1.5 text-red-500 hover:bg-red-500/10 rounded-lg"><Trash2 className="w-4 h-4" /></button>
                 </div>
               </div>
@@ -334,7 +334,7 @@ export default function Admin() {
         </>
       ) : activeTab === "dishes" ? (
         <>
-          <form onSubmit={handleTranslationSubmit} className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 mb-6 space-y-3">
+          <form onSubmit={handleTranslationSubmit} className="glass-card rounded-[var(--radius-lg)] p-4 mb-6 space-y-3">
             <div className="space-y-3">
               <div>
                 <label className="block text-[10px] font-medium text-[var(--text-muted)] mb-1 uppercase tracking-wider">{t("catalog.filters.name")}</label>
@@ -353,7 +353,7 @@ export default function Admin() {
               </div>
             </div>
             <div className="flex flex-wrap gap-2 pt-2">
-              <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium flex-1 disabled:opacity-50">
+              <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium flex-1 disabled:opacity-50">
                 {editingTranslationId ? <Save className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                 {submitting ? t("admin.dishes.saving") : editingTranslationId ? t("admin.dishes.save") : t("admin.dishes.add")}
               </button>
@@ -371,7 +371,7 @@ export default function Admin() {
 
           <div className="space-y-2">
             {loading ? <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.dishes.loading")}</p> : filteredTranslations.length === 0 ? <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.dishes.noResults")}</p> : filteredTranslations.map((tr) => (
-              <div key={tr.id} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3 flex justify-between gap-3 items-start">
+              <div key={tr.id} className="glass-card rounded-[var(--radius-md)] p-3 flex justify-between gap-3 items-start">
                 <div className="flex-1 min-w-0">
                   <p className="m-0 text-sm font-medium text-[var(--text)]">{appLang === 'ru' ? (tr.nameRu || tr.name) : appLang === 'en' ? (tr.nameEn || tr.name) : tr.name}</p>
                   <div className="mt-1 space-y-0.5 text-xs text-[var(--text-muted)]">
@@ -380,7 +380,7 @@ export default function Admin() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1 flex-shrink-0">
-                  <button onClick={() => startTranslationEdit(tr)} className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)] rounded-lg"><Pencil className="w-4 h-4" /></button>
+                  <button onClick={() => startTranslationEdit(tr)} className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] rounded-lg"><Pencil className="w-4 h-4" /></button>
                   <button onClick={() => handleTranslationDelete(tr.id)} className="p-1.5 text-red-500 hover:bg-red-500/10 rounded-lg"><Trash2 className="w-4 h-4" /></button>
                 </div>
               </div>
@@ -389,13 +389,13 @@ export default function Admin() {
         </>
       ) : (
         <>
-          <div className="inline-flex items-center gap-1 rounded-full bg-[var(--surface)] border border-[var(--border)] p-1 mb-4">
+          <div className="inline-flex items-center gap-1 glass rounded-full p-1 mb-4">
             {["dishes", "translations"].map((src) => (
               <button
                 key={src}
                 type="button"
                 onClick={() => { setPhotoSource(src); setPhotoSearch(""); }}
-                className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-medium ${photoSource === src ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"}`}
+                className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-medium ${photoSource === src ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"}`}
               >
                 {t(`admin.photos.source.${src}`)}
               </button>
@@ -408,7 +408,7 @@ export default function Admin() {
 
           <div className="space-y-2">
             {loading ? <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.dishes.loading")}</p> : filteredPhotoItems.length === 0 ? <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.dishes.noResults")}</p> : filteredPhotoItems.map((item) => (
-              <div key={item.id} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3 flex items-center gap-3">
+              <div key={item.id} className="glass-card rounded-[var(--radius-md)] p-3 flex items-center gap-3">
                 {item.photoUrl ? (
                   <img src={item.photoUrl} alt={item.name} loading="lazy" className="w-14 h-14 object-cover rounded-lg flex-shrink-0 border border-[var(--border)]" />
                 ) : (
@@ -424,7 +424,7 @@ export default function Admin() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1 flex-shrink-0">
-                  <label className={`p-1.5 rounded-lg cursor-pointer text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)] ${uploadingPhotoId === item.id ? "opacity-50 pointer-events-none" : ""}`}>
+                  <label className={`p-1.5 rounded-lg cursor-pointer text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] ${uploadingPhotoId === item.id ? "opacity-50 pointer-events-none" : ""}`}>
                     <Upload className="w-4 h-4" />
                     <input
                       type="file"

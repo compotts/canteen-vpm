@@ -91,7 +91,7 @@ export default function Catalog() {
   };
 
   return (
-    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border pb-28">
+    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border">
       <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] m-0 mb-2">{t("catalog.title")}</h1>
 
       <p className="text-xs md:text-sm text-[var(--text-muted)] mb-4 leading-relaxed">

@@ -180,8 +180,8 @@ export default function History() {
   };
 
   return (
-    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border pb-24">
-      <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] m-0 mb-3 flex items-center gap-2">
+    <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-5 box-border">
+      <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] m-0 mb-4 flex items-center gap-2">
         <HistoryIcon className="w-5 h-5 text-[var(--text-muted)]" aria-hidden="true" />
         {t("nav.history")}
       </h1>
@@ -197,7 +197,7 @@ export default function History() {
       ) : (
         <>
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <div className="inline-flex items-center gap-1 rounded-full bg-[var(--surface)] border border-[var(--border)] p-1">
+            <div className="glass inline-flex items-center gap-1 rounded-full p-1">
               <button
                 type="button"
                 onClick={() => {
@@ -207,7 +207,7 @@ export default function History() {
                 className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-medium ${
                   mode === "week"
                     ? "bg-[var(--accent)] text-[var(--btn-primary-color)]"
-                    : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"
+                    : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"
                 }`}
               >
                 {t("history.periodWeek")}
@@ -222,7 +222,7 @@ export default function History() {
                 className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-medium ${
                   mode === "month"
                     ? "bg-[var(--accent)] text-[var(--btn-primary-color)]"
-                    : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"
+                    : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"
                 }`}
               >
                 {t("history.periodMonth")}
@@ -237,7 +237,7 @@ export default function History() {
                 className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-medium flex items-center gap-1 ${
                   mode === "custom"
                     ? "bg-[var(--accent)] text-[var(--btn-primary-color)]"
-                    : "text-[var(--text-muted)] hover:bg-[var(--border-subtle)]"
+                    : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"
                 }`}
               >
                 <CalendarRange className="w-3.5 h-3.5" aria-hidden="true" />
@@ -248,7 +248,7 @@ export default function History() {
             <button
               type="button"
               onClick={handleClear}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium bg-red-500/10 text-red-500 hover:bg-red-500/15"
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs md:text-sm font-medium bg-red-500/10 text-red-500 hover:bg-red-500/15 active:scale-95 transition-all"
             >
               <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
               {t("history.clear")}
@@ -285,7 +285,7 @@ export default function History() {
             </div>
           )}
 
-          <div className="mb-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 flex items-baseline justify-between gap-3">
+          <div className="glass-card mb-4 rounded-[var(--radius-lg)] p-4 flex items-baseline justify-between gap-3">
             <div>
               <p className="m-0 text-sm text-[var(--text-muted)]">
                 {t("history.summaryTitle")}
@@ -316,7 +316,7 @@ export default function History() {
               return (
                 <div
                   key={order.id}
-                  className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] overflow-hidden"
+                  className="glass-card rounded-[var(--radius-lg)] overflow-hidden"
                 >
                   <div className="w-full flex items-center justify-between px-4 py-3 gap-3">
                     <button
@@ -375,7 +375,7 @@ export default function History() {
                   {isOpen &&
                     Array.isArray(order.items) &&
                     order.items.length > 0 && (
-                      <div className="border-t border-[var(--border)] px-4 py-3 text-sm">
+                      <div className="border-t border-[var(--glass-border)] px-4 py-3 text-sm">
                         <ul className="list-none m-0 p-0 space-y-2">
                           {order.items.map((item) => (
                             <li
@@ -448,7 +448,7 @@ export default function History() {
                                     e.stopPropagation();
                                     removeItem(order, item);
                                   }}
-                                  className="inline-flex items-center justify-center rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--border-subtle)] hover:text-[var(--text)] transition-colors"
+                                  className="inline-flex items-center justify-center rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] transition-colors"
                                   aria-label={t("history.deleteItem")}
                                   title={t("history.deleteItem")}
                                 >
@@ -471,7 +471,7 @@ export default function History() {
                 type="button"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage <= 1}
-                className="px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium bg-[var(--border-subtle)] text-[var(--text)] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="glass px-4 py-2 rounded-full text-xs md:text-sm font-medium text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
               >
                 {t("catalog.prev")}
               </button>
@@ -484,7 +484,7 @@ export default function History() {
                 type="button"
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage >= totalPages}
-                className="px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium bg-[var(--border-subtle)] text-[var(--text)] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="glass px-4 py-2 rounded-full text-xs md:text-sm font-medium text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
               >
                 {t("catalog.next")}
               </button>

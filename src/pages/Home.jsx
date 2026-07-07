@@ -29,14 +29,14 @@ export default function Home() {
 
   return (
     <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border">
-      <h1 className="text-xl md:text-2xl font-semibold text-[var(--text)] m-0 mb-5">
+      <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] m-0 mb-5">
         {t("nav.home")}
       </h1>
 
       <div className="md:grid md:grid-cols-2 md:gap-6 md:items-start">
-      <section className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] p-5 mb-5 md:mb-0">
+      <section className="glass-card rounded-[var(--radius-lg)] p-5 mb-5 md:mb-0 animate-glass-rise">
         <div className="flex gap-3">
-          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)]" aria-hidden="true">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--glass-highlight)] flex items-center justify-center text-[var(--text-muted)]" aria-hidden="true">
           <MessageSquare className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="min-w-0 flex-1">
@@ -47,7 +47,7 @@ export default function Home() {
               href={CONTACT_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium no-underline transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium no-underline transition-all hover:opacity-90 active:scale-95"
             >
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
               {CONTACT_URL.replace(/^https?:\/\//, "").replace(/\/$/, "")}
@@ -58,9 +58,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="bg-[var(--surface)] border border-[var(--border)] rounded-xl shadow-[var(--shadow-sm)] p-5">
+      <section className="glass-card rounded-[var(--radius-lg)] p-5 animate-glass-rise">
         <div className="flex items-center gap-2 mb-4">
-          <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)]" aria-hidden="true">
+          <div className="flex-shrink-0 w-8 h-8 rounded-[var(--radius-sm)] bg-[var(--glass-highlight)] flex items-center justify-center text-[var(--text-muted)]" aria-hidden="true">
             <Clock className="w-5 h-5" aria-hidden="true" />
           </div>
 
@@ -80,7 +80,7 @@ export default function Home() {
             </p>
           ) : (
             dbUpdates.map((u) => (
-                <div key={u.id} className="rounded-lg border border-[var(--border)] bg-[var(--surface-2, var(--surface))] p-3">
+                <div key={u.id} className="rounded-[var(--radius-md)] border border-[var(--glass-border)] bg-[var(--glass-highlight)] p-3">
                   <div className="flex items-center gap-2 mb-1">
                     {u.dateLabel && (
                       <span className="text-xs text-[var(--text-muted)]">
