@@ -20,7 +20,9 @@
     "feedback": "Jei pastebėjote programėlės klaidų, prašau apie tai pranešti programėlės kūrėjui čia",
     "thanks": "Ačiū už pagalbą!",
     "updatesTitle": "Naujausi atnaujinimai:",
-    "noUpdates": "Atnaujinimų sąrašas tuščias"
+    "noUpdates": "Atnaujinimų sąrašas tuščias",
+    "showMore": "Daugiau",
+    "showLess": "Suskleisti"
   },
   "login": {
     "title": "Prisijungimas",

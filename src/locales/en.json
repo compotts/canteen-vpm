@@ -20,7 +20,9 @@
     "feedback": "If you notice any app errors, please report them to the app developer here",
     "thanks": "Thanks for your help!",
     "updatesTitle": "Latest updates:",
-    "noUpdates": "The update list is empty"
+    "noUpdates": "The update list is empty",
+    "showMore": "Show more",
+    "showLess": "Show less"
   },
   "login": {
     "title": "Login",

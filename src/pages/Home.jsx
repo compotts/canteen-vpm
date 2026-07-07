@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CONTACT_URL } from "../constants.js";
-import { MessageSquare, ExternalLink, Clock, Loader2 } from "lucide-react";
+import { MessageSquare, ExternalLink, Clock, Loader2, ChevronDown } from "lucide-react";
 import { loadUpdates } from "../services/updates.js";
 import { pickTextByLang } from "../utils/textHelpers.js";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
   const [dbUpdates, setDbUpdates] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -79,7 +80,8 @@ export default function Home() {
               {t("home.noUpdates")}
             </p>
           ) : (
-            dbUpdates.map((u) => (
+            <>
+              {(expanded ? dbUpdates : dbUpdates.slice(0, 1)).map((u) => (
                 <div key={u.id} className="rounded-[var(--radius-md)] border border-[var(--glass-border)] bg-[var(--glass-highlight)] p-3">
                   <div className="flex items-center gap-2 mb-1">
                     {u.dateLabel && (
@@ -99,7 +101,22 @@ export default function Home() {
                     {u.emoji || ""} {pickTextByLang(u.text, lang)}
                   </p>
                 </div>
-              ))
+              ))}
+
+              {dbUpdates.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => setExpanded((v) => !v)}
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] bg-transparent border-0 p-0 cursor-pointer transition-opacity hover:opacity-80"
+                >
+                  {expanded ? t("home.showLess") : t("home.showMore")}
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`}
+                    aria-hidden="true"
+                  />
+                </button>
+              )}
+            </>
           )}
         </div>
       </section>

@@ -31,7 +31,6 @@ export default function Header() {
 
         {isAuth && (
           <>
-            {/* Desktop navigation */}
             <nav className="hidden md:flex items-center gap-1" aria-label={t("nav.catalog")}>
               {DESKTOP_LINKS.filter((l) => !l.adminOnly || isAdmin).map((l) => (
                 <Link
@@ -78,7 +77,6 @@ export default function Header() {
               </button>
             </div>
 
-            {/* Mobile controls — navigation lives in the bottom tab bar */}
             <div className="flex md:hidden items-center gap-1.5">
               <div className="flex items-center gap-0.5">
                 {langs.map((l) => (
