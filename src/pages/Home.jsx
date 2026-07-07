@@ -154,7 +154,7 @@ export default function Home() {
 
       {modalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/50 backdrop-blur-sm p-0 md:p-4"
+          className="fixed inset-0 z-[1200] flex items-end md:items-center justify-center bg-black/50 backdrop-blur-sm p-0 md:p-4"
           onClick={closeModal}
         >
           <div
