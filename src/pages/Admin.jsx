@@ -1,9 +1,10 @@
 import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { Clock, Plus, Trash2, Pencil, X, Save, Upload, Image as ImageIcon } from "lucide-react";
+import { Clock, Plus, Trash2, Pencil, X, Save, Upload, Image as ImageIcon, User, Globe } from "lucide-react";
 import { createUpdate, deleteUpdate, loadUpdates, updateUpdate } from "../services/updates.js";
 import { loadTranslations, createTranslation, updateTranslation, deleteTranslation } from "../services/translations.js";
+import { loadFeedback, deleteFeedback } from "../services/feedback.js";
 import { loadDishes } from "../services/dishes.js";
 import { uploadPhoto, deletePhoto } from "../services/photos.js";
 import { isStoredUserAdmin } from "../services/userStorage.js";
@@ -40,6 +41,8 @@ export default function Admin() {
   const [photoSearch, setPhotoSearch] = useState("");
   const [uploadingPhotoId, setUploadingPhotoId] = useState(null);
 
+  const [feedback, setFeedback] = useState([]);
+
   useEffect(() => {
     if (!isAdmin) {
       setLoading(false);
@@ -56,6 +59,9 @@ export default function Admin() {
         } else if (activeTab === "dishes") {
           const list = await loadTranslations();
           setTranslations(Array.isArray(list) ? list : []);
+        } else if (activeTab === "feedback") {
+          const list = await loadFeedback();
+          setFeedback(Array.isArray(list) ? list : []);
         } else {
           const list = photoSource === "dishes" ? await loadDishes() : await loadTranslations();
           setPhotoItems(Array.isArray(list) ? list : []);
@@ -225,6 +231,24 @@ export default function Admin() {
     );
   }, [photoItems, photoSearch]);
 
+  const handleFeedbackDelete = async (id) => {
+    if (!window.confirm(t("admin.feedback.deleteConfirm"))) return;
+    setError(null);
+    try {
+      await deleteFeedback(id);
+      setFeedback(prev => prev.filter(f => f.id !== id));
+    } catch (e) {
+      setError(e.message || t("admin.saveError"));
+    }
+  };
+
+  const formatFeedbackDate = (value) => {
+    if (!value) return "";
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return String(value);
+    return d.toLocaleString(i18n.language || "lt");
+  };
+
   if (!isAdmin) {
     return (
       <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border">
@@ -245,7 +269,7 @@ export default function Admin() {
       <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] m-0 flex items-center gap-2">
           <Clock className="w-5 h-5 text-[var(--text-muted)]" />
-          {activeTab === "updates" ? t("admin.title") : activeTab === "dishes" ? t("admin.dishesTitle") : t("admin.photosTitle")}
+          {activeTab === "updates" ? t("admin.title") : activeTab === "dishes" ? t("admin.dishesTitle") : activeTab === "feedback" ? t("admin.feedbackTitle") : t("admin.photosTitle")}
         </h1>
         <div className="glass flex rounded-full p-1">
           <button
@@ -265,6 +289,12 @@ export default function Admin() {
             className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${activeTab === "photos" ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"}`}
           >
             {t("admin.tabs.photos")}
+          </button>
+          <button
+            onClick={() => { setActiveTab("feedback"); setError(null); }}
+            className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${activeTab === "feedback" ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"}`}
+          >
+            {t("admin.tabs.feedback")}
           </button>
         </div>
       </div>
@@ -387,7 +417,7 @@ export default function Admin() {
             ))}
           </div>
         </>
-      ) : (
+      ) : activeTab === "photos" ? (
         <>
           <div className="inline-flex items-center gap-1 glass rounded-full p-1 mb-4">
             {["dishes", "translations"].map((src) => (
@@ -442,6 +472,42 @@ export default function Admin() {
             ))}
           </div>
         </>
+      ) : (
+        <div className="space-y-3">
+          {loading ? (
+            <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.feedback.loading")}</p>
+          ) : feedback.length === 0 ? (
+            <p className="text-[var(--text-muted)] text-sm py-4">{t("admin.feedback.empty")}</p>
+          ) : feedback.map((f) => (
+            <div key={f.id} className="glass-card rounded-[var(--radius-md)] p-3">
+              <div className="flex justify-between gap-3 items-start">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2 text-xs text-[var(--text-muted)]">
+                  <span className="inline-flex items-center gap-1">
+                    <User className="w-3.5 h-3.5" />
+                    {f.username || t("admin.feedback.anonymous")}
+                  </span>
+                  {f.ip && (
+                    <span className="inline-flex items-center gap-1 font-mono">
+                      <Globe className="w-3.5 h-3.5" />
+                      {f.ip}
+                    </span>
+                  )}
+                  <span>{formatFeedbackDate(f.createdAt)}</span>
+                </div>
+                <button
+                  onClick={() => handleFeedbackDelete(f.id)}
+                  className="p-1.5 text-red-500 hover:bg-red-500/10 rounded-lg flex-shrink-0"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+              <p className="m-0 text-sm text-[var(--text)] whitespace-pre-wrap break-words">{f.message}</p>
+              {f.userAgent && (
+                <p className="mt-2 mb-0 text-[10px] text-[var(--text-muted)] break-words opacity-70">{f.userAgent}</p>
+              )}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

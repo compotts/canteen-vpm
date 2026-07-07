@@ -17,12 +17,26 @@
     "translationDisclaimer": "Vertimas gali būti netikslus."
   },
   "home": {
-    "feedback": "Jei pastebėjote programėlės klaidų, prašau apie tai pranešti programėlės kūrėjui čia",
+    "feedback": "Jei pastebėjote programėlės klaidų, prašau apie tai pranešti programėlės kūrėjui",
+    "reportButton": "Pranešti apie problemą",
     "thanks": "Ačiū už pagalbą!",
     "updatesTitle": "Naujausi atnaujinimai:",
     "noUpdates": "Atnaujinimų sąrašas tuščias",
     "showMore": "Daugiau",
-    "showLess": "Suskleisti"
+    "showLess": "Suskleisti",
+    "feedbackModal": {
+      "title": "Pranešti apie problemą",
+      "subtitle": "Aprašykite, kas nutiko arba ką galima patobulinti.",
+      "placeholder": "Kuo išsamiau aprašykite problemą…",
+      "send": "Siųsti",
+      "sending": "Siunčiama…",
+      "cancel": "Atšaukti",
+      "close": "Uždaryti",
+      "done": "Gerai",
+      "error": "Nepavyko išsiųsti. Bandykite dar kartą.",
+      "successTitle": "Ačiū!",
+      "successText": "Jūsų pranešimas išsiųstas kūrėjui."
+    }
   },
   "login": {
     "title": "Prisijungimas",
@@ -117,10 +131,18 @@
     "title": "Admin · Atnaujinimai",
     "dishesTitle": "Admin · Patiekalai",
     "photosTitle": "Admin · Nuotraukos",
+    "feedbackTitle": "Admin · Pranešimai",
     "tabs": {
       "updates": "Atnaujinimai",
       "dishes": "Patiekalai",
-      "photos": "Nuotraukos"
+      "photos": "Nuotraukos",
+      "feedback": "Pranešimai"
+    },
+    "feedback": {
+      "loading": "Kraunami pranešimai…",
+      "empty": "Pranešimų dar nėra.",
+      "anonymous": "Anonimas",
+      "deleteConfirm": "Ištrinti šį pranešimą?"
     },
     "photos": {
       "source": {

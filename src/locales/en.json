@@ -17,12 +17,26 @@
     "translationDisclaimer": "Translation may be inaccurate."
   },
   "home": {
-    "feedback": "If you notice any app errors, please report them to the app developer here",
+    "feedback": "If you notice any app errors, please report them to the app developer",
+    "reportButton": "Report a problem",
     "thanks": "Thanks for your help!",
     "updatesTitle": "Latest updates:",
     "noUpdates": "The update list is empty",
     "showMore": "Show more",
-    "showLess": "Show less"
+    "showLess": "Show less",
+    "feedbackModal": {
+      "title": "Report a problem",
+      "subtitle": "Describe what went wrong or what could be improved.",
+      "placeholder": "Describe the problem in as much detail as possible…",
+      "send": "Send",
+      "sending": "Sending…",
+      "cancel": "Cancel",
+      "close": "Close",
+      "done": "Done",
+      "error": "Failed to send. Please try again.",
+      "successTitle": "Thank you!",
+      "successText": "Your message has been sent to the developer."
+    }
   },
   "login": {
     "title": "Login",
@@ -117,10 +131,18 @@
     "title": "Admin · Updates",
     "dishesTitle": "Admin · Dishes",
     "photosTitle": "Admin · Photos",
+    "feedbackTitle": "Admin · Feedback",
     "tabs": {
       "updates": "Updates",
       "dishes": "Dishes",
-      "photos": "Photos"
+      "photos": "Photos",
+      "feedback": "Feedback"
+    },
+    "feedback": {
+      "loading": "Loading feedback…",
+      "empty": "No feedback yet.",
+      "anonymous": "Anonymous",
+      "deleteConfirm": "Delete this feedback?"
     },
     "photos": {
       "source": {

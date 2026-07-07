@@ -1,14 +1,45 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CONTACT_URL } from "../constants.js";
-import { MessageSquare, ExternalLink, Clock, Loader2, ChevronDown } from "lucide-react";
+import { MessageSquare, Clock, Loader2, ChevronDown, Send, X, CheckCircle2 } from "lucide-react";
 import { loadUpdates } from "../services/updates.js";
+import { sendFeedback } from "../services/feedback.js";
 import { pickTextByLang } from "../utils/textHelpers.js";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
   const [dbUpdates, setDbUpdates] = useState(null);
   const [expanded, setExpanded] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [feedbackText, setFeedbackText] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState(null);
+  const [sent, setSent] = useState(false);
+
+  const closeModal = () => {
+    if (sending) return;
+    setModalOpen(false);
+    setFeedbackText("");
+    setSendError(null);
+    setSent(false);
+  };
+
+  const handleFeedbackSubmit = async (e) => {
+    e.preventDefault();
+    const message = feedbackText.trim();
+    if (!message) return;
+    setSending(true);
+    setSendError(null);
+    try {
+      await sendFeedback(message);
+      setSent(true);
+      setFeedbackText("");
+    } catch (err) {
+      setSendError(err.message || t("home.feedbackModal.error"));
+    } finally {
+      setSending(false);
+    }
+  };
 
   useEffect(() => {
     let ignore = false;
@@ -44,15 +75,14 @@ export default function Home() {
             <p className="text-[var(--text)] text-[15px] leading-relaxed m-0 mb-3">
               {t("home.feedback")}
             </p>
-            <a
-              href={CONTACT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium no-underline transition-all hover:opacity-90 active:scale-95"
+            <button
+              type="button"
+              onClick={() => setModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium no-underline transition-all hover:opacity-90 active:scale-95 border-0 cursor-pointer"
             >
-              <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              {CONTACT_URL.replace(/^https?:\/\//, "").replace(/\/$/, "")}
-            </a>
+              <MessageSquare className="w-4 h-4" aria-hidden="true" />
+              {t("home.reportButton")}
+            </button>
             <p className="text-[var(--text-muted)] text-sm mt-3 mb-0 font-medium">
               {t("home.thanks")}
             </p>
@@ -121,6 +151,92 @@ export default function Home() {
         </div>
       </section>
       </div>
+
+      {modalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/50 backdrop-blur-sm p-0 md:p-4"
+          onClick={closeModal}
+        >
+          <div
+            className="glass-card w-full md:max-w-md rounded-t-[var(--radius-lg)] md:rounded-[var(--radius-lg)] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5 animate-glass-rise"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <h2 className="text-lg font-semibold text-[var(--text)] m-0">
+                {t("home.feedbackModal.title")}
+              </h2>
+              <button
+                type="button"
+                onClick={closeModal}
+                aria-label={t("home.feedbackModal.close")}
+                className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] rounded-lg border-0 bg-transparent cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {sent ? (
+              <div className="flex flex-col items-center text-center py-6">
+                <CheckCircle2 className="w-12 h-12 text-green-500 mb-3" />
+                <p className="text-[var(--text)] text-[15px] m-0 mb-1 font-medium">
+                  {t("home.feedbackModal.successTitle")}
+                </p>
+                <p className="text-[var(--text-muted)] text-sm m-0 mb-5">
+                  {t("home.feedbackModal.successText")}
+                </p>
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium border-0 cursor-pointer"
+                >
+                  {t("home.feedbackModal.done")}
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleFeedbackSubmit}>
+                <p className="text-[var(--text-muted)] text-sm m-0 mb-3">
+                  {t("home.feedbackModal.subtitle")}
+                </p>
+                <textarea
+                  autoFocus
+                  value={feedbackText}
+                  onChange={(e) => setFeedbackText(e.target.value)}
+                  placeholder={t("home.feedbackModal.placeholder")}
+                  maxLength={4000}
+                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2.5 text-sm text-[var(--text)] min-h-[120px] resize-y"
+                />
+                {sendError && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-2 mb-0">
+                    {sendError}
+                  </p>
+                )}
+                <div className="flex gap-2 mt-4">
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    disabled={sending}
+                    className="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-full text-sm font-medium bg-[var(--border-subtle)] text-[var(--text)] hover:bg-[var(--border)] transition-colors border-0 cursor-pointer disabled:opacity-50"
+                  >
+                    {t("home.feedbackModal.cancel")}
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={sending || !feedbackText.trim()}
+                    className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-[var(--accent)] text-[var(--btn-primary-color)] text-sm font-medium border-0 cursor-pointer disabled:opacity-50"
+                  >
+                    {sending ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Send className="w-4 h-4" />
+                    )}
+                    {sending ? t("home.feedbackModal.sending") : t("home.feedbackModal.send")}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
