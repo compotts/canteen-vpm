@@ -105,7 +105,7 @@ function TotalBar({
   return (
     <div
       className={`flex items-center justify-between gap-4 rounded-[var(--radius-lg)] px-5 py-3.5 ${
-        isFixed ? "glass-strong" : "glass-card mt-4 md:mt-6"
+        isFixed ? "surface-raised" : "surface mt-4 md:mt-6"
       }`}
     >
       <div className="flex flex-col leading-tight">
@@ -395,7 +395,7 @@ export function OrderView() {
       {submitSuccess && (
         <div className="fixed inset-0 z-[1100] flex items-center justify-center">
           <div className="absolute inset-0 bg-black/40" />
-          <div className="glass-strong relative rounded-[var(--radius-xl)] px-6 py-5 bon-appetit-popup text-center max-w-[260px] mx-4">
+          <div className="surface-raised relative rounded-[var(--radius-xl)] px-6 py-5 bon-appetit-popup text-center max-w-[260px] mx-4">
             <img
               src="/face-savoring-food.png"
               alt="bon appetit"
@@ -413,9 +413,9 @@ export function OrderView() {
           {menu.sections.map((section) => (
             <div
               key={section.title}
-              className="glass-card rounded-[var(--radius-lg)] p-4 animate-glass-rise"
+              className="surface rounded-[var(--radius-lg)] p-4 animate-rise"
             >
-              <h2 className="text-base font-semibold text-[var(--text)] mt-0 mb-3 border-b border-[var(--glass-border)] pb-2">
+              <h2 className="text-base font-semibold text-[var(--text)] mt-0 mb-3 border-b border-[var(--border)] pb-2">
                 {sectionTitle(section.title)}
               </h2>
 

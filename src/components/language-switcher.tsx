@@ -10,7 +10,7 @@ const STYLES = {
   desktop: {
     base: "px-2.5 py-1.5 text-sm font-medium border-none rounded-full cursor-pointer transition-colors",
     active: "bg-[var(--accent)] text-[var(--btn-primary-color)]",
-    idle: "bg-transparent text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)]",
+    idle: "bg-transparent text-[var(--text-muted)] hover:bg-[var(--hover)] hover:text-[var(--text)]",
     wrapper: "flex items-center gap-2",
   },
   mobile: {

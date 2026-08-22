@@ -193,7 +193,7 @@ export function HistoryView() {
     `px-3 py-1.5 text-xs md:text-sm rounded-full font-medium ${
       active
         ? "bg-[var(--accent)] text-[var(--btn-primary-color)]"
-        : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"
+        : "text-[var(--text-muted)] hover:bg-[var(--hover)]"
     }`;
 
   return (
@@ -217,7 +217,7 @@ export function HistoryView() {
       ) : (
         <>
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <div className="glass inline-flex items-center gap-1 rounded-full p-1">
+            <div className="surface inline-flex items-center gap-1 rounded-full p-1">
               <button
                 type="button"
                 onClick={() => selectMode("week")}
@@ -286,7 +286,7 @@ export function HistoryView() {
             </div>
           )}
 
-          <div className="glass-card mb-4 rounded-[var(--radius-lg)] p-4 flex items-baseline justify-between gap-3">
+          <div className="surface mb-4 rounded-[var(--radius-lg)] p-4 flex items-baseline justify-between gap-3">
             <div>
               <p className="m-0 text-sm text-[var(--text-muted)]">
                 {t("history.summaryTitle")}
@@ -312,7 +312,7 @@ export function HistoryView() {
               return (
                 <div
                   key={order.id}
-                  className="glass-card rounded-[var(--radius-lg)] overflow-hidden"
+                  className="surface rounded-[var(--radius-lg)] overflow-hidden"
                 >
                   <div className="w-full flex items-center justify-between px-4 py-3 gap-3">
                     <button
@@ -362,7 +362,7 @@ export function HistoryView() {
                   </div>
 
                   {isOpen && order.items.length > 0 && (
-                    <div className="border-t border-[var(--glass-border)] px-4 py-3 text-sm">
+                    <div className="border-t border-[var(--border)] px-4 py-3 text-sm">
                       <ul className="list-none m-0 p-0 space-y-2">
                         {order.items.map((item) => (
                           <li
@@ -418,7 +418,7 @@ export function HistoryView() {
                               <button
                                 type="button"
                                 onClick={() => removeItem(order, item)}
-                                className="inline-flex items-center justify-center rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] transition-colors"
+                                className="inline-flex items-center justify-center rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--hover)] hover:text-[var(--text)] transition-colors"
                                 aria-label={t("history.deleteItem")}
                                 title={t("history.deleteItem")}
                               >
@@ -441,7 +441,7 @@ export function HistoryView() {
                 type="button"
                 onClick={() => setPage((value) => Math.max(1, value - 1))}
                 disabled={currentPage <= 1}
-                className="glass px-4 py-2 rounded-full text-xs md:text-sm font-medium text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
+                className="surface px-4 py-2 rounded-full text-xs md:text-sm font-medium text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
               >
                 {t("catalog.prev")}
               </button>
@@ -454,7 +454,7 @@ export function HistoryView() {
                 type="button"
                 onClick={() => setPage((value) => Math.min(totalPages, value + 1))}
                 disabled={currentPage >= totalPages}
-                className="glass px-4 py-2 rounded-full text-xs md:text-sm font-medium text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
+                className="surface px-4 py-2 rounded-full text-xs md:text-sm font-medium text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
               >
                 {t("catalog.next")}
               </button>

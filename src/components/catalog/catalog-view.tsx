@@ -108,7 +108,7 @@ export function CatalogView({
         {t("catalog.warning")}
       </p>
 
-      <div className="glass rounded-full p-1 mb-4">
+      <div className="surface rounded-full p-1 mb-4">
         <div className="flex gap-1 overflow-x-auto no-scrollbar">
           {CATEGORY_IDS.map((id) => (
             <button
@@ -130,7 +130,7 @@ export function CatalogView({
         </div>
       </div>
 
-      <div className="glass rounded-[var(--radius-lg)] mb-4 overflow-hidden">
+      <div className="surface rounded-[var(--radius-lg)] mb-4 overflow-hidden">
         <button
           type="button"
           onClick={() => setFilterOpen((open) => !open)}
@@ -223,7 +223,7 @@ export function CatalogView({
             return (
               <li
                 key={item.id}
-                className="glass-card rounded-[var(--radius-lg)] mb-3 md:mb-0 overflow-hidden flex animate-glass-rise"
+                className="surface rounded-[var(--radius-lg)] mb-3 md:mb-0 overflow-hidden flex animate-rise"
               >
                 {item.photoUrl && (
                   <button
@@ -290,7 +290,7 @@ export function CatalogView({
             type="button"
             onClick={() => setPage((value) => Math.max(1, value - 1))}
             disabled={currentPage <= 1}
-            className="px-4 py-2 rounded-full text-sm font-medium glass text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
+            className="px-4 py-2 rounded-full text-sm font-medium surface text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
           >
             {t("catalog.prev")}
           </button>
@@ -301,7 +301,7 @@ export function CatalogView({
             type="button"
             onClick={() => setPage((value) => Math.min(totalPages, value + 1))}
             disabled={currentPage >= totalPages}
-            className="px-4 py-2 rounded-full text-sm font-medium glass text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
+            className="px-4 py-2 rounded-full text-sm font-medium surface text-[var(--text)] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
           >
             {t("catalog.next")}
           </button>

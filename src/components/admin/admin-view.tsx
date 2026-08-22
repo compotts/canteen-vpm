@@ -53,7 +53,7 @@ export function AdminView() {
           {t(TITLE_KEYS[tab])}
         </h1>
 
-        <div className="glass flex rounded-full p-1">
+        <div className="surface flex rounded-full p-1">
           {TABS.map((value) => (
             <button
               key={value}
@@ -62,7 +62,7 @@ export function AdminView() {
               className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${
                 tab === value
                   ? "bg-[var(--accent)] text-[var(--btn-primary-color)]"
-                  : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"
+                  : "text-[var(--text-muted)] hover:bg-[var(--hover)]"
               }`}
             >
               {t(`admin.tabs.${value}`)}

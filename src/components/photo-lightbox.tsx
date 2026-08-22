@@ -40,10 +40,7 @@ export function PhotoLightbox({
       aria-modal="true"
       onClick={onClose}
     >
-      <div
-        className="absolute inset-0 bg-black/75"
-        style={{ backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}
-      />
+      <div className="absolute inset-0 bg-black/80" />
       <button
         type="button"
         onClick={onClose}

@@ -60,7 +60,7 @@ export function LoginForm() {
 
   return (
     <div className="flex-1 max-w-[430px] md:max-w-md mx-auto w-full px-4 md:px-6 py-5 md:py-8 box-border flex flex-col md:justify-center">
-      <div className="glass-strong rounded-[var(--radius-xl)] p-5 md:p-6 mt-8 md:mt-0 w-full animate-glass-rise">
+      <div className="surface-raised rounded-[var(--radius-xl)] p-5 md:p-6 mt-8 md:mt-0 w-full animate-rise">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] mt-0 mb-4">
           {t("login.title")}
         </h1>
@@ -169,7 +169,7 @@ export function LoginForm() {
             aria-hidden="true"
           />
           <div
-            className="glass-strong relative max-w-[420px] mx-4 rounded-[var(--radius-xl)] p-5 animate-glass-rise"
+            className="surface-raised relative max-w-[420px] mx-4 rounded-[var(--radius-xl)] p-5 animate-rise"
             role="dialog"
             aria-modal="true"
             aria-labelledby="login-help-title"

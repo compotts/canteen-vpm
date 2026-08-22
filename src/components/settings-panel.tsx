@@ -53,7 +53,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[1200] flex items-end md:items-center justify-center bg-black/50 backdrop-blur-sm p-0 md:p-4"
+      className="fixed inset-0 z-[1200] flex items-end md:items-center justify-center bg-black/50 p-0 md:p-4"
       onClick={onClose}
     >
       <div
@@ -61,7 +61,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         aria-modal="true"
         aria-labelledby="settings-title"
         onClick={(event) => event.stopPropagation()}
-        className="glass-strong w-full md:max-w-md rounded-t-[var(--radius-xl)] md:rounded-[var(--radius-xl)] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5 animate-glass-rise"
+        className="surface-raised w-full md:max-w-md rounded-t-[var(--radius-xl)] md:rounded-[var(--radius-xl)] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5 animate-rise"
       >
         <div className="flex items-center justify-between gap-3 mb-2">
           <h2
@@ -74,13 +74,13 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
             type="button"
             onClick={onClose}
             aria-label={t("common.close")}
-            className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] rounded-lg border-0 bg-transparent cursor-pointer"
+            className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--hover)] hover:text-[var(--text)] rounded-lg border-0 bg-transparent cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="divide-y divide-[var(--glass-border)]">
+        <div className="divide-y divide-[var(--border)]">
           <div className="py-3">
             <p className="m-0 mb-2 text-sm font-medium text-[var(--text)]">
               {t("settings.language")}

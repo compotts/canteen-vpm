@@ -58,7 +58,7 @@ export function FeedbackTab() {
           entries.map((entry) => (
             <div
               key={entry.id}
-              className="glass-card rounded-[var(--radius-md)] p-3"
+              className="surface rounded-[var(--radius-md)] p-3"
             >
               <div className="flex justify-between gap-3 items-start">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2 text-xs text-[var(--text-muted)]">

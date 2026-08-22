@@ -23,7 +23,7 @@ export function Header() {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
-    <header className="glass-strong sticky top-0 z-[800] px-4 py-3 md:px-6">
+    <header className="surface-raised sticky top-0 z-[800] border-x-0 border-t-0 px-4 py-3 md:px-6">
       <div className="max-w-[430px] md:max-w-4xl mx-auto flex items-center justify-between gap-3">
         <Link
           href="/"
@@ -46,7 +46,7 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="px-3 py-2 rounded-full text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--glass-highlight)] transition-colors"
+                    className="px-3 py-2 rounded-full text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--hover)] transition-colors"
                   >
                     {t(link.key)}
                   </Link>
@@ -54,13 +54,13 @@ export function Header() {
               )}
             </nav>
 
-            <div className="flex items-center md:border-l md:border-[var(--glass-border)] md:pl-3 md:ml-1">
+            <div className="flex items-center md:border-l md:border-[var(--border)] md:pl-3 md:ml-1">
               <button
                 type="button"
                 onClick={() => setSettingsOpen(true)}
                 aria-label={t("nav.settings")}
                 title={t("nav.settings")}
-                className="flex items-center justify-center p-2 rounded-full cursor-pointer text-[var(--text)] hover:bg-[var(--glass-highlight)] transition-colors"
+                className="flex items-center justify-center p-2 rounded-full cursor-pointer text-[var(--text)] hover:bg-[var(--hover)] transition-colors"
               >
                 <Settings className="w-5 h-5" aria-hidden="true" />
               </button>

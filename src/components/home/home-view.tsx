@@ -64,10 +64,10 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
       </h1>
 
       <div className="md:grid md:grid-cols-2 md:gap-6 md:items-start">
-        <section className="glass-card rounded-[var(--radius-lg)] p-5 mb-5 md:mb-0 animate-glass-rise">
+        <section className="surface rounded-[var(--radius-lg)] p-5 mb-5 md:mb-0 animate-rise">
           <div className="flex gap-3">
             <div
-              className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--glass-highlight)] flex items-center justify-center text-[var(--text-muted)]"
+              className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--hover)] flex items-center justify-center text-[var(--text-muted)]"
               aria-hidden="true"
             >
               <MessageSquare className="w-5 h-5" aria-hidden="true" />
@@ -91,10 +91,10 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
           </div>
         </section>
 
-        <section className="glass-card rounded-[var(--radius-lg)] p-5 animate-glass-rise">
+        <section className="surface rounded-[var(--radius-lg)] p-5 animate-rise">
           <div className="flex items-center gap-2 mb-4">
             <div
-              className="flex-shrink-0 w-8 h-8 rounded-[var(--radius-sm)] bg-[var(--glass-highlight)] flex items-center justify-center text-[var(--text-muted)]"
+              className="flex-shrink-0 w-8 h-8 rounded-[var(--radius-sm)] bg-[var(--hover)] flex items-center justify-center text-[var(--text-muted)]"
               aria-hidden="true"
             >
               <Clock className="w-5 h-5" aria-hidden="true" />
@@ -115,7 +115,7 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
                 {visibleUpdates.map((update) => (
                   <div
                     key={update.id}
-                    className="rounded-[var(--radius-md)] border border-[var(--glass-border)] bg-[var(--glass-highlight)] p-3"
+                    className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--hover)] p-3"
                   >
                     <div className="flex items-center gap-2 mb-1">
                       {update.dateLabel && (
@@ -160,11 +160,11 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
 
       {modalOpen && (
         <div
-          className="fixed inset-0 z-[1200] flex items-end md:items-center justify-center bg-black/50 backdrop-blur-sm p-0 md:p-4"
+          className="fixed inset-0 z-[1200] flex items-end md:items-center justify-center bg-black/50 p-0 md:p-4"
           onClick={closeModal}
         >
           <div
-            className="glass-card w-full md:max-w-md rounded-t-[var(--radius-lg)] md:rounded-[var(--radius-lg)] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5 animate-glass-rise"
+            className="surface-raised w-full md:max-w-md rounded-t-[var(--radius-lg)] md:rounded-[var(--radius-lg)] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5 animate-rise"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center justify-between gap-3 mb-4">
@@ -175,7 +175,7 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
                 type="button"
                 onClick={closeModal}
                 aria-label={t("home.feedbackModal.close")}
-                className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] rounded-lg border-0 bg-transparent cursor-pointer"
+                className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--hover)] hover:text-[var(--text)] rounded-lg border-0 bg-transparent cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>

@@ -116,9 +116,9 @@ export function UpdatesTab() {
 
       <form
         onSubmit={handleSubmit}
-        className="glass-card rounded-[var(--radius-lg)] p-4 mb-6 space-y-3"
+        className="surface rounded-[var(--radius-lg)] p-4 mb-6 space-y-3"
       >
-        <div className="inline-flex items-center gap-1 glass rounded-full p-1 mb-1">
+        <div className="inline-flex items-center gap-1 surface rounded-full p-1 mb-1">
           {locales.map((code) => (
             <button
               key={code}
@@ -127,7 +127,7 @@ export function UpdatesTab() {
               className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-medium ${
                 activeLang === code
                   ? "bg-[var(--accent)] text-[var(--btn-primary-color)]"
-                  : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"
+                  : "text-[var(--text-muted)] hover:bg-[var(--hover)]"
               }`}
             >
               {code.toUpperCase()}
@@ -216,7 +216,7 @@ export function UpdatesTab() {
           updates.map((update) => (
             <div
               key={update.id}
-              className="glass-card rounded-[var(--radius-md)] p-3 flex justify-between gap-3 items-start"
+              className="surface rounded-[var(--radius-md)] p-3 flex justify-between gap-3 items-start"
             >
               <div>
                 <div className="flex items-center gap-2 mb-1">
@@ -240,7 +240,7 @@ export function UpdatesTab() {
                 <button
                   type="button"
                   onClick={() => startEdit(update)}
-                  className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] rounded-lg"
+                  className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--hover)] hover:text-[var(--text)] rounded-lg"
                   aria-label={t("admin.edit")}
                 >
                   <Pencil className="w-4 h-4" />

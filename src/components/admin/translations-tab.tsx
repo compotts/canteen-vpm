@@ -123,7 +123,7 @@ export function TranslationsTab() {
 
       <form
         onSubmit={handleSubmit}
-        className="glass-card rounded-[var(--radius-lg)] p-4 mb-6 space-y-3"
+        className="surface rounded-[var(--radius-lg)] p-4 mb-6 space-y-3"
       >
         <div className="space-y-3">
           <div>
@@ -218,7 +218,7 @@ export function TranslationsTab() {
           filtered.map((entry) => (
             <div
               key={entry.id}
-              className="glass-card rounded-[var(--radius-md)] p-3 flex justify-between gap-3 items-start"
+              className="surface rounded-[var(--radius-md)] p-3 flex justify-between gap-3 items-start"
             >
               <div className="flex-1 min-w-0">
                 <p className="m-0 text-sm font-medium text-[var(--text)]">
@@ -234,7 +234,7 @@ export function TranslationsTab() {
                 <button
                   type="button"
                   onClick={() => startEdit(entry)}
-                  className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] rounded-lg"
+                  className="p-1.5 text-[var(--text-muted)] hover:bg-[var(--hover)] hover:text-[var(--text)] rounded-lg"
                   aria-label={t("admin.edit")}
                 >
                   <Pencil className="w-4 h-4" />

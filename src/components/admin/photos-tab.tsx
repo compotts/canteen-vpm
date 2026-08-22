@@ -102,7 +102,7 @@ export function PhotosTab() {
     <>
       <ErrorBanner message={error} />
 
-      <div className="inline-flex items-center gap-1 glass rounded-full p-1 mb-4">
+      <div className="inline-flex items-center gap-1 surface rounded-full p-1 mb-4">
         {SOURCES.map((value) => (
           <button
             key={value}
@@ -114,7 +114,7 @@ export function PhotosTab() {
             className={`px-3 py-1.5 text-xs md:text-sm rounded-full font-medium ${
               source === value
                 ? "bg-[var(--accent)] text-[var(--btn-primary-color)]"
-                : "text-[var(--text-muted)] hover:bg-[var(--glass-highlight)]"
+                : "text-[var(--text-muted)] hover:bg-[var(--hover)]"
             }`}
           >
             {t(`admin.photos.source.${value}`)}
@@ -145,7 +145,7 @@ export function PhotosTab() {
           filtered.map((item) => (
             <div
               key={item.id}
-              className="glass-card rounded-[var(--radius-md)] p-3 flex items-center gap-3"
+              className="surface rounded-[var(--radius-md)] p-3 flex items-center gap-3"
             >
               {item.photoUrl ? (
                 <img
@@ -172,7 +172,7 @@ export function PhotosTab() {
 
               <div className="flex items-center gap-1 flex-shrink-0">
                 <label
-                  className={`p-1.5 rounded-lg cursor-pointer text-[var(--text-muted)] hover:bg-[var(--glass-highlight)] hover:text-[var(--text)] ${
+                  className={`p-1.5 rounded-lg cursor-pointer text-[var(--text-muted)] hover:bg-[var(--hover)] hover:text-[var(--text)] ${
                     uploadingId === item.id
                       ? "opacity-50 pointer-events-none"
                       : ""

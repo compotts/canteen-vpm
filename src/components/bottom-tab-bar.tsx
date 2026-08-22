@@ -41,7 +41,7 @@ function TabBarPill() {
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
       aria-label={t("nav.catalog")}
     >
-      <div className="glass-strong pointer-events-auto rounded-full p-1.5 max-w-full">
+      <div className="surface-raised pointer-events-auto rounded-full p-1.5 max-w-full">
         <div className="flex items-stretch gap-1 rounded-full overflow-x-auto no-scrollbar">
           {tabs.map(({ href, icon: Icon, label, exact }) => {
             const isActive = exact
