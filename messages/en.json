@@ -142,7 +142,8 @@
       "updates": "Updates",
       "dishes": "Dishes",
       "photos": "Photos",
-      "feedback": "Feedback"
+      "feedback": "Feedback",
+      "admins": "Admins"
     },
     "feedback": {
       "loading": "Loading feedback…",
@@ -175,8 +176,6 @@
       "hideFilters": "Hide filters",
       "categoryLabel": "Category"
     },
-    "accessDenied": "This page is available to administrators only.",
-    "goHome": "Go home",
     "textPlaceholder": "Update text",
     "versionPlaceholder": "Version (e.g. v1.8)",
     "emojiPlaceholder": "Emoji",
@@ -191,6 +190,45 @@
     "deleteConfirm": "Delete this update?",
     "loadError": "Load error",
     "saveError": "Save error",
-    "atLeastOneLanguageRequired": "Fill text in at least one language."
+    "atLeastOneLanguageRequired": "Fill text in at least one language.",
+    "auth": {
+      "title": "Admin sign in",
+      "hint": "You are signed in as {username}. Enter the administrator password.",
+      "password": "Administrator password",
+      "submit": "Sign in",
+      "submitting": "Checking…",
+      "error": "Wrong password",
+      "signOut": "Sign out of admin"
+    },
+    "adminsTitle": "Admin · Administrators",
+    "admins": {
+      "add": "Add administrator",
+      "username": "Login",
+      "usernameHint": "Canteen system login, for example danvol",
+      "permissions": "Permissions",
+      "password": "Password",
+      "passwordHint": "Leave empty to generate one",
+      "generate": "Generate a new password",
+      "save": "Save",
+      "saving": "Saving…",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirm": "Delete this administrator?",
+      "empty": "No administrators yet",
+      "loading": "Loading administrators…",
+      "newPassword": "Password, hand it to the administrator. It will not be shown again.",
+      "copy": "Copy",
+      "copied": "Copied",
+      "owner": "Owner",
+      "none": "No permissions"
+    },
+    "permissions": {
+      "updates": "Updates",
+      "translations": "Translations",
+      "dishes": "Dish catalog",
+      "photos": "Photos",
+      "feedback": "Feedback"
+    }
   }
 }

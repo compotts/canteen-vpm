@@ -1,4 +1,3 @@
-import { getStoredUsername } from "@/lib/user-storage";
 import { ApiError } from "./client";
 
 const MAX_DIMENSION = 1280;
@@ -65,10 +64,7 @@ export async function uploadPhoto(
   const blob = await compressImage(file);
   const response = await fetch(photoUrl(table, id), {
     method: "POST",
-    headers: {
-      "Content-Type": "application/octet-stream",
-      "x-username": getStoredUsername(),
-    },
+    headers: { "Content-Type": "application/octet-stream" },
     body: blob,
   });
 
@@ -80,10 +76,7 @@ export async function deletePhoto(
   table: PhotoTable,
   id: string | number
 ): Promise<void> {
-  const response = await fetch(photoUrl(table, id), {
-    method: "DELETE",
-    headers: { "x-username": getStoredUsername() },
-  });
+  const response = await fetch(photoUrl(table, id), { method: "DELETE" });
 
   await assertOk(response);
 }

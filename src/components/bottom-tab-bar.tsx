@@ -11,7 +11,7 @@ import {
   UtensilsCrossed,
 } from "lucide-react";
 import { useAuth } from "./auth-provider";
-import { useIsAdmin } from "@/hooks/use-is-admin";
+import { useAdminSession } from "./admin-session-provider";
 
 export function BottomTabBar() {
   const { isAuth } = useAuth();
@@ -23,7 +23,7 @@ function TabBarPill() {
   const t = useTranslations();
   const pathname = usePathname();
 
-  const { isAdmin } = useIsAdmin();
+  const { isAdmin } = useAdminSession();
 
   const tabs = [
     { href: "/", icon: Home, label: t("nav.home"), exact: true },

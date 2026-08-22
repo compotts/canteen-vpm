@@ -2,6 +2,7 @@
 
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "./auth-provider";
+import { AdminSessionProvider } from "./admin-session-provider";
 import { THEME_STORAGE_KEY } from "@/lib/constants";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -13,7 +14,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       storageKey={THEME_STORAGE_KEY}
       disableTransitionOnChange
     >
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <AdminSessionProvider>{children}</AdminSessionProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

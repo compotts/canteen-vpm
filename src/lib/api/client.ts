@@ -1,5 +1,3 @@
-import { getStoredUsername } from "@/lib/user-storage";
-
 export class ApiError extends Error {
   constructor(
     readonly status: number,
@@ -25,13 +23,11 @@ export async function apiFetch<T>(
   options: RequestOptions = {}
 ): Promise<T> {
   const { body, headers, ...rest } = options;
-  const username = getStoredUsername();
 
   const response = await fetch(path, {
     ...rest,
     headers: {
       ...(body === undefined ? {} : { "Content-Type": "application/json" }),
-      ...(username ? { "x-username": username } : {}),
       ...headers,
     },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),

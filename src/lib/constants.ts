@@ -5,13 +5,6 @@ export const SAVED_USERNAME_KEY = "valgyklos_username";
 export const SAVED_PASSWORD_KEY = "valgyklos_password";
 export const THEME_STORAGE_KEY = "valgyklos_theme";
 
-export const ADMIN_USERNAMES = (
-  process.env.NEXT_PUBLIC_ADMIN_USERNAMES ?? ""
-)
-  .split(",")
-  .map((value) => value.trim().toLowerCase())
-  .filter(Boolean);
-
 export const CATEGORY_IDS = [
   "sriubos",
   "main",

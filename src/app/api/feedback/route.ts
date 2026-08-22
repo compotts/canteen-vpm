@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { feedback } from "@/server/db/schema";
 import { formatFeedback, getFeedback } from "@/server/queries/feedback";
-import { getUsername, requireAdmin } from "@/server/auth";
+import { getIdentity, requireAdmin } from "@/server/auth";
 import {
   HttpError,
   errorResponse,
@@ -23,7 +23,7 @@ function getClientIp(request: Request): string | null {
 
 export async function GET(request: Request): Promise<Response> {
   try {
-    requireAdmin(request);
+    await requireAdmin(request, "feedback");
     return json(await getFeedback());
   } catch (error) {
     return errorResponse(error);
@@ -33,14 +33,14 @@ export async function GET(request: Request): Promise<Response> {
 export async function POST(request: Request): Promise<Response> {
   try {
     const body = await readJson(request);
-    const username = getUsername(request, body);
+    const username = await getIdentity(request);
     const input = parse(feedbackCreateSchema, body);
 
     const [row] = await db
       .insert(feedback)
       .values({
         id: crypto.randomUUID(),
-        username: username || null,
+        username,
         message: input.message,
         ip: getClientIp(request),
         userAgent: request.headers.get("user-agent")?.slice(0, 500) ?? null,
@@ -55,7 +55,7 @@ export async function POST(request: Request): Promise<Response> {
 
 export async function DELETE(request: Request): Promise<Response> {
   try {
-    requireAdmin(request);
+    await requireAdmin(request, "feedback");
 
     const id = new URL(request.url).searchParams.get("id");
     if (!id) throw new HttpError(400, "id is required");

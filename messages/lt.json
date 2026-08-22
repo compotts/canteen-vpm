@@ -142,7 +142,8 @@
       "updates": "Atnaujinimai",
       "dishes": "Patiekalai",
       "photos": "Nuotraukos",
-      "feedback": "Pranešimai"
+      "feedback": "Pranešimai",
+      "admins": "Administratoriai"
     },
     "feedback": {
       "loading": "Kraunami pranešimai…",
@@ -175,8 +176,6 @@
       "hideFilters": "Slėpti filtrus",
       "categoryLabel": "Kategorija"
     },
-    "accessDenied": "Prieiga prie šio puslapio suteikta tik administratoriams.",
-    "goHome": "Į pradžią",
     "textPlaceholder": "Atnaujinimo tekstas",
     "versionPlaceholder": "Versija (pvz., v1.8)",
     "emojiPlaceholder": "Emodži",
@@ -191,6 +190,45 @@
     "deleteConfirm": "Ištrinti atnaujinimą?",
     "loadError": "Įkėlimo klaida",
     "saveError": "Išsaugojimo klaida",
-    "atLeastOneLanguageRequired": "Užpildykite tekstą bent viena kalba."
+    "atLeastOneLanguageRequired": "Užpildykite tekstą bent viena kalba.",
+    "auth": {
+      "title": "Administravimo prisijungimas",
+      "hint": "Esate prisijungęs kaip {username}. Įveskite administratoriaus slaptažodį.",
+      "password": "Administratoriaus slaptažodis",
+      "submit": "Prisijungti",
+      "submitting": "Tikrinama…",
+      "error": "Neteisingas slaptažodis",
+      "signOut": "Atsijungti nuo administravimo"
+    },
+    "adminsTitle": "Admin · Administratoriai",
+    "admins": {
+      "add": "Pridėti administratorių",
+      "username": "Prisijungimo vardas",
+      "usernameHint": "Vardas valgyklos sistemoje, pavyzdžiui danvol",
+      "permissions": "Teisės",
+      "password": "Slaptažodis",
+      "passwordHint": "Palikite tuščią, slaptažodis bus sugeneruotas",
+      "generate": "Sugeneruoti naują slaptažodį",
+      "save": "Išsaugoti",
+      "saving": "Saugoma…",
+      "cancel": "Atšaukti",
+      "edit": "Keisti",
+      "delete": "Ištrinti",
+      "deleteConfirm": "Ištrinti šį administratorių?",
+      "empty": "Administratorių kol kas nėra",
+      "loading": "Kraunami administratoriai…",
+      "newPassword": "Slaptažodis, perduokite jį administratoriui. Daugiau jis nebus rodomas.",
+      "copy": "Kopijuoti",
+      "copied": "Nukopijuota",
+      "owner": "Savininkas",
+      "none": "Teisių nėra"
+    },
+    "permissions": {
+      "updates": "Atnaujinimai",
+      "translations": "Vertimai",
+      "dishes": "Patiekalų katalogas",
+      "photos": "Nuotraukos",
+      "feedback": "Pranešimai"
+    }
   }
 }

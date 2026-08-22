@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ADMIN_PERMISSIONS } from "./permissions";
 
 const priceInput = z
   .union([z.number(), z.string()])
@@ -105,4 +106,42 @@ export const photoTargetSchema = z.object({
     message: "table must be dishes or translations",
   }),
   id: z.string().trim().min(1, "id is required"),
+});
+
+export const adminLoginSchema = z.object({
+  password: z.string().min(1, "password is required"),
+});
+
+const permissionList = z
+  .array(z.enum(ADMIN_PERMISSIONS))
+  .default([]);
+
+const adminUsername = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .min(1, "username is required")
+  .max(64, "username is too long");
+
+export const adminCreateSchema = z.object({
+  username: adminUsername,
+  permissions: permissionList,
+  password: z
+    .string()
+    .min(8, "password must be at least 8 characters")
+    .max(200)
+    .optional()
+    .or(z.literal("").transform(() => undefined)),
+});
+
+export const adminUpdateSchema = z.object({
+  username: adminUsername,
+  permissions: permissionList.optional(),
+  password: z
+    .string()
+    .min(8, "password must be at least 8 characters")
+    .max(200)
+    .optional()
+    .or(z.literal("").transform(() => undefined)),
+  regeneratePassword: z.boolean().optional(),
 });

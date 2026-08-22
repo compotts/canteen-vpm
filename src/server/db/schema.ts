@@ -10,6 +10,7 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import { desc, sql } from "drizzle-orm";
+import type { AdminPermission } from "@/lib/permissions";
 
 export type OrderItem = {
   id: number | string;
@@ -110,3 +111,16 @@ export const appUpdates = pgTable(
   },
   (table) => [index("app_updates_created_at_idx").on(desc(table.createdAt))]
 );
+
+export const admins = pgTable("admins", {
+  username: text("username").primaryKey(),
+  passwordHash: text("password_hash").notNull(),
+  permissions: jsonb("permissions").$type<AdminPermission[]>().notNull(),
+  createdBy: text("created_by"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});

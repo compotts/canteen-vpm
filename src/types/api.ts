@@ -1,4 +1,5 @@
 export type { OrderItem } from "@/server/db/schema";
+export type { AdminPermission } from "@/lib/permissions";
 
 export type Dish = {
   id: string;
@@ -59,4 +60,18 @@ export type OrderRecord = {
 export type LightboxPhoto = {
   url: string;
   name: string;
+};
+
+export type AdminAccount = {
+  username: string;
+  permissions: import("@/lib/permissions").AdminPermission[];
+  createdBy: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminSessionInfo = {
+  username: string;
+  permissions: import("@/lib/permissions").AdminPermission[];
+  isOwner: boolean;
 };

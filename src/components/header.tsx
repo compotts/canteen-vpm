@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Settings } from "lucide-react";
 import { useAuth } from "./auth-provider";
 import { SettingsPanel } from "./settings-panel";
-import { useIsAdmin } from "@/hooks/use-is-admin";
+import { useAdminSession } from "./admin-session-provider";
 
 const DESKTOP_LINKS = [
   { href: "/", key: "nav.home", adminOnly: false },
@@ -19,7 +19,7 @@ const DESKTOP_LINKS = [
 export function Header() {
   const t = useTranslations();
   const { isAuth } = useAuth();
-  const { isAdmin } = useIsAdmin();
+  const { isAdmin } = useAdminSession();
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (

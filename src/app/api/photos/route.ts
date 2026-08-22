@@ -56,7 +56,7 @@ async function deleteBlobSafe(url: string | null): Promise<void> {
 }
 
 async function resolveTarget(request: Request) {
-  requireAdmin(request);
+  await requireAdmin(request, "photos");
 
   const params = new URL(request.url).searchParams;
   const { table, id } = parse(photoTargetSchema, {

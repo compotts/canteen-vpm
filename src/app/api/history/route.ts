@@ -2,7 +2,7 @@ import { and, eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { orderHistory, type OrderItem } from "@/server/db/schema";
 import { formatOrder, getOrderHistory } from "@/server/queries/history";
-import { requireUsername } from "@/server/auth";
+import { requireIdentity } from "@/server/auth";
 import {
   HttpError,
   errorResponse,
@@ -20,7 +20,7 @@ const snapQuantity = (value: number): number =>
 
 export async function GET(request: Request): Promise<Response> {
   try {
-    const username = requireUsername(request);
+    const username = await requireIdentity(request);
     return json(await getOrderHistory(username));
   } catch (error) {
     return errorResponse(error);
@@ -30,7 +30,7 @@ export async function GET(request: Request): Promise<Response> {
 export async function POST(request: Request): Promise<Response> {
   try {
     const body = await readJson(request);
-    const username = requireUsername(request, body);
+    const username = await requireIdentity(request);
     const input = parse(orderSaveSchema, body);
 
     const [row] = await db
@@ -61,7 +61,7 @@ export async function POST(request: Request): Promise<Response> {
 export async function PATCH(request: Request): Promise<Response> {
   try {
     const body = await readJson(request);
-    const username = requireUsername(request, body);
+    const username = await requireIdentity(request);
     const input = parse(orderPatchSchema, body);
 
     const scope = and(
@@ -124,7 +124,7 @@ export async function PATCH(request: Request): Promise<Response> {
 
 export async function DELETE(request: Request): Promise<Response> {
   try {
-    const username = requireUsername(request);
+    const username = await requireIdentity(request);
     const menuDate = new URL(request.url).searchParams.get("menuDate");
 
     await db

@@ -28,7 +28,7 @@ export async function GET(): Promise<Response> {
 export async function POST(request: Request): Promise<Response> {
   try {
     const body = await readJson(request);
-    requireAdmin(request, body);
+    await requireAdmin(request, "dishes");
 
     const input = parse(dishCreateSchema, body);
     const [row] = await db
@@ -54,7 +54,7 @@ export async function POST(request: Request): Promise<Response> {
 export async function PATCH(request: Request): Promise<Response> {
   try {
     const body = await readJson(request);
-    requireAdmin(request, body);
+    await requireAdmin(request, "dishes");
 
     const input = parse(dishUpdateSchema, body);
     const [row] = await db
@@ -85,7 +85,7 @@ export async function PATCH(request: Request): Promise<Response> {
 
 export async function DELETE(request: Request): Promise<Response> {
   try {
-    requireAdmin(request);
+    await requireAdmin(request, "dishes");
 
     const id = new URL(request.url).searchParams.get("id");
     if (!id) throw new HttpError(400, "id is required");

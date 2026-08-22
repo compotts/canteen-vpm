@@ -1,51 +1,90 @@
 import { HttpError } from "./http";
+import { readAdminSession, hashSessionId } from "./admin-session";
+import { getSessionId, getValgyklaUsername } from "./valgykla-identity";
+import { getPermissions, isOwner, normalizeUsername } from "./queries/admins";
+import type { AdminPermission } from "@/lib/permissions";
+import type { AdminSessionInfo } from "@/types/api";
 
-function parseCommaList(raw: string | undefined): string[] {
-  return (raw ?? "")
-    .split(",")
-    .map((value) => value.trim().toLowerCase())
-    .filter(Boolean);
+const IDENTITY_TTL_MS = 5 * 60 * 1000;
+const NEGATIVE_TTL_MS = 30 * 1000;
+const CACHE_LIMIT = 500;
+
+const identityCache = new Map<
+  string,
+  { username: string | null; expiresAt: number }
+>();
+
+function pruneCache(): void {
+  if (identityCache.size <= CACHE_LIMIT) return;
+  const now = Date.now();
+  for (const [key, entry] of identityCache) {
+    if (entry.expiresAt <= now) identityCache.delete(key);
+  }
+  if (identityCache.size > CACHE_LIMIT) identityCache.clear();
 }
 
-export function getAdminUsernames(): string[] {
-  return parseCommaList(process.env.ADMIN_USERNAMES);
+export async function getIdentity(request: Request): Promise<string | null> {
+  const sessionId = getSessionId(request);
+  if (!sessionId) return null;
+
+  const cached = identityCache.get(sessionId);
+  if (cached && Date.now() < cached.expiresAt) return cached.username;
+
+  const reported = await getValgyklaUsername(sessionId, request);
+  const username = reported ? normalizeUsername(reported) : null;
+
+  pruneCache();
+  identityCache.set(sessionId, {
+    username,
+    expiresAt: Date.now() + (username ? IDENTITY_TTL_MS : NEGATIVE_TTL_MS),
+  });
+
+  return username;
 }
 
-export function isAdminUsername(username: string | null | undefined): boolean {
-  const normalized = String(username ?? "")
-    .trim()
-    .toLowerCase();
-  if (!normalized) return false;
-  return getAdminUsernames().includes(normalized);
+export async function requireIdentity(request: Request): Promise<string> {
+  const username = await getIdentity(request);
+  if (!username) throw new HttpError(401, "canteen session required");
+  return username;
 }
 
-export function getUsername(request: Request, body?: unknown): string {
-  const fromHeader = request.headers.get("x-username");
-  if (fromHeader?.trim()) return fromHeader.trim();
+export async function getAdminSessionInfo(
+  request: Request
+): Promise<AdminSessionInfo | null> {
+  const session = readAdminSession(request);
+  if (!session) return null;
 
-  const fromQuery = new URL(request.url).searchParams.get("username");
-  if (fromQuery?.trim()) return fromQuery.trim();
-
-  if (body && typeof body === "object" && "username" in body) {
-    const value = (body as { username?: unknown }).username;
-    if (typeof value === "string" && value.trim()) return value.trim();
+  const sessionId = getSessionId(request);
+  if (!sessionId || hashSessionId(sessionId) !== session.sessionHash) {
+    return null;
   }
 
-  return "";
+  const permissions = await getPermissions(session.username);
+  if (!permissions) return null;
+
+  return {
+    username: normalizeUsername(session.username),
+    permissions,
+    isOwner: isOwner(session.username),
+  };
 }
 
-export function requireUsername(request: Request, body?: unknown): string {
-  const username = getUsername(request, body);
-  if (!username) throw new HttpError(400, "username is required");
-  return username;
+export async function requireAdmin(
+  request: Request,
+  permission?: AdminPermission
+): Promise<AdminSessionInfo> {
+  const info = await getAdminSessionInfo(request);
+  if (!info) throw new HttpError(401, "admin session required");
+  if (permission && !info.permissions.includes(permission)) {
+    throw new HttpError(403, "forbidden");
+  }
+  return info;
 }
 
-export function assertAdmin(username: string): void {
-  if (!isAdminUsername(username)) throw new HttpError(403, "forbidden");
-}
-
-export function requireAdmin(request: Request, body?: unknown): string {
-  const username = getUsername(request, body);
-  assertAdmin(username);
-  return username;
+export async function requireOwner(
+  request: Request
+): Promise<AdminSessionInfo> {
+  const info = await requireAdmin(request);
+  if (!info.isOwner) throw new HttpError(403, "forbidden");
+  return info;
 }
