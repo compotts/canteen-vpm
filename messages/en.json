@@ -1,0 +1,190 @@
+{
+  "common": {
+    "loading": "Loading…",
+    "close": "Close"
+  },
+  "nav": {
+    "home": "Home",
+    "admin": "Administration",
+    "adminShort": "Admin",
+    "catalog": "Catalog",
+    "order": "Order",
+    "history": "History",
+    "logout": "Logout",
+    "theme": "Theme",
+    "themeLight": "Light theme",
+    "themeDark": "Dark theme",
+    "translationDisclaimer": "Translation may be inaccurate."
+  },
+  "home": {
+    "feedback": "If you notice any app errors, please report them to the app developer",
+    "reportButton": "Report a problem",
+    "thanks": "Thanks for your help!",
+    "updatesTitle": "Latest updates:",
+    "noUpdates": "The update list is empty",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "feedbackModal": {
+      "title": "Report a problem",
+      "subtitle": "Describe what went wrong or what could be improved.",
+      "placeholder": "Describe the problem in as much detail as possible…",
+      "send": "Send",
+      "sending": "Sending…",
+      "cancel": "Cancel",
+      "close": "Close",
+      "done": "Done",
+      "error": "Failed to send. Please try again.",
+      "successTitle": "Thank you!",
+      "successText": "Your message has been sent to the developer."
+    }
+  },
+  "login": {
+    "title": "Login",
+    "loginLabel": "Username",
+    "passwordLabel": "Password",
+    "loginPlaceholder": "Enter username",
+    "passwordPlaceholder": "Enter password",
+    "rememberMe": "Remember me",
+    "submit": "Login",
+    "submitting": "Logging in…",
+    "error": "Login error",
+    "hidePassword": "Hide password",
+    "showPassword": "Show password",
+    "cantLogin": "Can't login / Don't remember credentials",
+    "helpTitle": "Login problems",
+    "helpIntro": "If you have problems logging into the system, for example, you forgot your username or password, you can contact:",
+    "helpStudent": "the class teacher (if you are a student);",
+    "helpStaff": "administrators (if you are a teacher, a member of the administration or another school employee).",
+    "helpAdminTitle": "Administrator details:",
+    "helpAdminName": "Vitalijus Tirevičius",
+    "helpAdminEmail": "it.pagalba@vpm.lt",
+    "helpClose": "Got it"
+  },
+  "menu": {
+    "dailyMenu": "Daily menu",
+    "today": "Today",
+    "total": "Total",
+    "submit": "Save",
+    "submitting": "Sending…",
+    "loading": "Loading menu…",
+    "retry": "Try again",
+    "menuUnavailable": "Menu unavailable",
+    "loadError": "Failed to load menu",
+    "parseError": "Failed to read menu. Maybe the website has changed.",
+    "orderSuccess": "Order saved",
+    "bonAppetit": "Bon appetit!",
+    "orderError": "Error",
+    "orderNumber": "Order No.",
+    "backToMenu": "Back to menu",
+    "ok": "OK",
+    "portions": "port.",
+    "deadlineWarning": "Orders can be placed until 09:00 on the meal day.",
+    "orderChooseDate": "Choose a day and go to the order form.",
+    "quantityPlaceholder": "0"
+  },
+  "catalog": {
+    "title": "Catalog",
+    "warning": "The menu is taken from the official canteen website https://valgykla.vpm.lt and most likely has not been updated for a long time. We cannot guarantee that prices and items are accurate.",
+    "category": {
+      "sriubos": "Soups",
+      "main": "Main dishes",
+      "salotos": "Salads",
+      "drinks": "Drinks",
+      "other": "Other"
+    },
+    "filters": {
+      "collapse": "Collapse filters",
+      "expand": "Expand filters",
+      "name": "Name",
+      "weight": "Weight",
+      "studentPrice": "Student price",
+      "teacherPrice": "Teacher price"
+    },
+    "priceShort": {
+      "student": "Student",
+      "teacher": "Teacher"
+    },
+    "searchPlaceholder": "Search by name…",
+    "noResults": "No results for the selected filters",
+    "page": "Page",
+    "prev": "Previous",
+    "next": "Next",
+    "perPage": "Per page"
+  },
+  "history": {
+    "placeholder": "History is still empty. As soon as you start placing orders, they will appear here.",
+    "summaryTitle": "Total amount for the selected period:",
+    "periodWeek": "Week",
+    "periodMonth": "Month",
+    "periodCustom": "Custom",
+    "clear": "Clear history",
+    "clearConfirm": "Clear all order history on this device? This action cannot be undone.",
+    "from": "From",
+    "to": "To",
+    "deleteOrder": "Delete order",
+    "deleteOrderConfirm": "Delete this order from history?",
+    "deleteItem": "Delete item",
+    "decreaseQty": "-0.5 portions",
+    "increaseQty": "+0.5 portions"
+  },
+  "admin": {
+    "title": "Admin · Updates",
+    "dishesTitle": "Admin · Dishes",
+    "photosTitle": "Admin · Photos",
+    "feedbackTitle": "Admin · Feedback",
+    "tabs": {
+      "updates": "Updates",
+      "dishes": "Dishes",
+      "photos": "Photos",
+      "feedback": "Feedback"
+    },
+    "feedback": {
+      "loading": "Loading feedback…",
+      "empty": "No feedback yet.",
+      "anonymous": "Anonymous",
+      "deleteConfirm": "Delete this feedback?"
+    },
+    "photos": {
+      "source": {
+        "dishes": "Catalog",
+        "translations": "Translations"
+      },
+      "deleteConfirm": "Delete this photo?",
+      "uploadError": "Failed to upload photo"
+    },
+    "dishes": {
+      "add": "Add dish",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "cancel": "Cancel",
+      "deleteConfirm": "Delete this dish?",
+      "noResults": "No dishes found",
+      "loading": "Loading dishes…",
+      "idPlaceholder": "ID (e.g. s1)",
+      "weightPlaceholder": "Weight",
+      "studentPricePlaceholder": "Stud. €",
+      "teacherPricePlaceholder": "Teach. €",
+      "searchPlaceholder": "Search dishes…",
+      "showFilters": "Show filters",
+      "hideFilters": "Hide filters",
+      "categoryLabel": "Category"
+    },
+    "accessDenied": "This page is available to administrators only.",
+    "goHome": "Go home",
+    "textPlaceholder": "Update text",
+    "versionPlaceholder": "Version (e.g. v1.8)",
+    "emojiPlaceholder": "Emoji",
+    "saving": "Saving…",
+    "saveChanges": "Save changes",
+    "addUpdate": "Add update",
+    "cancel": "Cancel",
+    "loadingUpdates": "Loading updates…",
+    "emptyUpdates": "No updates yet.",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this update?",
+    "loadError": "Load error",
+    "saveError": "Save error",
+    "atLeastOneLanguageRequired": "Fill text in at least one language."
+  }
+}
