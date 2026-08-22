@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { LogOut, Moon, Sun, X } from "lucide-react";
@@ -23,11 +24,30 @@ function Row({
   );
 }
 
+const TAPS_TO_OPEN_ADMIN = 5;
+const TAP_WINDOW_MS = 3000;
+
 export function SettingsPanel({ onClose }: { onClose: () => void }) {
   const t = useTranslations();
+  const router = useRouter();
   const { logout } = useAuth();
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  const taps = useRef({ count: 0, last: 0 });
+
+  const handleTitleTap = () => {
+    const now = Date.now();
+    const state = taps.current;
+
+    state.count = now - state.last > TAP_WINDOW_MS ? 1 : state.count + 1;
+    state.last = now;
+
+    if (state.count >= TAPS_TO_OPEN_ADMIN) {
+      state.count = 0;
+      onClose();
+      router.push("/admin");
+    }
+  };
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -64,11 +84,14 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         className="surface-raised w-full md:max-w-md rounded-t-[var(--radius-xl)] md:rounded-[var(--radius-xl)] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5 animate-sheet"
       >
         <div className="flex items-center justify-between gap-3 mb-2">
-          <h2
-            id="settings-title"
-            className="text-lg font-semibold text-[var(--text)] m-0"
-          >
-            {t("settings.title")}
+          <h2 id="settings-title" className="m-0">
+            <button
+              type="button"
+              onClick={handleTitleTap}
+              className="text-lg font-semibold text-[var(--text)] bg-transparent border-0 p-0 cursor-default select-none"
+            >
+              {t("settings.title")}
+            </button>
           </h2>
           <button
             type="button"
