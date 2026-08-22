@@ -16,6 +16,7 @@ import {
   updateOrderItemQuantity,
 } from "@/lib/api/history";
 import { localeTags, type Locale } from "@/i18n/config";
+import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 import type { OrderItem, OrderRecord } from "@/types/api";
 
 const PER_PAGE = 5;
@@ -97,6 +98,9 @@ export function HistoryView() {
   const [customFrom, setCustomFrom] = useState("");
   const [customTo, setCustomTo] = useState("");
   const [loading, setLoading] = useState(true);
+  const periodsRef = useLiquidGlass<HTMLDivElement>();
+  const prevPageRef = useLiquidGlass<HTMLButtonElement>();
+  const nextPageRef = useLiquidGlass<HTMLButtonElement>();
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -217,7 +221,10 @@ export function HistoryView() {
       ) : (
         <>
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <div className="glass inline-flex items-center gap-1 rounded-full p-1">
+            <div
+              ref={periodsRef}
+              className="glass inline-flex items-center gap-1 rounded-full p-1"
+            >
               <button
                 type="button"
                 onClick={() => selectMode("week")}
@@ -438,6 +445,7 @@ export function HistoryView() {
           {totalPages > 1 && (
             <div className="flex flex-wrap items-center justify-center gap-2 mt-6 pb-2">
               <button
+                ref={prevPageRef}
                 type="button"
                 onClick={() => setPage((value) => Math.max(1, value - 1))}
                 disabled={currentPage <= 1}
@@ -451,6 +459,7 @@ export function HistoryView() {
               </span>
 
               <button
+                ref={nextPageRef}
                 type="button"
                 onClick={() => setPage((value) => Math.min(totalPages, value + 1))}
                 disabled={currentPage >= totalPages}

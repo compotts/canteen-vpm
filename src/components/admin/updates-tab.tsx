@@ -11,6 +11,7 @@ import {
 } from "@/lib/api/updates";
 import { pickTextByLang } from "@/lib/text";
 import { locales, type Locale } from "@/i18n/config";
+import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 import { ErrorBanner } from "./error-banner";
 import type { AppUpdate, UpdateText } from "@/types/api";
 
@@ -34,6 +35,7 @@ export function UpdatesTab() {
   const [dateLabel, setDateLabel] = useState("");
   const [emoji, setEmoji] = useState("");
   const [text, setText] = useState<UpdateText>(EMPTY_TEXT);
+  const langsRef = useLiquidGlass<HTMLDivElement>();
 
   useEffect(() => {
     loadUpdates()
@@ -118,7 +120,10 @@ export function UpdatesTab() {
         onSubmit={handleSubmit}
         className="glass-card rounded-[var(--radius-lg)] p-4 mb-6 space-y-3"
       >
-        <div className="inline-flex items-center gap-1 glass rounded-full p-1 mb-1">
+        <div
+          ref={langsRef}
+          className="inline-flex items-center gap-1 glass rounded-full p-1 mb-1"
+        >
           {locales.map((code) => (
             <button
               key={code}

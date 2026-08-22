@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { LOGOUT_EVENT } from "@/components/auth-provider";
 import { PhotoLightbox } from "@/components/photo-lightbox";
+import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 import { SECTION_TITLE_KEYS } from "@/lib/constants";
 import { normalizeDishName } from "@/lib/text";
 import { ApiError } from "@/lib/api/client";
@@ -100,10 +101,12 @@ function TotalBar({
   variant: "inline" | "fixed";
 }) {
   const t = useTranslations();
+  const barRef = useLiquidGlass<HTMLDivElement>();
   const isFixed = variant === "fixed";
 
   return (
     <div
+      ref={isFixed ? barRef : null}
       className={`flex items-center justify-between gap-4 rounded-[var(--radius-lg)] px-5 py-3.5 ${
         isFixed ? "glass-strong" : "glass-card mt-4 md:mt-6"
       }`}
@@ -145,6 +148,7 @@ export function OrderView() {
   const [inlineVisible, setInlineVisible] = useState(true);
   const [lightboxPhoto, setLightboxPhoto] = useState<LightboxPhoto | null>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const popupRef = useLiquidGlass<HTMLDivElement>();
 
   useEffect(() => {
     const element = sentinelRef.current;
@@ -395,7 +399,10 @@ export function OrderView() {
       {submitSuccess && (
         <div className="fixed inset-0 z-[1100] flex items-center justify-center">
           <div className="absolute inset-0 bg-black/40" />
-          <div className="glass-strong relative rounded-[var(--radius-xl)] px-6 py-5 bon-appetit-popup text-center max-w-[260px] mx-4">
+          <div
+            ref={popupRef}
+            className="glass-strong relative rounded-[var(--radius-xl)] px-6 py-5 bon-appetit-popup text-center max-w-[260px] mx-4"
+          >
             <img
               src="/face-savoring-food.png"
               alt="bon appetit"

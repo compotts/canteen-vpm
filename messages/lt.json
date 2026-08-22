@@ -14,7 +14,15 @@
     "theme": "Tema",
     "themeLight": "Šviesi tema",
     "themeDark": "Tamsi tema",
-    "translationDisclaimer": "Vertimas gali būti netikslus."
+    "translationDisclaimer": "Vertimas gali būti netikslus.",
+    "settings": "Nustatymai"
+  },
+  "settings": {
+    "title": "Nustatymai",
+    "language": "Kalba",
+    "theme": "Tema",
+    "liquidGlass": "Skystas stiklas",
+    "liquidGlassHint": "Šviesos lūžio efektas ant stiklinių paviršių, veikia tik Chromium naršyklėse."
   },
   "home": {
     "feedback": "Jei pastebėjote programėlės klaidų, prašau apie tai pranešti programėlės kūrėjui",

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ChevronDown } from "lucide-react";
 import { PhotoLightbox } from "@/components/photo-lightbox";
+import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 import { CATEGORY_IDS, type CategoryId } from "@/lib/constants";
 import type { Dish, LightboxPhoto } from "@/types/api";
 
@@ -62,6 +63,10 @@ export function CatalogView({
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState<number>(20);
   const [lightboxPhoto, setLightboxPhoto] = useState<LightboxPhoto | null>(null);
+  const categoriesRef = useLiquidGlass<HTMLDivElement>();
+  const filtersRef = useLiquidGlass<HTMLDivElement>();
+  const prevPageRef = useLiquidGlass<HTMLButtonElement>();
+  const nextPageRef = useLiquidGlass<HTMLButtonElement>();
 
   const items = useMemo(() => {
     let list = dishes.filter((dish) => dish.category === category);
@@ -108,7 +113,7 @@ export function CatalogView({
         {t("catalog.warning")}
       </p>
 
-      <div className="glass rounded-full p-1 mb-4">
+      <div ref={categoriesRef} className="glass rounded-full p-1 mb-4">
         <div className="flex gap-1 overflow-x-auto no-scrollbar">
           {CATEGORY_IDS.map((id) => (
             <button
@@ -130,7 +135,10 @@ export function CatalogView({
         </div>
       </div>
 
-      <div className="glass rounded-[var(--radius-lg)] mb-4 overflow-hidden">
+      <div
+        ref={filtersRef}
+        className="glass rounded-[var(--radius-lg)] mb-4 overflow-hidden"
+      >
         <button
           type="button"
           onClick={() => setFilterOpen((open) => !open)}
@@ -287,6 +295,7 @@ export function CatalogView({
       {totalPages > 1 && (
         <div className="flex flex-wrap items-center justify-center gap-2 mt-6 pb-4">
           <button
+            ref={prevPageRef}
             type="button"
             onClick={() => setPage((value) => Math.max(1, value - 1))}
             disabled={currentPage <= 1}
@@ -298,6 +307,7 @@ export function CatalogView({
             {t("catalog.page")} {currentPage} / {totalPages}
           </span>
           <button
+            ref={nextPageRef}
             type="button"
             onClick={() => setPage((value) => Math.min(totalPages, value + 1))}
             disabled={currentPage >= totalPages}

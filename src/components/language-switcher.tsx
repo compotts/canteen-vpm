@@ -19,6 +19,12 @@ const STYLES = {
     idle: "bg-transparent text-[var(--text-muted)]",
     wrapper: "flex items-center gap-0.5",
   },
+  panel: {
+    base: "flex-1 px-3 py-2 text-sm font-semibold border-none rounded-full cursor-pointer transition-colors disabled:opacity-50",
+    active: "bg-[var(--accent)] text-[var(--btn-primary-color)]",
+    idle: "bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text)]",
+    wrapper: "flex items-center gap-1.5",
+  },
 } as const;
 
 export function LanguageSwitcher({

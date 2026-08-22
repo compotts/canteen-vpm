@@ -1,12 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { LogOut } from "lucide-react";
+import { Settings } from "lucide-react";
 import { useAuth } from "./auth-provider";
-import { LanguageSwitcher } from "./language-switcher";
-import { ThemeToggle } from "./theme-toggle";
+import { SettingsPanel } from "./settings-panel";
 import { useIsAdmin } from "@/hooks/use-is-admin";
+import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 
 const DESKTOP_LINKS = [
   { href: "/", key: "nav.home", adminOnly: false },
@@ -18,11 +19,16 @@ const DESKTOP_LINKS = [
 
 export function Header() {
   const t = useTranslations();
-  const { isAuth, logout } = useAuth();
+  const { isAuth } = useAuth();
   const { isAdmin } = useIsAdmin();
+  const headerRef = useLiquidGlass<HTMLElement>();
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
-    <header className="glass-strong sticky top-0 z-[800] px-4 py-3 md:px-6">
+    <header
+      ref={headerRef}
+      className="glass-strong sticky top-0 z-[800] px-4 py-3 md:px-6"
+    >
       <div className="max-w-[430px] md:max-w-4xl mx-auto flex items-center justify-between gap-3">
         <Link
           href="/"
@@ -53,36 +59,24 @@ export function Header() {
               )}
             </nav>
 
-            <div className="hidden md:flex items-center gap-2 border-l border-[var(--glass-border)] pl-3 ml-1">
-              <LanguageSwitcher />
-              <ThemeToggle />
+            <div className="flex items-center md:border-l md:border-[var(--glass-border)] md:pl-3 md:ml-1">
               <button
                 type="button"
-                className="flex items-center justify-center p-2 rounded-full text-[var(--error-text)] hover:bg-red-500/10 transition-colors"
-                onClick={logout}
-                aria-label={t("nav.logout")}
-                title={t("nav.logout")}
+                onClick={() => setSettingsOpen(true)}
+                aria-label={t("nav.settings")}
+                title={t("nav.settings")}
+                className="flex items-center justify-center p-2 rounded-full cursor-pointer text-[var(--text)] hover:bg-[var(--glass-highlight)] transition-colors"
               >
-                <LogOut className="w-5 h-5" aria-hidden="true" />
-              </button>
-            </div>
-
-            <div className="flex md:hidden items-center gap-1.5">
-              <LanguageSwitcher variant="mobile" />
-              <ThemeToggle compact />
-              <button
-                type="button"
-                className="flex items-center justify-center p-2 rounded-full text-[var(--error-text)] hover:bg-red-500/10 transition-colors"
-                onClick={logout}
-                aria-label={t("nav.logout")}
-                title={t("nav.logout")}
-              >
-                <LogOut className="w-[18px] h-[18px]" aria-hidden="true" />
+                <Settings className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
           </>
         )}
       </div>
+
+      {settingsOpen && (
+        <SettingsPanel onClose={() => setSettingsOpen(false)} />
+      )}
     </header>
   );
 }

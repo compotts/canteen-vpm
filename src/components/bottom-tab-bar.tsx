@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -13,7 +12,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "./auth-provider";
 import { useIsAdmin } from "@/hooks/use-is-admin";
-import { useLiquidLens } from "@/hooks/use-liquid-lens";
+import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 
 export function BottomTabBar() {
   const { isAuth } = useAuth();
@@ -24,8 +23,7 @@ export function BottomTabBar() {
 function TabBarPill() {
   const t = useTranslations();
   const pathname = usePathname();
-  const pillRef = useRef<HTMLDivElement>(null);
-  useLiquidLens(pillRef);
+  const pillRef = useLiquidGlass<HTMLDivElement>();
 
   const { isAdmin } = useIsAdmin();
 

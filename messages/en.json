@@ -14,7 +14,15 @@
     "theme": "Theme",
     "themeLight": "Light theme",
     "themeDark": "Dark theme",
-    "translationDisclaimer": "Translation may be inaccurate."
+    "translationDisclaimer": "Translation may be inaccurate.",
+    "settings": "Settings"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "liquidGlass": "Liquid glass",
+    "liquidGlassHint": "Refraction effect on glass surfaces, works only in Chromium browsers."
   },
   "home": {
     "feedback": "If you notice any app errors, please report them to the app developer",

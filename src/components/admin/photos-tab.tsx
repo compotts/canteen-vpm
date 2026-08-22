@@ -6,6 +6,7 @@ import { Image as ImageIcon, Trash2, Upload } from "lucide-react";
 import { loadDishes } from "@/lib/api/dishes";
 import { loadTranslations } from "@/lib/api/translations";
 import { deletePhoto, uploadPhoto, type PhotoTable } from "@/lib/api/photos";
+import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 import { ErrorBanner } from "./error-banner";
 import { localizedName } from "./translations-tab";
 import type { Dish, Translation } from "@/types/api";
@@ -24,6 +25,7 @@ export function PhotosTab() {
   const [loading, setLoading] = useState(true);
   const [uploadingId, setUploadingId] = useState<string | number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const sourcesRef = useLiquidGlass<HTMLDivElement>();
 
   useEffect(() => {
     let cancelled = false;
@@ -102,7 +104,10 @@ export function PhotosTab() {
     <>
       <ErrorBanner message={error} />
 
-      <div className="inline-flex items-center gap-1 glass rounded-full p-1 mb-4">
+      <div
+        ref={sourcesRef}
+        className="inline-flex items-center gap-1 glass rounded-full p-1 mb-4"
+      >
         {SOURCES.map((value) => (
           <button
             key={value}

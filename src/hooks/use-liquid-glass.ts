@@ -1,22 +1,17 @@
 "use client";
 
-import { useEffect, type RefObject } from "react";
+import { useEffect, useRef, useSyncExternalStore, type RefObject } from "react";
+import {
+  getLiquidGlass,
+  getLiquidGlassServerSnapshot,
+  isLiquidGlassSupported,
+  subscribeLiquidGlass,
+} from "@/lib/liquid-glass";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
+const MAX_EDGE = 24;
+
 let uid = 0;
-
-type NavigatorUAData = {
-  brands?: { brand: string }[];
-};
-
-function isChromium(): boolean {
-  const uaData = (navigator as Navigator & { userAgentData?: NavigatorUAData })
-    .userAgentData;
-  return (
-    Boolean(uaData?.brands?.some((b) => /Chromium/i.test(b.brand))) ||
-    Boolean((window as Window & { chrome?: unknown }).chrome)
-  );
-}
 
 function makeDisplacementMap(
   width: number,
@@ -57,6 +52,7 @@ function makeDisplacementMap(
 }
 
 type LiquidLensOptions = {
+  enabled?: boolean;
   scale?: number;
   blur?: number;
   saturate?: number;
@@ -64,14 +60,11 @@ type LiquidLensOptions = {
 
 export function useLiquidLens(
   ref: RefObject<HTMLElement | null>,
-  { scale = -32, blur = 13, saturate = 1.8 }: LiquidLensOptions = {}
+  { enabled = true, scale = -32, blur = 13, saturate = 1.8 }: LiquidLensOptions = {}
 ): void {
   useEffect(() => {
     const element = ref.current;
-    if (!element || !isChromium()) return;
-    if (window.matchMedia("(prefers-reduced-transparency: reduce)").matches) {
-      return;
-    }
+    if (!element || !enabled || !isLiquidGlassSupported()) return;
 
     const id = `liquid-lens-${++uid}`;
     const svg = document.createElementNS(SVG_NS, "svg");
@@ -102,10 +95,7 @@ export function useLiquidLens(
     feSaturate.setAttribute("values", String(saturate));
     feSaturate.setAttribute("result", "tuned");
 
-    const feDisplacement = document.createElementNS(
-      SVG_NS,
-      "feDisplacementMap"
-    );
+    const feDisplacement = document.createElementNS(SVG_NS, "feDisplacementMap");
     feDisplacement.setAttribute("in", "tuned");
     feDisplacement.setAttribute("in2", "map");
     feDisplacement.setAttribute("scale", String(scale));
@@ -121,14 +111,20 @@ export function useLiquidLens(
       const height = element.offsetHeight;
       if (!width || !height) return;
 
-      const edge = Math.max(8, Math.min(width, height) * 0.25);
-      const radius = Math.min(width, height) / 2 - edge;
+      const shortest = Math.min(width, height);
+      const edge = Math.max(8, Math.min(shortest * 0.25, MAX_EDGE));
+      const corner =
+        parseFloat(getComputedStyle(element).borderTopLeftRadius) || 0;
+      const radius = Math.min(corner, shortest / 2) - edge;
 
       filter.setAttribute("width", String(width));
       filter.setAttribute("height", String(height));
       feImage.setAttribute("width", String(width));
       feImage.setAttribute("height", String(height));
-      feImage.setAttribute("href", makeDisplacementMap(width, height, edge, radius));
+      feImage.setAttribute(
+        "href",
+        makeDisplacementMap(width, height, edge, radius)
+      );
       element.style.backdropFilter = `url(#${id})`;
     };
 
@@ -141,5 +137,22 @@ export function useLiquidLens(
       element.style.backdropFilter = "";
       svg.remove();
     };
-  }, [ref, scale, blur, saturate]);
+  }, [ref, enabled, scale, blur, saturate]);
+}
+
+export function useLiquidGlassEnabled(): boolean {
+  return useSyncExternalStore(
+    subscribeLiquidGlass,
+    getLiquidGlass,
+    getLiquidGlassServerSnapshot
+  );
+}
+
+export function useLiquidGlass<T extends HTMLElement>(
+  options?: Omit<LiquidLensOptions, "enabled">
+): RefObject<T | null> {
+  const ref = useRef<T>(null);
+  const enabled = useLiquidGlassEnabled();
+  useLiquidLens(ref, { ...options, enabled });
+  return ref;
 }

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Eye, EyeOff } from "lucide-react";
 import { login } from "@/lib/valgykla/client";
 import { useAuth } from "@/components/auth-provider";
+import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 import {
   REMEMBER_ME_KEY,
   SAVED_PASSWORD_KEY,
@@ -25,6 +26,8 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [helpOpen, setHelpOpen] = useState(false);
+  const cardRef = useLiquidGlass<HTMLDivElement>();
+  const helpRef = useLiquidGlass<HTMLDivElement>();
 
   useEffect(() => {
     setUsername(localStorage.getItem(SAVED_USERNAME_KEY) ?? "");
@@ -60,7 +63,10 @@ export function LoginForm() {
 
   return (
     <div className="flex-1 max-w-[430px] md:max-w-md mx-auto w-full px-4 md:px-6 py-5 md:py-8 box-border flex flex-col md:justify-center">
-      <div className="glass-strong rounded-[var(--radius-xl)] p-5 md:p-6 mt-8 md:mt-0 w-full animate-glass-rise">
+      <div
+        ref={cardRef}
+        className="glass-strong rounded-[var(--radius-xl)] p-5 md:p-6 mt-8 md:mt-0 w-full animate-glass-rise"
+      >
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] mt-0 mb-4">
           {t("login.title")}
         </h1>
@@ -169,6 +175,7 @@ export function LoginForm() {
             aria-hidden="true"
           />
           <div
+            ref={helpRef}
             className="glass-strong relative max-w-[420px] mx-4 rounded-[var(--radius-xl)] p-5 animate-glass-rise"
             role="dialog"
             aria-modal="true"
