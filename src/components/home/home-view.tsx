@@ -63,8 +63,8 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
         {t("nav.home")}
       </h1>
 
-      <div className="md:grid md:grid-cols-2 md:gap-6 md:items-start">
-        <section className="surface rounded-[var(--radius-lg)] p-5 mb-5 md:mb-0 animate-rise">
+      <div className="stagger md:grid md:grid-cols-2 md:gap-6 md:items-start">
+        <section className="surface rounded-[var(--radius-lg)] p-5 mb-5 md:mb-0">
           <div className="flex gap-3">
             <div
               className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--hover)] flex items-center justify-center text-[var(--text-muted)]"
@@ -91,7 +91,7 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
           </div>
         </section>
 
-        <section className="surface rounded-[var(--radius-lg)] p-5 animate-rise">
+        <section className="surface rounded-[var(--radius-lg)] p-5">
           <div className="flex items-center gap-2 mb-4">
             <div
               className="flex-shrink-0 w-8 h-8 rounded-[var(--radius-sm)] bg-[var(--hover)] flex items-center justify-center text-[var(--text-muted)]"
@@ -160,11 +160,11 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
 
       {modalOpen && (
         <div
-          className="fixed inset-0 z-[1200] flex items-end md:items-center justify-center bg-black/50 p-0 md:p-4"
+          className="animate-fade fixed inset-0 z-[1200] flex items-end md:items-center justify-center bg-black/50 p-0 md:p-4"
           onClick={closeModal}
         >
           <div
-            className="surface-raised w-full md:max-w-md rounded-t-[var(--radius-lg)] md:rounded-[var(--radius-lg)] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5 animate-rise"
+            className="surface-raised w-full md:max-w-md rounded-t-[var(--radius-lg)] md:rounded-[var(--radius-lg)] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5 animate-sheet"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center justify-between gap-3 mb-4">

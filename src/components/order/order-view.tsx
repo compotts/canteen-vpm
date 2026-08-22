@@ -394,7 +394,7 @@ export function OrderView() {
 
       {submitSuccess && (
         <div className="fixed inset-0 z-[1100] flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/40" />
+          <div className="animate-fade absolute inset-0 bg-black/40" />
           <div className="surface-raised relative rounded-[var(--radius-xl)] px-6 py-5 bon-appetit-popup text-center max-w-[260px] mx-4">
             <img
               src="/face-savoring-food.png"
@@ -409,11 +409,11 @@ export function OrderView() {
       )}
 
       <form id="order-form" onSubmit={handleSubmit}>
-        <div className="space-y-6 md:grid md:grid-cols-2 md:gap-6 md:items-start">
+        <div className="stagger space-y-6 md:grid md:grid-cols-2 md:gap-6 md:items-start">
           {menu.sections.map((section) => (
             <div
               key={section.title}
-              className="surface rounded-[var(--radius-lg)] p-4 animate-rise"
+              className="surface rounded-[var(--radius-lg)] p-4"
             >
               <h2 className="text-base font-semibold text-[var(--text)] mt-0 mb-3 border-b border-[var(--border)] pb-2">
                 {sectionTitle(section.title)}

@@ -164,12 +164,12 @@ export function LoginForm() {
       {helpOpen && (
         <div className="fixed inset-0 z-[1200] flex items-center justify-center">
           <div
-            className="absolute inset-0 bg-black/50"
+            className="animate-fade absolute inset-0 bg-black/50"
             onClick={() => setHelpOpen(false)}
             aria-hidden="true"
           />
           <div
-            className="surface-raised relative max-w-[420px] mx-4 rounded-[var(--radius-xl)] p-5 animate-rise"
+            className="surface-raised relative max-w-[420px] mx-4 rounded-[var(--radius-xl)] p-5 animate-pop"
             role="dialog"
             aria-modal="true"
             aria-labelledby="login-help-title"

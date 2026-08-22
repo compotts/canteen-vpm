@@ -149,8 +149,9 @@ export function CatalogView({
           />
         </button>
 
-        {filterOpen && (
-          <div className="px-4 pb-4 pt-0 space-y-3">
+        <div className="collapsible" data-open={filterOpen}>
+          <div>
+            <div className="px-4 pb-4 pt-0 space-y-3">
             <div>
               <label className="block text-xs font-medium text-[var(--text-muted)] mb-1.5 uppercase tracking-wider">
                 {t("catalog.filters.name")}
@@ -207,8 +208,9 @@ export function CatalogView({
                 </button>
               ))}
             </div>
+            </div>
           </div>
-        )}
+        </div>
       </div>
 
       {loadFailed || paginatedItems.length === 0 ? (
@@ -216,14 +218,14 @@ export function CatalogView({
           {t("catalog.noResults")}
         </p>
       ) : (
-        <ul className="list-none p-0 m-0 md:grid md:grid-cols-2 md:gap-4">
+        <ul className="stagger list-none p-0 m-0 md:grid md:grid-cols-2 md:gap-4">
           {paginatedItems.map((item) => {
             const name = getItemName(item, locale);
 
             return (
               <li
                 key={item.id}
-                className="surface rounded-[var(--radius-lg)] mb-3 md:mb-0 overflow-hidden flex animate-rise"
+                className="surface rounded-[var(--radius-lg)] mb-3 md:mb-0 overflow-hidden flex"
               >
                 {item.photoUrl && (
                   <button

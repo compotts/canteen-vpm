@@ -297,7 +297,7 @@ export function HistoryView() {
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="stagger space-y-3">
             {paginatedOrders.map((order) => {
               const isOpen = openId === order.id;
               const createdLabel = formatDate(
@@ -361,75 +361,80 @@ export function HistoryView() {
                     </button>
                   </div>
 
-                  {isOpen && order.items.length > 0 && (
-                    <div className="border-t border-[var(--border)] px-4 py-3 text-sm">
-                      <ul className="list-none m-0 p-0 space-y-2">
-                        {order.items.map((item) => (
-                          <li
-                            key={item.id}
-                            className="flex items-start justify-between gap-3"
-                          >
-                            <div className="flex-1 min-w-0">
-                              <span className="text-[var(--text)] break-words">
-                                {item.name}
-                              </span>
+                  <div
+                    className="collapsible"
+                    data-open={isOpen && order.items.length > 0}
+                  >
+                    <div>
+                      <div className="border-t border-[var(--border)] px-4 py-3 text-sm">
+                        <ul className="list-none m-0 p-0 space-y-2">
+                          {order.items.map((item) => (
+                            <li
+                              key={item.id}
+                              className="flex items-start justify-between gap-3"
+                            >
+                              <div className="flex-1 min-w-0">
+                                <span className="text-[var(--text)] break-words">
+                                  {item.name}
+                                </span>
 
-                              <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-[var(--text-muted)]">
-                                {item.weight && <span>{item.weight}</span>}
-                                {item.weight && <span>·</span>}
+                                <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-[var(--text-muted)]">
+                                  {item.weight && <span>{item.weight}</span>}
+                                  {item.weight && <span>·</span>}
 
-                                <div className="inline-flex items-center rounded-lg border border-[var(--border)] overflow-hidden">
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      changeItemQty(order, item, -0.5)
-                                    }
-                                    className="px-2 py-1 hover:bg-[var(--border-subtle)] transition-colors"
-                                    aria-label={t("history.decreaseQty")}
-                                  >
-                                    −
-                                  </button>
+                                  <div className="inline-flex items-center rounded-lg border border-[var(--border)] overflow-hidden">
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        changeItemQty(order, item, -0.5)
+                                      }
+                                      className="px-2 py-1 hover:bg-[var(--border-subtle)] transition-colors"
+                                      aria-label={t("history.decreaseQty")}
+                                    >
+                                      −
+                                    </button>
 
-                                  <span className="px-2 py-1 min-w-[36px] text-center text-[var(--text)] tabular-nums">
-                                    {formatQty(item.quantity)}
-                                  </span>
+                                    <span className="px-2 py-1 min-w-[36px] text-center text-[var(--text)] tabular-nums">
+                                      {formatQty(item.quantity)}
+                                    </span>
 
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      changeItemQty(order, item, 0.5)
-                                    }
-                                    className="px-2 py-1 hover:bg-[var(--border-subtle)] transition-colors"
-                                    aria-label={t("history.increaseQty")}
-                                  >
-                                    +
-                                  </button>
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        changeItemQty(order, item, 0.5)
+                                      }
+                                      className="px-2 py-1 hover:bg-[var(--border-subtle)] transition-colors"
+                                      aria-label={t("history.increaseQty")}
+                                    >
+                                      +
+                                    </button>
+                                  </div>
+
+                                  <span>× {money(item.pricePerUnit)} €</span>
                                 </div>
-
-                                <span>× {money(item.pricePerUnit)} €</span>
                               </div>
-                            </div>
 
-                            <div className="flex items-center gap-2 shrink-0">
-                              <span className="text-sm font-medium text-[var(--text)] tabular-nums whitespace-nowrap">
-                                {money(item.totalPrice)} €
-                              </span>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <span className="text-sm font-medium text-[var(--text)] tabular-nums whitespace-nowrap">
+                                  {money(item.totalPrice)} €
+                                </span>
 
-                              <button
-                                type="button"
-                                onClick={() => removeItem(order, item)}
-                                className="inline-flex items-center justify-center rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--hover)] hover:text-[var(--text)] transition-colors"
-                                aria-label={t("history.deleteItem")}
-                                title={t("history.deleteItem")}
-                              >
-                                <Trash2 className="w-4 h-4" aria-hidden="true" />
-                              </button>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
+                                <button
+                                  type="button"
+                                  onClick={() => removeItem(order, item)}
+                                  className="inline-flex items-center justify-center rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--hover)] hover:text-[var(--text)] transition-colors"
+                                  aria-label={t("history.deleteItem")}
+                                  title={t("history.deleteItem")}
+                                >
+                                  <Trash2 className="w-4 h-4" aria-hidden="true" />
+                                </button>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             })}

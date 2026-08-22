@@ -45,7 +45,7 @@ export function FeedbackTab() {
     <>
       <ErrorBanner message={error} />
 
-      <div className="space-y-3">
+      <div className="stagger space-y-3">
         {loading ? (
           <p className="text-[var(--text-muted)] text-sm py-4">
             {t("admin.feedback.loading")}

@@ -205,7 +205,7 @@ export function TranslationsTab() {
         />
       </div>
 
-      <div className="space-y-2">
+      <div className="stagger space-y-2">
         {loading ? (
           <p className="text-[var(--text-muted)] text-sm py-4">
             {t("admin.dishes.loading")}

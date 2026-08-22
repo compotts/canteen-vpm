@@ -53,7 +53,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[1200] flex items-end md:items-center justify-center bg-black/50 p-0 md:p-4"
+      className="animate-fade fixed inset-0 z-[1200] flex items-end md:items-center justify-center bg-black/50 p-0 md:p-4"
       onClick={onClose}
     >
       <div
@@ -61,7 +61,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         aria-modal="true"
         aria-labelledby="settings-title"
         onClick={(event) => event.stopPropagation()}
-        className="surface-raised w-full md:max-w-md rounded-t-[var(--radius-xl)] md:rounded-[var(--radius-xl)] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5 animate-rise"
+        className="surface-raised w-full md:max-w-md rounded-t-[var(--radius-xl)] md:rounded-[var(--radius-xl)] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5 animate-sheet"
       >
         <div className="flex items-center justify-between gap-3 mb-2">
           <h2
