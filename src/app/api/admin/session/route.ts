@@ -11,7 +11,8 @@ import { HttpError, errorResponse, json, parse, readJson } from "@/server/http";
 import { adminLoginSchema } from "@/lib/validators";
 
 const WINDOW_MS = 10 * 60 * 1000;
-const MAX_ATTEMPTS = 8;
+const MAX_ATTEMPTS = 10;
+const KEY_LIMIT = 500;
 
 const attempts = new Map<string, { count: number; resetAt: number }>();
 
@@ -21,20 +22,35 @@ function throttleKey(request: Request): string {
   return request.headers.get("x-real-ip")?.trim() || "unknown";
 }
 
-function throttle(request: Request): void {
+function assertNotThrottled(request: Request): void {
+  const entry = attempts.get(throttleKey(request));
+  if (!entry || Date.now() >= entry.resetAt || entry.count < MAX_ATTEMPTS) {
+    return;
+  }
+
+  const minutes = Math.max(1, Math.ceil((entry.resetAt - Date.now()) / 60000));
+  throw new HttpError(
+    429,
+    `too many attempts, try again in ${minutes} minute${minutes === 1 ? "" : "s"}`
+  );
+}
+
+function registerFailedPassword(request: Request): void {
   const key = throttleKey(request);
   const now = Date.now();
   const entry = attempts.get(key);
 
-  if (!entry || now > entry.resetAt) {
-    attempts.set(key, { count: 1, resetAt: now + WINDOW_MS });
+  if (entry && now < entry.resetAt) {
+    entry.count += 1;
     return;
   }
 
-  entry.count += 1;
-  if (entry.count > MAX_ATTEMPTS) {
-    throw new HttpError(429, "too many attempts, try again later");
+  if (attempts.size > KEY_LIMIT) {
+    for (const [candidate, value] of attempts) {
+      if (now >= value.resetAt) attempts.delete(candidate);
+    }
   }
+  attempts.set(key, { count: 1, resetAt: now + WINDOW_MS });
 }
 
 function ownerPassword(): string | null {
@@ -54,7 +70,7 @@ export async function GET(request: Request): Promise<Response> {
 
 export async function POST(request: Request): Promise<Response> {
   try {
-    throttle(request);
+    assertNotThrottled(request);
 
     const sessionId = getSessionId(request);
     if (!sessionId) throw new HttpError(401, "canteen session required");
@@ -66,6 +82,7 @@ export async function POST(request: Request): Promise<Response> {
     if (isOwner(username)) {
       const expected = ownerPassword();
       if (!expected || !constantTimeEquals(input.password, expected)) {
+        registerFailedPassword(request);
         throw new HttpError(401, "invalid password");
       }
 
@@ -90,6 +107,7 @@ export async function POST(request: Request): Promise<Response> {
 
     const record = await findAdmin(username);
     if (!record || !verifyPassword(input.password, record.passwordHash)) {
+      registerFailedPassword(request);
       throw new HttpError(401, "invalid password");
     }
 
