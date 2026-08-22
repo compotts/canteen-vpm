@@ -204,7 +204,7 @@
     "admins": {
       "add": "Add administrator",
       "username": "Login",
-      "usernameHint": "Canteen system login, for example danvol",
+      "usernameHint": "Canteen system login",
       "permissions": "Permissions",
       "password": "Password",
       "passwordHint": "Leave empty to generate one",

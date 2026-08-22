@@ -204,7 +204,7 @@
     "admins": {
       "add": "Pridėti administratorių",
       "username": "Prisijungimo vardas",
-      "usernameHint": "Vardas valgyklos sistemoje, pavyzdžiui danvol",
+      "usernameHint": "Vardas valgyklos sistemoje",
       "permissions": "Teisės",
       "password": "Slaptažodis",
       "passwordHint": "Palikite tuščią, slaptažodis bus sugeneruotas",
