@@ -181,7 +181,6 @@ export function AdminsTab() {
           <input
             type="text"
             className={inputClass}
-            placeholder="danvol"
             value={username}
             disabled={editing !== null}
             onChange={(event) => setUsername(event.target.value)}
