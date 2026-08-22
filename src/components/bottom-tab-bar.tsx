@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { useAuth } from "./auth-provider";
 import { useIsAdmin } from "@/hooks/use-is-admin";
-import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 
 export function BottomTabBar() {
   const { isAuth } = useAuth();
@@ -23,7 +22,6 @@ export function BottomTabBar() {
 function TabBarPill() {
   const t = useTranslations();
   const pathname = usePathname();
-  const pillRef = useLiquidGlass<HTMLDivElement>();
 
   const { isAdmin } = useIsAdmin();
 
@@ -43,10 +41,7 @@ function TabBarPill() {
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
       aria-label={t("nav.catalog")}
     >
-      <div
-        ref={pillRef}
-        className="glass-strong pointer-events-auto rounded-full p-1.5 max-w-full"
-      >
+      <div className="glass-strong pointer-events-auto rounded-full p-1.5 max-w-full">
         <div className="flex items-stretch gap-1 rounded-full overflow-x-auto no-scrollbar">
           {tabs.map(({ href, icon: Icon, label, exact }) => {
             const isActive = exact

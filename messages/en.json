@@ -20,9 +20,7 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
-    "theme": "Theme",
-    "liquidGlass": "Liquid glass",
-    "liquidGlassHint": "Refraction effect on glass surfaces, works only in Chromium browsers."
+    "theme": "Theme"
   },
   "home": {
     "feedback": "If you notice any app errors, please report them to the app developer",

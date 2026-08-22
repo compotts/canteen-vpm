@@ -7,60 +7,17 @@ import { useTheme } from "next-themes";
 import { LogOut, Moon, Sun, X } from "lucide-react";
 import { LanguageSwitcher } from "./language-switcher";
 import { useAuth } from "./auth-provider";
-import { useLiquidGlass, useLiquidGlassEnabled } from "@/hooks/use-liquid-glass";
-import { isLiquidGlassSupported, setLiquidGlass } from "@/lib/liquid-glass";
-
-function Switch({
-  checked,
-  disabled,
-  label,
-  onChange,
-}: {
-  checked: boolean;
-  disabled?: boolean;
-  label: string;
-  onChange: (value: boolean) => void;
-}) {
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={checked}
-      aria-label={label}
-      disabled={disabled}
-      onClick={() => onChange(!checked)}
-      className={`relative h-6 w-11 shrink-0 rounded-full transition-colors disabled:opacity-40 ${
-        checked ? "bg-[var(--accent)]" : "bg-[var(--border)]"
-      }`}
-    >
-      <span
-        className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-[var(--surface)] shadow-sm transition-transform ${
-          checked ? "translate-x-5" : ""
-        }`}
-      />
-    </button>
-  );
-}
 
 function Row({
   title,
-  hint,
   children,
 }: {
   title: string;
-  hint?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="flex items-center justify-between gap-4 py-3">
-      <div className="min-w-0">
-        <p className="m-0 text-sm font-medium text-[var(--text)]">{title}</p>
-        {hint && (
-          <p className="m-0 mt-0.5 text-xs text-[var(--text-muted)] leading-relaxed">
-            {hint}
-          </p>
-        )}
-      </div>
+      <p className="m-0 text-sm font-medium text-[var(--text)]">{title}</p>
       {children}
     </div>
   );
@@ -70,9 +27,6 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
   const t = useTranslations();
   const { logout } = useAuth();
   const { resolvedTheme, setTheme } = useTheme();
-  const liquidGlass = useLiquidGlassEnabled();
-  const panelRef = useLiquidGlass<HTMLDivElement>();
-  const supported = isLiquidGlassSupported();
   const isDark = resolvedTheme === "dark";
 
   useEffect(() => {
@@ -103,7 +57,6 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
       onClick={onClose}
     >
       <div
-        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="settings-title"
@@ -154,18 +107,6 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
                 {t("nav.themeDark")}
               </button>
             </div>
-          </Row>
-
-          <Row
-            title={t("settings.liquidGlass")}
-            hint={t("settings.liquidGlassHint")}
-          >
-            <Switch
-              checked={liquidGlass && supported}
-              disabled={!supported}
-              label={t("settings.liquidGlass")}
-              onChange={setLiquidGlass}
-            />
           </Row>
 
           <div className="pt-4">

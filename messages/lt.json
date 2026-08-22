@@ -20,9 +20,7 @@
   "settings": {
     "title": "Nustatymai",
     "language": "Kalba",
-    "theme": "Tema",
-    "liquidGlass": "Skystas stiklas",
-    "liquidGlassHint": "Šviesos lūžio efektas ant stiklinių paviršių, veikia tik Chromium naršyklėse."
+    "theme": "Tema"
   },
   "home": {
     "feedback": "Jei pastebėjote programėlės klaidų, prašau apie tai pranešti programėlės kūrėjui",

@@ -7,7 +7,6 @@ import { Settings } from "lucide-react";
 import { useAuth } from "./auth-provider";
 import { SettingsPanel } from "./settings-panel";
 import { useIsAdmin } from "@/hooks/use-is-admin";
-import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 
 const DESKTOP_LINKS = [
   { href: "/", key: "nav.home", adminOnly: false },
@@ -21,14 +20,10 @@ export function Header() {
   const t = useTranslations();
   const { isAuth } = useAuth();
   const { isAdmin } = useIsAdmin();
-  const headerRef = useLiquidGlass<HTMLElement>();
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
-    <header
-      ref={headerRef}
-      className="glass-strong sticky top-0 z-[800] px-4 py-3 md:px-6"
-    >
+    <header className="glass-strong sticky top-0 z-[800] px-4 py-3 md:px-6">
       <div className="max-w-[430px] md:max-w-4xl mx-auto flex items-center justify-between gap-3">
         <Link
           href="/"

@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { Clock } from "lucide-react";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { LoadingScreen } from "@/components/loading-screen";
-import { useLiquidGlass } from "@/hooks/use-liquid-glass";
 import { UpdatesTab } from "./updates-tab";
 import { TranslationsTab } from "./translations-tab";
 import { PhotosTab } from "./photos-tab";
@@ -29,7 +28,6 @@ export function AdminView() {
   const t = useTranslations();
   const { isAdmin, ready } = useIsAdmin();
   const [tab, setTab] = useState<Tab>("updates");
-  const tabsRef = useLiquidGlass<HTMLDivElement>();
 
   if (!ready) return <LoadingScreen />;
 
@@ -55,7 +53,7 @@ export function AdminView() {
           {t(TITLE_KEYS[tab])}
         </h1>
 
-        <div ref={tabsRef} className="glass flex rounded-full p-1">
+        <div className="glass flex rounded-full p-1">
           {TABS.map((value) => (
             <button
               key={value}
