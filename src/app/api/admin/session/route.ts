@@ -1,4 +1,4 @@
-import { getAdminSessionInfo, getIdentity } from "@/server/auth";
+import { getAdminSessionInfo, requireIdentity } from "@/server/auth";
 import {
   adminCookieHeader,
   createAdminSession,
@@ -29,10 +29,9 @@ function assertNotThrottled(request: Request): void {
   }
 
   const minutes = Math.max(1, Math.ceil((entry.resetAt - Date.now()) / 60000));
-  throw new HttpError(
-    429,
-    `too many attempts, try again in ${minutes} minute${minutes === 1 ? "" : "s"}`
-  );
+  throw new HttpError(429, "too many attempts", {
+    retryAfterMinutes: minutes,
+  });
 }
 
 function registerFailedPassword(request: Request): void {
@@ -75,8 +74,7 @@ export async function POST(request: Request): Promise<Response> {
     const sessionId = getSessionId(request);
     if (!sessionId) throw new HttpError(401, "canteen session required");
 
-    const username = await getIdentity(request);
-    if (!username) throw new HttpError(401, "canteen session required");
+    const username = await requireIdentity(request);
     const input = parse(adminLoginSchema, await readJson(request));
 
     if (isOwner(username)) {

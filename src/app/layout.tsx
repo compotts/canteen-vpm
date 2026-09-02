@@ -7,6 +7,7 @@ import { Providers } from "@/components/providers";
 import { Header } from "@/components/header";
 import { BottomTabBar } from "@/components/bottom-tab-bar";
 import { PageTransition } from "@/components/page-transition";
+import { CanteenStatusBanner } from "@/components/canteen-status-banner";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -59,6 +60,7 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <Providers>
             <Header />
+            <CanteenStatusBanner />
             <main className="flex flex-1 flex-col pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0">
               <PageTransition>{children}</PageTransition>
             </main>

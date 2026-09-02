@@ -1,7 +1,8 @@
 export class HttpError extends Error {
   constructor(
     readonly status: number,
-    message: string
+    message: string,
+    readonly data?: Record<string, unknown>
   ) {
     super(message);
     this.name = "HttpError";
@@ -18,7 +19,7 @@ export function noContent(): Response {
 
 export function errorResponse(error: unknown): Response {
   if (error instanceof HttpError) {
-    return json({ error: error.message }, error.status);
+    return json({ error: error.message, ...error.data }, error.status);
   }
   console.error(error);
   const message =

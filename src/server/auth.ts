@@ -1,6 +1,10 @@
 import { HttpError } from "./http";
 import { readAdminSession, hashSessionId } from "./admin-session";
-import { getSessionId, getValgyklaUsername } from "./valgykla-identity";
+import {
+  CanteenUnavailableError,
+  getSessionId,
+  getValgyklaUsername,
+} from "./valgykla-identity";
 import { getPermissions, isOwner, normalizeUsername } from "./queries/admins";
 import type { AdminPermission } from "@/lib/permissions";
 import type { AdminSessionInfo } from "@/types/api";
@@ -23,7 +27,7 @@ function pruneCache(): void {
   if (identityCache.size > CACHE_LIMIT) identityCache.clear();
 }
 
-export async function getIdentity(request: Request): Promise<string | null> {
+async function resolveIdentity(request: Request): Promise<string | null> {
   const sessionId = getSessionId(request);
   if (!sessionId) return null;
 
@@ -42,8 +46,26 @@ export async function getIdentity(request: Request): Promise<string | null> {
   return username;
 }
 
+export async function getIdentity(request: Request): Promise<string | null> {
+  try {
+    return await resolveIdentity(request);
+  } catch (error) {
+    if (error instanceof CanteenUnavailableError) return null;
+    throw error;
+  }
+}
+
 export async function requireIdentity(request: Request): Promise<string> {
-  const username = await getIdentity(request);
+  let username: string | null;
+  try {
+    username = await resolveIdentity(request);
+  } catch (error) {
+    if (error instanceof CanteenUnavailableError) {
+      throw new HttpError(503, `canteen unavailable: ${error.reason}`);
+    }
+    throw error;
+  }
+
   if (!username) throw new HttpError(401, "canteen session required");
   return username;
 }

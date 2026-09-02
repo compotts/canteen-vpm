@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Eye, EyeOff } from "lucide-react";
-import { login } from "@/lib/valgykla/client";
+import { INVALID_CREDENTIALS, login } from "@/lib/valgykla/client";
+import { ApiError } from "@/lib/api/client";
 import { useAuth } from "@/components/auth-provider";
 import {
   REMEMBER_ME_KEY,
@@ -52,7 +53,9 @@ export function LoginForm() {
 
       setAuth(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("login.error"));
+      const wrongPassword =
+        err instanceof ApiError && err.message === INVALID_CREDENTIALS;
+      setError(wrongPassword ? t("login.error") : t("status.loginUnavailable"));
     } finally {
       setLoading(false);
     }

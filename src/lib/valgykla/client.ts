@@ -1,6 +1,9 @@
 import { VALGYKLA_API_BASE } from "@/lib/constants";
 import { ApiError } from "@/lib/api/client";
 
+export const INVALID_CREDENTIALS = "invalid_credentials";
+export const CANTEEN_UNAVAILABLE = "canteen_unavailable";
+
 function assertAuthorized(response: Response): void {
   if (response.status === 401) throw new ApiError(401, "unauthorized");
   if (!response.ok) throw new ApiError(response.status, `HTTP ${response.status}`);
@@ -27,11 +30,13 @@ export async function login(
 
   const html = await response.text();
   if (!response.ok) {
-    if (response.status === 401) throw new ApiError(401, "unauthorized");
-    throw new ApiError(response.status, html || `HTTP ${response.status}`);
+    throw new ApiError(
+      response.status,
+      response.status === 401 ? INVALID_CREDENTIALS : CANTEEN_UNAVAILABLE
+    );
   }
   if (hasLoginError(html)) {
-    throw new ApiError(401, "Klaidingi prisijungimo duomenys");
+    throw new ApiError(401, INVALID_CREDENTIALS);
   }
 }
 

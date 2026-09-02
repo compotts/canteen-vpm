@@ -3,6 +3,16 @@
     "loading": "Loading…",
     "close": "Close"
   },
+  "status": {
+    "certificate": "The canteen website valgykla.vpm.lt, which this app works through, has an invalid security certificate. Signing in and ordering are temporarily unavailable. This is a problem on the school side, we cannot fix it.",
+    "unreachable": "The canteen website valgykla.vpm.lt, which this app works through, is currently unreachable. Signing in and ordering are temporarily unavailable.",
+    "loginUnavailable": "Could not reach the canteen website. Please try again later."
+  },
+  "errors": {
+    "title": "Something went wrong",
+    "text": "The app hit an unexpected error. Try again, and if it keeps happening, report it to the developer.",
+    "retry": "Try again"
+  },
   "nav": {
     "home": "Home",
     "admin": "Administration",
@@ -198,7 +208,8 @@
       "submit": "Sign in",
       "submitting": "Checking…",
       "error": "Wrong password",
-      "signOut": "Sign out of admin"
+      "signOut": "Sign out of admin",
+      "throttled": "Too many attempts. Try again in {minutes} min."
     },
     "adminsTitle": "Admin · Administrators",
     "admins": {

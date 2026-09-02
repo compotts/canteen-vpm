@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ShieldCheck } from "lucide-react";
 import { openAdminSession } from "@/lib/api/admin";
+import { ApiError } from "@/lib/api/client";
 import { getStoredUsername } from "@/lib/user-storage";
 import { useAdminSession } from "@/components/admin-session-provider";
 import { ErrorBanner } from "./error-banner";
@@ -11,6 +12,16 @@ import { ErrorBanner } from "./error-banner";
 export function AdminLogin() {
   const t = useTranslations();
   const { refresh } = useAdminSession();
+
+  const describe = (err: unknown): string => {
+    if (!(err instanceof ApiError)) return t("status.loginUnavailable");
+    if (err.status === 401) return t("admin.auth.error");
+    if (err.status === 429) {
+      const minutes = Number(err.details?.retryAfterMinutes) || 1;
+      return t("admin.auth.throttled", { minutes });
+    }
+    return t("status.loginUnavailable");
+  };
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +42,7 @@ export function AdminLogin() {
       setPassword("");
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("admin.auth.error"));
+      setError(describe(err));
     } finally {
       setSubmitting(false);
     }

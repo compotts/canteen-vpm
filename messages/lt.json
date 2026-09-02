@@ -3,6 +3,16 @@
     "loading": "Kraunama…",
     "close": "Uždaryti"
   },
+  "status": {
+    "certificate": "Valgyklos svetainės valgykla.vpm.lt, per kurią veikia ši programėlė, saugumo sertifikatas yra netinkamas. Prisijungimas ir užsakymai laikinai neveikia. Tai mokyklos pusės triktis, mes jos pataisyti negalime.",
+    "unreachable": "Valgyklos svetainė valgykla.vpm.lt, per kurią veikia ši programėlė, šiuo metu nepasiekiama. Prisijungimas ir užsakymai laikinai neveikia.",
+    "loginUnavailable": "Nepavyko susisiekti su valgyklos svetaine. Pabandykite vėliau."
+  },
+  "errors": {
+    "title": "Kažkas nutiko",
+    "text": "Programėlėje įvyko netikėta klaida. Pabandykite dar kartą, o jei kartosis, praneškite kūrėjui.",
+    "retry": "Bandyti dar kartą"
+  },
   "nav": {
     "home": "Pradžia",
     "admin": "Administravimas",
@@ -198,7 +208,8 @@
       "submit": "Prisijungti",
       "submitting": "Tikrinama…",
       "error": "Neteisingas slaptažodis",
-      "signOut": "Atsijungti nuo administravimo"
+      "signOut": "Atsijungti nuo administravimo",
+      "throttled": "Per daug bandymų. Bandykite po {minutes} min."
     },
     "adminsTitle": "Admin · Administratoriai",
     "admins": {
