@@ -4,8 +4,8 @@
     "close": "Close"
   },
   "status": {
-    "certificate": "The canteen website valgykla.vpm.lt, which this app works through, has an invalid security certificate. Signing in and ordering are temporarily unavailable. This is a problem on the school side, we cannot fix it.",
-    "unreachable": "The canteen website valgykla.vpm.lt, which this app works through, is currently unreachable. Signing in and ordering are temporarily unavailable.",
+    "certificate": "The canteen website valgykla.vpm.lt, which this app works through, has an invalid security certificate. Signing in and ordering may temporarily not work. This is a problem on the school side, we cannot fix it.",
+    "unreachable": "The canteen website valgykla.vpm.lt, which this app works through, is responding unreliably right now. Signing in and ordering may temporarily not work.",
     "loginUnavailable": "Could not reach the canteen website. Please try again later."
   },
   "errors": {

@@ -4,8 +4,8 @@
     "close": "Uždaryti"
   },
   "status": {
-    "certificate": "Valgyklos svetainės valgykla.vpm.lt, per kurią veikia ši programėlė, saugumo sertifikatas yra netinkamas. Prisijungimas ir užsakymai laikinai neveikia. Tai mokyklos pusės triktis, mes jos pataisyti negalime.",
-    "unreachable": "Valgyklos svetainė valgykla.vpm.lt, per kurią veikia ši programėlė, šiuo metu nepasiekiama. Prisijungimas ir užsakymai laikinai neveikia.",
+    "certificate": "Valgyklos svetainės valgykla.vpm.lt, per kurią veikia ši programėlė, saugumo sertifikatas yra netinkamas. Prisijungimas ir užsakymai gali laikinai neveikti. Tai mokyklos pusės triktis, mes jos pataisyti negalime.",
+    "unreachable": "Valgyklos svetainė valgykla.vpm.lt, per kurią veikia ši programėlė, šiuo metu atsakinėja nepatikimai. Prisijungimas ir užsakymai gali laikinai neveikti.",
     "loginUnavailable": "Nepavyko susisiekti su valgyklos svetaine. Pabandykite vėliau."
   },
   "errors": {
