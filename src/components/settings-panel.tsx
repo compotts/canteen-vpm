@@ -7,7 +7,9 @@ import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { LogOut, Moon, Sun, X } from "lucide-react";
 import { LanguageSwitcher } from "./language-switcher";
+import { NotificationSettings } from "./notification-settings";
 import { useAuth } from "./auth-provider";
+
 
 function Row({
   title,
@@ -131,6 +133,8 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
               </button>
             </div>
           </Row>
+
+          <NotificationSettings />
 
           <div className="pt-4">
             <button
