@@ -98,6 +98,16 @@
     "orderChooseDate": "Pasirinkite dieną ir pereikite prie užsakymo formos.",
     "quantityPlaceholder": "0"
   },
+  "notifications": {
+    "description": "Įjunkite pranešimus, kad nepamirštumėte užsisakyti maisto.",
+    "enable": "Įjungti pranešimus",
+    "connecting": "Jungiama…",
+    "enabled": "Užsakymo priminimai įjungti.",
+    "error": "Nepavyko įjungti pranešimų. Patikrinkite naršyklės leidimą ir HTTPS.",
+    "pushTitle": "Nepamirškite užsisakyti maisto",
+    "pushEvening": "Užsisakykite maistą {day}.",
+    "pushMorning": "Dar neužsisakėte maisto {day}."
+  },
   "catalog": {
     "title": "Katalogas",
     "warning": "Meniu paimtas iš oficialios valgyklos svetainės https://valgykla.vpm.lt ir, panašu, seniai nebuvo atnaujintas. Negalime garantuoti kainų ir asortimento tikslumo.",

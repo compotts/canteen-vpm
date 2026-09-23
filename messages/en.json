@@ -98,6 +98,16 @@
     "orderChooseDate": "Choose a day and go to the order form.",
     "quantityPlaceholder": "0"
   },
+  "notifications": {
+    "description": "Turn on notifications so you do not forget to order food.",
+    "enable": "Enable notifications",
+    "connecting": "Connecting…",
+    "enabled": "Order reminders are enabled.",
+    "error": "Could not enable notifications. Check browser permission and HTTPS.",
+    "pushTitle": "Do not forget to order food",
+    "pushEvening": "Place your order for {day}.",
+    "pushMorning": "You have not placed an order for {day} yet."
+  },
   "catalog": {
     "title": "Catalog",
     "warning": "The menu is taken from the official canteen website https://valgykla.vpm.lt and most likely has not been updated for a long time. We cannot guarantee that prices and items are accurate.",
