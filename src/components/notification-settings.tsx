@@ -119,21 +119,24 @@ export function NotificationSettings() {
           </p>
         </div>
         <button
-          type="button"
-          role="switch"
-          aria-checked={enabled}
-          aria-label={enabled ? t("disable") : t("enable")}
-          onClick={() => setNotifications(!enabled)}
-          disabled={loading}
-          className={`relative h-7 w-12 shrink-0 rounded-full border-0 transition-colors disabled:opacity-50 ${
-            enabled ? "bg-[var(--accent)]" : "bg-[var(--border-subtle)]"
-          }`}
+        type="button"
+        role="switch"
+        aria-checked={enabled}
+        aria-label={enabled ? t("disable") : t("enable")}
+        onClick={() => setNotifications(!enabled)}
+        disabled={loading}
+        className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border-0 p-0 transition-colors disabled:opacity-50 ${
+            enabled
+            ? "bg-[var(--accent)]"
+            : "bg-[var(--border)]"
+        }`}
         >
-          <span
-            className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-transform ${
-              enabled ? "translate-x-6" : "translate-x-1"
+        <span
+            aria-hidden="true"
+            className={`pointer-events-none absolute left-1 top-1 h-5 w-5 rounded-full bg-[var(--surface)] shadow transition-transform ${
+            enabled ? "translate-x-5" : "translate-x-0"
             }`}
-          />
+        />
         </button>
       </div>
       {error && (
