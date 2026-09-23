@@ -134,6 +134,7 @@ export const webPushSubscriptions = pgTable(
       .default(sql`gen_random_uuid()`)
       .primaryKey(),
     username: text("username").notNull(),
+    locale: text("locale").notNull().default("ru"),
     endpoint: text("endpoint").notNull(),
     p256dh: text("p256dh").notNull(),
     auth: text("auth").notNull(),
