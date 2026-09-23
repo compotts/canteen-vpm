@@ -1,5 +1,7 @@
 import {
   index,
+  boolean,
+  primaryKey,
   jsonb,
   numeric,
   pgTable,
@@ -124,3 +126,50 @@ export const admins = pgTable("admins", {
     .notNull()
     .defaultNow(),
 });
+
+export const webPushSubscriptions = pgTable(
+  "web_push_subscriptions",
+  {
+    id: uuid("id")
+      .default(sql`gen_random_uuid()`)
+      .primaryKey(),
+    username: text("username").notNull(),
+    endpoint: text("endpoint").notNull(),
+    p256dh: text("p256dh").notNull(),
+    auth: text("auth").notNull(),
+    enabled: boolean("enabled").notNull().default(true),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("web_push_subscriptions_endpoint_key").on(table.endpoint),
+    index("web_push_subscriptions_username_idx").on(table.username),
+  ]
+);
+
+export const sentOrderReminders = pgTable(
+  "sent_order_reminders",
+  {
+    id: uuid("id")
+      .default(sql`gen_random_uuid()`)
+      .primaryKey(),
+    username: text("username").notNull(),
+    menuDate: text("menu_date").notNull(),
+    reminderKind: text("reminder_kind").notNull(),
+    sentAt: timestamp("sent_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("sent_order_reminders_user_date_kind_key").on(
+      table.username,
+      table.menuDate,
+      table.reminderKind
+    ),
+    index("sent_order_reminders_menu_date_idx").on(table.menuDate),
+  ]
+);
