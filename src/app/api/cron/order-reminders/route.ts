@@ -6,6 +6,10 @@ import {
   webPushSubscriptions,
 } from "@/server/db/schema";
 import { isExpiredPushSubscription, sendWebPush } from "@/server/web-push";
+import { localeTags, type Locale } from "@/i18n/config";
+import ltMessages from "../../../../../messages/lt.json";
+import ruMessages from "../../../../../messages/ru.json";
+import enMessages from "../../../../../messages/en.json";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -79,20 +83,37 @@ function isCronAuthorized(request: Request): boolean {
   return request.headers.get("authorization") === `Bearer ${expected}`;
 }
 
-function notificationText(kind: ReminderKind, targetDate: string) {
-  const dayText = new Intl.DateTimeFormat("ru-RU", {
+const notificationMessages = {
+  lt: ltMessages.notifications,
+  ru: ruMessages.notifications,
+  en: enMessages.notifications,
+} satisfies Record<Locale, {
+  pushTitle: string;
+  pushEvening: string;
+  pushMorning: string;
+}>;
+
+function notificationText(
+  locale: Locale,
+  kind: ReminderKind,
+  targetDate: string
+) {
+  const languageTag = localeTags[locale];
+  const dayText = new Intl.DateTimeFormat(languageTag, {
     timeZone: TIME_ZONE,
     weekday: "long",
     day: "numeric",
     month: "long",
   }).format(new Date(`${targetDate}T12:00:00Z`));
 
+  const message = notificationMessages[locale];
+
   return {
-    title: "Не забудьте заказать обед!)",
-    body:
-      kind === "evening"
-        ? `Оформите заказ на ${dayText}.`
-        : `Вы еще не оформили заказ на ${dayText}.`,
+    title: message.pushTitle,
+    body: (kind === "evening" ? message.pushEvening : message.pushMorning).replace(
+      "{day}",
+      dayText
+    ),
     url: "/order",
     tag: `order-reminder-${targetDate}`,
   };
@@ -134,7 +155,6 @@ export async function GET(request: Request): Promise<Response> {
       )
     );
   const orderedUsers = new Set(orders.map((item) => item.username));
-  const payload = notificationText(reminderKind, targetDate);
   const subscriptionsByUser = new Map<string, typeof subscriptions>();
 
   for (const subscription of subscriptions) {
@@ -174,7 +194,7 @@ export async function GET(request: Request): Promise<Response> {
             endpoint: subscription.endpoint,
             keys: { p256dh: subscription.p256dh, auth: subscription.auth },
           },
-          payload
+          notificationText(subscription.locale as Locale, reminderKind, targetDate)
         );
         sent += 1;
       } catch (error) {

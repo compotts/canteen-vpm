@@ -2,9 +2,11 @@ self.addEventListener("push", (event ) => {
   if (!event.data) return;
 
   const data = event.data.json();
-  const title = data.title || "Напоминание о заказе";
+  if (!data.title || !data.body) return;
+
+  const title = data.title;
   const options = {
-    body: data.body || "Не забудьте заказать обед.",
+    body: data.body,
     tag: data.tag || "order-reminder",
     renotify: true,
     data: { url: data.url || "/order" },
