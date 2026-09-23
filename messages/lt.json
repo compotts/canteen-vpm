@@ -99,8 +99,10 @@
     "quantityPlaceholder": "0"
   },
   "notifications": {
-    "description": "Įjunkite pranešimus, kad nepamirštumėte užsisakyti maisto.",
+    "title": "Užsakymo priminimai",
+    "howItWorks": "Svetainė 08:00 primins užsisakyti šiandienai, o 20:00 – kitai darbo dienai.",
     "enable": "Įjungti pranešimus",
+    "disable": "Išjungti pranešimus",
     "connecting": "Jungiama…",
     "enabled": "Užsakymo priminimai įjungti.",
     "error": "Nepavyko įjungti pranešimų. Patikrinkite naršyklės leidimą ir HTTPS.",

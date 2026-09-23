@@ -99,8 +99,10 @@
     "quantityPlaceholder": "0"
   },
   "notifications": {
-    "description": "Turn on notifications so you do not forget to order food.",
+    "title": "Order reminders",
+    "howItWorks": "The site reminds you at 08:00 to order for today and at 20:00 to order for the next working day.",
     "enable": "Enable notifications",
+    "disable": "Disable notifications",
     "connecting": "Connecting…",
     "enabled": "Order reminders are enabled.",
     "error": "Could not enable notifications. Check browser permission and HTTPS.",
