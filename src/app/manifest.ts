@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Valgyklos VPM",
     short_name: "Valgykla",
     description:
-      "Vilniaus Petro Vileišio progimnazijos valgyklos meniu, užsakymai ir istorija.",
+      "Visaginas TECH valgyklos meniu, užsakymai ir istorija.",
     id: "/",
     start_url: "/",
     scope: "/",
