@@ -96,7 +96,17 @@
     "portions": "порц.",
     "deadlineWarning": "Заказ можно сделать до 09:00 в день приема пищи.",
     "orderChooseDate": "Выберите день и перейдите к форме заказа.",
-    "quantityPlaceholder": "0"
+    "quantityPlaceholder": "0",
+    "quantityLabel": "Количество порций",
+    "setQuantity": "Выбрать порции: {quantity}",
+    "clearQuantity": "Очистить количество",
+    "yourOrder": "Ваш заказ",
+    "emptyOrder": "Выберите блюда",
+    "emptyOrderHint": "Укажите количество порций в меню, и здесь появится состав заказа.",
+    "changeDate": "Изменить дату",
+    "categories": "Категории меню",
+    "saveError": "Не удалось сохранить заказ. Попробуйте еще раз.",
+    "historySaveError": "Заказ отправлен, но сохранить историю не удалось. Проверьте заказ на сайте столовой."
   },
   "notifications": {
     "title": "Напоминания о заказе",

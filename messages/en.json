@@ -96,7 +96,17 @@
     "portions": "port.",
     "deadlineWarning": "Orders can be placed until 09:00 on the meal day.",
     "orderChooseDate": "Choose a day and go to the order form.",
-    "quantityPlaceholder": "0"
+    "quantityPlaceholder": "0",
+    "quantityLabel": "Number of portions",
+    "setQuantity": "Set portions: {quantity}",
+    "clearQuantity": "Clear quantity",
+    "yourOrder": "Your order",
+    "emptyOrder": "Choose your dishes",
+    "emptyOrderHint": "Select portions in the menu to see your order here.",
+    "changeDate": "Change date",
+    "categories": "Menu categories",
+    "saveError": "Could not save your order. Please try again.",
+    "historySaveError": "Your order was sent, but history could not be saved. Check your order on the canteen website."
   },
   "notifications": {
     "title": "Order reminders",

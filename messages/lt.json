@@ -96,7 +96,17 @@
     "portions": "porc.",
     "deadlineWarning": "Galima užsakyti iki 09:00 valgymo dieną.",
     "orderChooseDate": "Pasirinkite dieną ir pereikite prie užsakymo formos.",
-    "quantityPlaceholder": "0"
+    "quantityPlaceholder": "0",
+    "quantityLabel": "Porcijų skaičius",
+    "setQuantity": "Pasirinkti porcijas: {quantity}",
+    "clearQuantity": "Išvalyti kiekį",
+    "yourOrder": "Jūsų užsakymas",
+    "emptyOrder": "Pasirinkite patiekalus",
+    "emptyOrderHint": "Meniu pasirinkite porcijų skaičių ir čia matysite savo užsakymą.",
+    "changeDate": "Keisti datą",
+    "categories": "Meniu kategorijos",
+    "saveError": "Nepavyko išsaugoti užsakymo. Bandykite dar kartą.",
+    "historySaveError": "Užsakymas išsiųstas, bet istorijos išsaugoti nepavyko. Patikrinkite užsakymą valgyklos svetainėje."
   },
   "notifications": {
     "title": "Užsakymo priminimai",
