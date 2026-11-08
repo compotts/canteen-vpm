@@ -54,3 +54,6 @@ android/build/
 .env*.local
 .env*
 !.env.example
+
+# Local agent instructions
+/AGENTS.md
