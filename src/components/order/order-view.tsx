@@ -109,7 +109,7 @@ function formatOrderDate(date: string, locale: string): string {
   }).format(new Date(`${date}T12:00:00`));
 }
 
-export function OrderView() {
+export function OrderView({ initialDate }: { initialDate?: string }) {
   const t = useTranslations();
   const locale = useLocale();
 
@@ -159,7 +159,9 @@ export function OrderView() {
 
     try {
       const html = await getOrderMakePage();
-      setLinkInfo(parseOrderMakeLink(html));
+      const link = parseOrderMakeLink(html);
+      setLinkInfo(link);
+      if (link && link.date === initialDate) setSelectedDate(link.date);
     } catch (err) {
       if (err instanceof ApiError && err.status === 401) {
         window.dispatchEvent(new Event(LOGOUT_EVENT));
@@ -170,7 +172,7 @@ export function OrderView() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [initialDate]);
 
   useEffect(() => {
     loadOrderLink();

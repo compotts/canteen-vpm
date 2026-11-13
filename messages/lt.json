@@ -33,6 +33,23 @@
     "theme": "Tema"
   },
   "home": {
+    "orderStatus": {
+      "title": "Jūsų užsakymas",
+      "source": "Artimiausiai galimai datai, pagal valgyklos duomenis",
+      "refresh": "Atnaujinti būseną",
+      "loading": "Tikrinamas užsakymas valgykloje…",
+      "saved": "Užsakymas išsaugotas",
+      "notOrdered": "Užsakymo dar nėra",
+      "emptyHint": "Šiai datai patiekalai dar nepasirinkti. Atidarykite meniu ir pateikite užsakymą.",
+      "unavailable": "Šiuo metu valgykla nesiūlo užsakymo datos. Patikrinkite meniu vėliau.",
+      "error": "Nepavyko patikrinti užsakymo. Atnaujinkite būseną arba atidarykite užsakymo puslapį.",
+      "portions": "porc.",
+      "total": "Iš viso",
+      "deadline": "Užsakymą galima keisti iki 09:00 valgymo dieną.",
+      "edit": "Atidaryti užsakymą",
+      "choose": "Pasirinkti patiekalus",
+      "open": "Pereiti prie užsakymo"
+    },
     "feedback": "Jei pastebėjote programėlės klaidų, prašau apie tai pranešti programėlės kūrėjui",
     "reportButton": "Pranešti apie problemą",
     "thanks": "Ačiū už pagalbą!",

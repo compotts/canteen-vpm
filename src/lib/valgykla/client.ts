@@ -48,19 +48,23 @@ export async function checkAuth(): Promise<void> {
   assertAuthorized(response);
 }
 
-export async function getOrderMakePage(): Promise<string> {
+export async function getOrderMakePage(signal?: AbortSignal): Promise<string> {
   const response = await fetch(`${VALGYKLA_API_BASE}/orders/make`, {
     method: "GET",
     credentials: "include",
+    cache: "no-store",
+    signal,
   });
   assertAuthorized(response);
   return response.text();
 }
 
-export async function getOrderPage(date: string): Promise<string> {
+export async function getOrderPage(date: string, signal?: AbortSignal): Promise<string> {
   const response = await fetch(`${VALGYKLA_API_BASE}/orders/make/${date}`, {
     method: "GET",
     credentials: "include",
+    cache: "no-store",
+    signal,
   });
   assertAuthorized(response);
   return response.text();

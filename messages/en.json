@@ -33,6 +33,23 @@
     "theme": "Theme"
   },
   "home": {
+    "orderStatus": {
+      "title": "Your order",
+      "source": "For the next available date, from the canteen website",
+      "refresh": "Refresh status",
+      "loading": "Checking your order with the canteen…",
+      "saved": "Order saved",
+      "notOrdered": "No order yet",
+      "emptyHint": "No dishes selected for this date. Open the menu to place your order.",
+      "unavailable": "The canteen is not offering an order date right now. Check the menu later.",
+      "error": "Could not check your order. Refresh the status or open the order page.",
+      "portions": "port.",
+      "total": "Total",
+      "deadline": "Orders can be changed until 09:00 on the meal day.",
+      "edit": "Open order",
+      "choose": "Choose dishes",
+      "open": "Go to orders"
+    },
     "feedback": "If you notice any app errors, please report them to the app developer",
     "reportButton": "Report a problem",
     "thanks": "Thanks for your help!",

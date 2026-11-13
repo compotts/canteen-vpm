@@ -14,6 +14,7 @@ import {
 import { sendFeedback } from "@/lib/api/feedback";
 import { pickTextByLang } from "@/lib/text";
 import type { AppUpdate } from "@/types/api";
+import { OrderStatusCard } from "./order-status-card";
 
 export function HomeView({ updates }: { updates: AppUpdate[] }) {
   const t = useTranslations();
@@ -62,6 +63,8 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
       <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] m-0 mb-5">
         {t("nav.home")}
       </h1>
+
+      <OrderStatusCard key={locale} />
 
       <div className="stagger md:grid md:grid-cols-2 md:gap-6 md:items-start">
         <section className="surface rounded-[var(--radius-lg)] p-5 mb-5 md:mb-0">
