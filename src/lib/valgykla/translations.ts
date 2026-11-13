@@ -21,23 +21,32 @@ function addToMap(
   }
 }
 
+async function loadEntries(path: string): Promise<(Dish | Translation)[]> {
+  const response = await fetch(path);
+  if (!response.ok) throw new Error(`HTTP ${response.status}: ${path}`);
+
+  const entries: unknown = await response.json();
+  if (!Array.isArray(entries)) throw new Error(`Invalid dish list: ${path}`);
+  return entries;
+}
+
 export async function loadDishTranslations(): Promise<DishTranslationMap> {
   if (cache) return cache;
 
-  try {
-    const [dishesResponse, translationsResponse] = await Promise.all([
-      fetch("/api/dishes"),
-      fetch("/api/translations"),
-    ]);
+  const results = await Promise.allSettled([
+    loadEntries("/api/dishes"),
+    loadEntries("/api/translations"),
+  ]);
 
-    const map: DishTranslationMap = {};
-    if (dishesResponse.ok) addToMap(map, await dishesResponse.json());
-    if (translationsResponse.ok) addToMap(map, await translationsResponse.json());
-
-    cache = map;
-    return cache;
-  } catch (error) {
-    console.error("Error loading translations:", error);
-    return {};
+  const map: DishTranslationMap = {};
+  for (const result of results) {
+    if (result.status === "fulfilled") {
+      addToMap(map, result.value);
+    } else {
+      console.error("Error loading translations:", result.reason);
+    }
   }
+
+  if (results.every((result) => result.status === "fulfilled")) cache = map;
+  return map;
 }
