@@ -1,3 +1,4 @@
+import { auditMutation } from "@/server/activity";
 import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { dishes } from "@/server/db/schema";
@@ -28,22 +29,31 @@ export async function GET(): Promise<Response> {
 export async function POST(request: Request): Promise<Response> {
   try {
     const body = await readJson(request);
-    await requireAdmin(request, "dishes");
+    const { username } = await requireAdmin(request, "dishes");
 
     const input = parse(dishCreateSchema, body);
-    const [row] = await db
-      .insert(dishes)
-      .values({
-        id: input.id,
-        category: input.category,
-        nameLt: input.name,
-        nameRu: input.nameRu,
-        nameEn: input.nameEn,
-        weight: input.weight,
-        priceStudent: toNumericColumn(input.priceStudent),
-        priceTeacher: toNumericColumn(input.priceTeacher),
-      })
-      .returning();
+    const [row] = await auditMutation(
+      db
+        .insert(dishes)
+        .values({
+          id: input.id,
+          category: input.category,
+          nameLt: input.name,
+          nameRu: input.nameRu,
+          nameEn: input.nameEn,
+          weight: input.weight,
+          priceStudent: toNumericColumn(input.priceStudent),
+          priceTeacher: toNumericColumn(input.priceTeacher),
+        })
+        .returning(),
+      {
+        username,
+        category: "admin",
+        action: "dish_create",
+        target: input.id,
+        details: input,
+      }
+    );
 
     return json(formatDish(row), 201);
   } catch (error) {
@@ -54,27 +64,36 @@ export async function POST(request: Request): Promise<Response> {
 export async function PATCH(request: Request): Promise<Response> {
   try {
     const body = await readJson(request);
-    await requireAdmin(request, "dishes");
+    const { username } = await requireAdmin(request, "dishes");
 
     const input = parse(dishUpdateSchema, body);
-    const [row] = await db
-      .update(dishes)
-      .set({
-        ...(input.category !== null && { category: input.category }),
-        ...(input.name !== null && { nameLt: input.name }),
-        ...(input.nameRu !== null && { nameRu: input.nameRu }),
-        ...(input.nameEn !== null && { nameEn: input.nameEn }),
-        ...(input.weight !== null && { weight: input.weight }),
-        ...(input.priceStudent !== null && {
-          priceStudent: toNumericColumn(input.priceStudent),
-        }),
-        ...(input.priceTeacher !== null && {
-          priceTeacher: toNumericColumn(input.priceTeacher),
-        }),
-        updatedAt: new Date(),
-      })
-      .where(eq(dishes.id, input.id))
-      .returning();
+    const [row] = await auditMutation(
+      db
+        .update(dishes)
+        .set({
+          ...(input.category !== null && { category: input.category }),
+          ...(input.name !== null && { nameLt: input.name }),
+          ...(input.nameRu !== null && { nameRu: input.nameRu }),
+          ...(input.nameEn !== null && { nameEn: input.nameEn }),
+          ...(input.weight !== null && { weight: input.weight }),
+          ...(input.priceStudent !== null && {
+            priceStudent: toNumericColumn(input.priceStudent),
+          }),
+          ...(input.priceTeacher !== null && {
+            priceTeacher: toNumericColumn(input.priceTeacher),
+          }),
+          updatedAt: new Date(),
+        })
+        .where(eq(dishes.id, input.id))
+        .returning(),
+      {
+        username,
+        category: "admin",
+        action: "dish_update",
+        target: String(input.id),
+        details: input,
+      }
+    );
 
     if (!row) throw new HttpError(404, "not found");
     return json(formatDish(row));
@@ -85,12 +104,23 @@ export async function PATCH(request: Request): Promise<Response> {
 
 export async function DELETE(request: Request): Promise<Response> {
   try {
-    await requireAdmin(request, "dishes");
+    const { username } = await requireAdmin(request, "dishes");
 
     const id = new URL(request.url).searchParams.get("id");
     if (!id) throw new HttpError(400, "id is required");
 
-    await db.delete(dishes).where(eq(dishes.id, id));
+    await auditMutation(
+      db.delete(dishes).where(eq(dishes.id, id)),
+      {
+        username,
+        category: "admin",
+        action: "dish_delete",
+        target: String(id),
+        details: {
+
+        },
+      }
+    );
     return noContent();
   } catch (error) {
     return errorResponse(error);

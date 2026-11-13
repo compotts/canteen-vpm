@@ -1,3 +1,4 @@
+import { auditMutation } from "@/server/activity";
 import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { feedback } from "@/server/db/schema";
@@ -55,12 +56,20 @@ export async function POST(request: Request): Promise<Response> {
 
 export async function DELETE(request: Request): Promise<Response> {
   try {
-    await requireAdmin(request, "feedback");
+    const { username } = await requireAdmin(request, "feedback");
 
     const id = new URL(request.url).searchParams.get("id");
     if (!id) throw new HttpError(400, "id is required");
 
-    await db.delete(feedback).where(eq(feedback.id, id));
+    await auditMutation(
+      db.delete(feedback).where(eq(feedback.id, id)),
+      {
+        username,
+        category: "admin",
+        action: "feedback_delete",
+        target: id,
+      }
+    );
     return noContent();
   } catch (error) {
     return errorResponse(error);

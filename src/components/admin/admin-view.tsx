@@ -13,6 +13,7 @@ import { TranslationsTab } from "./translations-tab";
 import { PhotosTab } from "./photos-tab";
 import { FeedbackTab } from "./feedback-tab";
 import { AdminsTab } from "./admins-tab";
+import { ActivityTab } from "./activity-tab";
 
 type TabId = AdminPermission | "admins";
 
@@ -24,6 +25,12 @@ type TabDefinition = {
 };
 
 const TABS: TabDefinition[] = [
+  {
+    id: "logs",
+    permission: "logs",
+    labelKey: "admin.tabs.logs",
+    titleKey: "admin.logsTitle",
+  },
   {
     id: "updates",
     permission: "updates",
@@ -130,6 +137,7 @@ export function AdminView() {
       {active?.id === "photos" && <PhotosTab key="photos" />}
       {active?.id === "feedback" && <FeedbackTab key="feedback" />}
       {active?.id === "admins" && <AdminsTab key="admins" />}
+      {active?.id === "logs" && <ActivityTab key="logs" />}
     </div>
   );
 }

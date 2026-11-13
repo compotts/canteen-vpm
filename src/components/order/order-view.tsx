@@ -284,7 +284,10 @@ export function OrderView() {
       if (err instanceof ApiError && err.status === 401) {
         window.dispatchEvent(new Event(LOGOUT_EVENT));
       } else {
-        setSubmitError(t("menu.saveError"));
+        setSubmitError(t(
+          err instanceof ApiError && err.details?.code === "order_status_unknown"
+            ? "menu.orderStatusUnknown" : "menu.saveError"
+        ));
       }
     } finally {
       setSubmitting(false);

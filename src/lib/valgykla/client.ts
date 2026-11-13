@@ -1,5 +1,5 @@
 import { VALGYKLA_API_BASE } from "@/lib/constants";
-import { ApiError } from "@/lib/api/client";
+import { ApiError, apiFetch } from "@/lib/api/client";
 
 export const INVALID_CREDENTIALS = "invalid_credentials";
 export const CANTEEN_UNAVAILABLE = "canteen_unavailable";
@@ -70,19 +70,14 @@ export async function submitOrder(
   date: string,
   quantities: Record<string, string>
 ): Promise<void> {
-  const body = new URLSearchParams();
-  for (const [id, value] of Object.entries(quantities)) {
-    body.set(
-      `quantities[${id}]`,
-      value === "" || value == null ? "" : String(value).replace(",", ".")
-    );
-  }
-
-  const response = await fetch(`${VALGYKLA_API_BASE}/orders/make/${date}`, {
+  const normalized = Object.fromEntries(
+    Object.entries(quantities).map(([id, value]) => [
+      id,
+      value == null ? "" : String(value).replace(",", "."),
+    ])
+  );
+  await apiFetch(`/api/orders/${encodeURIComponent(date)}`, {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: body.toString(),
-    credentials: "include",
+    body: { quantities: normalized },
   });
-  assertAuthorized(response);
 }

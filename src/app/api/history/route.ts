@@ -1,3 +1,4 @@
+import { auditMutation } from "@/server/activity";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { orderHistory, type OrderItem } from "@/server/db/schema";
@@ -33,24 +34,36 @@ export async function POST(request: Request): Promise<Response> {
     const username = await requireIdentity(request);
     const input = parse(orderSaveSchema, body);
 
-    const [row] = await db
-      .insert(orderHistory)
-      .values({
-        id: crypto.randomUUID(),
-        username,
-        menuDate: input.menuDate,
-        items: input.items,
-        orderTotal: String(input.orderTotal),
-      })
-      .onConflictDoUpdate({
-        target: [orderHistory.username, orderHistory.menuDate],
-        set: {
+    const [row] = await auditMutation(
+      db
+        .insert(orderHistory)
+        .values({
+          id: crypto.randomUUID(),
+          username,
+          menuDate: input.menuDate,
           items: input.items,
           orderTotal: String(input.orderTotal),
-          updatedAt: new Date(),
+        })
+        .onConflictDoUpdate({
+          target: [orderHistory.username, orderHistory.menuDate],
+          set: {
+            items: input.items,
+            orderTotal: String(input.orderTotal),
+            updatedAt: new Date(),
+          },
+        })
+        .returning(),
+      {
+        username,
+        category: "orders",
+        action: "history_save",
+        target: input.menuDate,
+        details: {
+          ...input,
+          source: "client_history",
         },
-      })
-      .returning();
+      }
+    );
 
     return json(formatOrder(row));
   } catch (error) {
@@ -97,7 +110,20 @@ export async function PATCH(request: Request): Promise<Response> {
     }, []);
 
     if (nextItems.length === 0) {
-      await db.delete(orderHistory).where(scope);
+      await auditMutation(
+        db.delete(orderHistory).where(scope),
+        {
+          username,
+          category: "orders",
+          action: "history_update",
+          target: input.menuDate,
+          details: {
+            itemId: input.itemId,
+            nextQuantity: quantity,
+            items: nextItems,
+          },
+        }
+      );
       return noContent();
     }
 
@@ -106,15 +132,28 @@ export async function PATCH(request: Request): Promise<Response> {
       0
     );
 
-    const [row] = await db
-      .update(orderHistory)
-      .set({
-        items: nextItems,
-        orderTotal: String(round2(nextTotal)),
-        updatedAt: new Date(),
-      })
-      .where(scope)
-      .returning();
+    const [row] = await auditMutation(
+      db
+        .update(orderHistory)
+        .set({
+          items: nextItems,
+          orderTotal: String(round2(nextTotal)),
+          updatedAt: new Date(),
+        })
+        .where(scope)
+        .returning(),
+      {
+        username,
+        category: "orders",
+        action: "history_update",
+        target: input.menuDate,
+        details: {
+          itemId: input.itemId,
+          nextQuantity: quantity,
+          items: nextItems,
+        },
+      }
+    );
 
     return json(formatOrder(row));
   } catch (error) {
@@ -127,16 +166,27 @@ export async function DELETE(request: Request): Promise<Response> {
     const username = await requireIdentity(request);
     const menuDate = new URL(request.url).searchParams.get("menuDate");
 
-    await db
-      .delete(orderHistory)
-      .where(
-        menuDate
-          ? and(
-              eq(orderHistory.username, username),
-              eq(orderHistory.menuDate, menuDate)
-            )
-          : eq(orderHistory.username, username)
-      );
+    await auditMutation(
+      db
+        .delete(orderHistory)
+        .where(
+          menuDate
+            ? and(
+                eq(orderHistory.username, username),
+                eq(orderHistory.menuDate, menuDate)
+              )
+            : eq(orderHistory.username, username)
+        ),
+      {
+        username,
+        category: "orders",
+        action: "history_delete",
+        target: menuDate,
+        details: {
+
+        },
+      }
+    );
 
     return noContent();
   } catch (error) {

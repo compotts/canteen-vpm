@@ -106,7 +106,8 @@
     "changeDate": "Change date",
     "categories": "Menu categories",
     "saveError": "Could not save your order. Please try again.",
-    "historySaveError": "Your order was sent, but history could not be saved. Check your order on the canteen website."
+    "historySaveError": "Your order was sent, but history could not be saved. Check your order on the canteen website.",
+    "orderStatusUnknown": "The order result is unknown. Check your order on the canteen website before submitting again."
   },
   "notifications": {
     "title": "Order reminders",
@@ -166,6 +167,60 @@
     "increaseQty": "+0.5 portions"
   },
   "admin": {
+    "logsTitle": "Admin · Activity log",
+    "logs": {
+      "hint": "Orders sent through the app and administrator actions. Order history is recorded separately from submission results. Events are recorded from the time logging is enabled.",
+      "category": "Section",
+      "orders": "Orders and history",
+      "admin": "Administration",
+      "all": "All",
+      "action": "Action",
+      "status": "Result",
+      "username": "Username",
+      "from": "From date",
+      "to": "To date",
+      "apply": "Apply",
+      "reset": "Reset",
+      "refresh": "Refresh",
+      "loading": "Loading activity…",
+      "empty": "No entries found",
+      "loadError": "Could not load activity",
+      "more": "Load more",
+      "details": "Details",
+      "dishId": "Dish #{id}",
+      "portions": "port.",
+      "emptyOrder": "All portions cleared",
+      "total": "Total",
+      "statuses": {
+        "success": "Completed",
+        "failed": "Rejected",
+        "pending": "Awaiting result",
+        "unknown": "Result unknown"
+      },
+      "actions": {
+        "order_submit": "Order submission",
+        "history_save": "Order history saved",
+        "history_update": "Order history changed",
+        "history_delete": "Order history deleted",
+        "dish_create": "Dish created",
+        "dish_update": "Dish changed",
+        "dish_delete": "Dish deleted",
+        "translation_create": "Translation created",
+        "translation_update": "Translation changed",
+        "translation_delete": "Translation deleted",
+        "update_create": "Update published",
+        "update_edit": "Update changed",
+        "update_delete": "Update deleted",
+        "photo_upload": "Photo uploaded",
+        "photo_delete": "Photo deleted",
+        "feedback_delete": "Feedback deleted",
+        "admin_create": "Administrator created",
+        "admin_update": "Administrator changed",
+        "admin_delete": "Administrator deleted",
+        "admin_login": "Admin sign in",
+        "admin_logout": "Admin sign out"
+      }
+    },
     "title": "Admin · Updates",
     "dishesTitle": "Admin · Dishes",
     "photosTitle": "Admin · Photos",
@@ -175,7 +230,8 @@
       "dishes": "Dishes",
       "photos": "Photos",
       "feedback": "Feedback",
-      "admins": "Admins"
+      "admins": "Admins",
+      "logs": "Activity"
     },
     "feedback": {
       "loading": "Loading feedback…",
@@ -261,7 +317,8 @@
       "translations": "Translations",
       "dishes": "Dish catalog",
       "photos": "Photos",
-      "feedback": "Feedback"
+      "feedback": "Feedback",
+      "logs": "View activity log"
     }
   }
 }

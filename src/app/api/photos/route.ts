@@ -1,3 +1,4 @@
+import { auditMutation } from "@/server/activity";
 import { del, put } from "@vercel/blob";
 import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
@@ -31,19 +32,47 @@ async function readPhotoUrl(
 async function writePhotoUrl(
   table: PhotoTable,
   id: string,
-  photoUrl: string | null
+  photoUrl: string | null,
+  username: string,
+  current: string | null
 ): Promise<void> {
   if (table === "dishes") {
-    await db
-      .update(dishes)
-      .set({ photoUrl, updatedAt: new Date() })
-      .where(eq(dishes.id, id));
+    await auditMutation(
+      db
+        .update(dishes)
+        .set({ photoUrl, updatedAt: new Date() })
+        .where(eq(dishes.id, id)),
+      {
+        username,
+        category: "admin",
+        action: photoUrl ? "photo_upload" : "photo_delete",
+        target: id,
+        details: {
+          table,
+          before: current,
+          after: photoUrl,
+        },
+      }
+    );
     return;
   }
-  await db
-    .update(translations)
-    .set({ photoUrl, updatedAt: new Date() })
-    .where(eq(translations.id, Number(id)));
+  await auditMutation(
+    db
+      .update(translations)
+      .set({ photoUrl, updatedAt: new Date() })
+      .where(eq(translations.id, Number(id))),
+    {
+      username,
+      category: "admin",
+      action: photoUrl ? "photo_upload" : "photo_delete",
+      target: id,
+      details: {
+        table,
+        before: current,
+        after: photoUrl,
+      },
+    }
+  );
 }
 
 async function deleteBlobSafe(url: string | null): Promise<void> {
@@ -56,7 +85,7 @@ async function deleteBlobSafe(url: string | null): Promise<void> {
 }
 
 async function resolveTarget(request: Request) {
-  await requireAdmin(request, "photos");
+  const { username } = await requireAdmin(request, "photos");
 
   const params = new URL(request.url).searchParams;
   const { table, id } = parse(photoTargetSchema, {
@@ -71,12 +100,12 @@ async function resolveTarget(request: Request) {
   const row = await readPhotoUrl(table, id);
   if (!row) throw new HttpError(404, "not found");
 
-  return { table, id, current: row.photoUrl };
+  return { table, id, current: row.photoUrl, username };
 }
 
 export async function POST(request: Request): Promise<Response> {
   try {
-    const { table, id, current } = await resolveTarget(request);
+    const { table, id, current, username } = await resolveTarget(request);
 
     const body = await request.arrayBuffer();
     if (body.byteLength === 0) throw new HttpError(400, "empty body");
@@ -88,7 +117,7 @@ export async function POST(request: Request): Promise<Response> {
       token: blobToken(),
     });
 
-    await writePhotoUrl(table, id, blob.url);
+    await writePhotoUrl(table, id, blob.url, username, current);
     await deleteBlobSafe(current);
 
     return json({ id, photoUrl: blob.url });
@@ -99,9 +128,9 @@ export async function POST(request: Request): Promise<Response> {
 
 export async function DELETE(request: Request): Promise<Response> {
   try {
-    const { table, id, current } = await resolveTarget(request);
+    const { table, id, current, username } = await resolveTarget(request);
 
-    await writePhotoUrl(table, id, null);
+    await writePhotoUrl(table, id, null, username, current);
     await deleteBlobSafe(current);
 
     return noContent();

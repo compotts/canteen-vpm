@@ -4,6 +4,7 @@ export const ADMIN_PERMISSIONS = [
   "dishes",
   "photos",
   "feedback",
+  "logs",
 ] as const;
 
 export type AdminPermission = (typeof ADMIN_PERMISSIONS)[number];

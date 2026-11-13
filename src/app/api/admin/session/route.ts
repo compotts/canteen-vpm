@@ -1,3 +1,4 @@
+import { recordActivity } from "@/server/activity";
 import { getAdminSessionInfo, requireIdentity } from "@/server/auth";
 import {
   adminCookieHeader,
@@ -81,9 +82,12 @@ export async function POST(request: Request): Promise<Response> {
       const expected = ownerPassword();
       if (!expected || !constantTimeEquals(input.password, expected)) {
         registerFailedPassword(request);
+        await recordActivity({ username, category: "admin", action: "admin_login", status: "failed" });
         throw new HttpError(401, "invalid password");
       }
 
+      const cookie = adminCookieHeader(createAdminSession(username, sessionId));
+      await recordActivity({ username, category: "admin", action: "admin_login" });
       attempts.delete(throttleKey(request));
       return new Response(
         JSON.stringify({
@@ -95,9 +99,7 @@ export async function POST(request: Request): Promise<Response> {
           status: 200,
           headers: {
             "Content-Type": "application/json",
-            "Set-Cookie": adminCookieHeader(
-              createAdminSession(username, sessionId)
-            ),
+            "Set-Cookie": cookie,
           },
         }
       );
@@ -106,9 +108,12 @@ export async function POST(request: Request): Promise<Response> {
     const record = await findAdmin(username);
     if (!record || !verifyPassword(input.password, record.passwordHash)) {
       registerFailedPassword(request);
+      await recordActivity({ username, category: "admin", action: "admin_login", status: "failed" });
       throw new HttpError(401, "invalid password");
     }
 
+    const cookie = adminCookieHeader(createAdminSession(username, sessionId));
+    await recordActivity({ username, category: "admin", action: "admin_login" });
     attempts.delete(throttleKey(request));
     return new Response(
       JSON.stringify({
@@ -120,9 +125,7 @@ export async function POST(request: Request): Promise<Response> {
         status: 200,
         headers: {
           "Content-Type": "application/json",
-          "Set-Cookie": adminCookieHeader(
-            createAdminSession(username, sessionId)
-          ),
+          "Set-Cookie": cookie,
         },
       }
     );
@@ -131,9 +134,21 @@ export async function POST(request: Request): Promise<Response> {
   }
 }
 
-export async function DELETE(): Promise<Response> {
-  return new Response(null, {
-    status: 204,
-    headers: { "Set-Cookie": adminCookieHeader(null) },
-  });
+export async function DELETE(request: Request): Promise<Response> {
+  try {
+    const session = await getAdminSessionInfo(request);
+    if (session) {
+      await recordActivity({
+        username: session.username,
+        category: "admin",
+        action: "admin_logout",
+      });
+    }
+    return new Response(null, {
+      status: 204,
+      headers: { "Set-Cookie": adminCookieHeader(null) },
+    });
+  } catch (error) {
+    return errorResponse(error);
+  }
 }

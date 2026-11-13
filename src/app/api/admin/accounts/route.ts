@@ -1,3 +1,4 @@
+import { auditMutation } from "@/server/activity";
 import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { admins } from "@/server/db/schema";
@@ -42,15 +43,26 @@ export async function POST(request: Request): Promise<Response> {
     }
 
     const password = input.password ?? generatePassword();
-    const [row] = await db
-      .insert(admins)
-      .values({
-        username: input.username,
-        passwordHash: hashPassword(password),
-        permissions: input.permissions,
-        createdBy: owner.username,
-      })
-      .returning();
+    const [row] = await auditMutation(
+      db
+        .insert(admins)
+        .values({
+          username: input.username,
+          passwordHash: hashPassword(password),
+          permissions: input.permissions,
+          createdBy: owner.username,
+        })
+        .returning(),
+      {
+        username: owner.username,
+        category: "admin",
+        action: "admin_create",
+        target: input.username,
+        details: {
+          permissions: input.permissions,
+        },
+      }
+    );
 
     return json({ admin: formatAdmin(row), password }, 201);
   } catch (error) {
@@ -60,7 +72,7 @@ export async function POST(request: Request): Promise<Response> {
 
 export async function PATCH(request: Request): Promise<Response> {
   try {
-    await requireOwner(request);
+    const owner = await requireOwner(request);
     const input = parse(adminUpdateSchema, await readJson(request));
 
     if (isOwner(input.username)) {
@@ -74,15 +86,27 @@ export async function PATCH(request: Request): Promise<Response> {
       ? generatePassword()
       : (input.password ?? null);
 
-    const [row] = await db
-      .update(admins)
-      .set({
-        ...(input.permissions && { permissions: input.permissions }),
-        ...(password && { passwordHash: hashPassword(password) }),
-        updatedAt: new Date(),
-      })
-      .where(eq(admins.username, normalizeUsername(input.username)))
-      .returning();
+    const [row] = await auditMutation(
+      db
+        .update(admins)
+        .set({
+          ...(input.permissions && { permissions: input.permissions }),
+          ...(password && { passwordHash: hashPassword(password) }),
+          updatedAt: new Date(),
+        })
+        .where(eq(admins.username, normalizeUsername(input.username)))
+        .returning(),
+      {
+        username: owner.username,
+        category: "admin",
+        action: "admin_update",
+        target: input.username,
+        details: {
+          permissions: input.permissions,
+          passwordChanged: Boolean(password),
+        },
+      }
+    );
 
     return json({ admin: formatAdmin(row), password });
   } catch (error) {
@@ -92,7 +116,7 @@ export async function PATCH(request: Request): Promise<Response> {
 
 export async function DELETE(request: Request): Promise<Response> {
   try {
-    await requireOwner(request);
+    const owner = await requireOwner(request);
 
     const raw = new URL(request.url).searchParams.get("username");
     if (!raw) throw new HttpError(400, "username is required");
@@ -102,7 +126,15 @@ export async function DELETE(request: Request): Promise<Response> {
       throw new HttpError(400, "the owner account is managed by environment");
     }
 
-    await db.delete(admins).where(eq(admins.username, username));
+    await auditMutation(
+      db.delete(admins).where(eq(admins.username, username)),
+      {
+        username: owner.username,
+        category: "admin",
+        action: "admin_delete",
+        target: username,
+      }
+    );
     return noContent();
   } catch (error) {
     return errorResponse(error);

@@ -106,7 +106,8 @@
     "changeDate": "Keisti datą",
     "categories": "Meniu kategorijos",
     "saveError": "Nepavyko išsaugoti užsakymo. Bandykite dar kartą.",
-    "historySaveError": "Užsakymas išsiųstas, bet istorijos išsaugoti nepavyko. Patikrinkite užsakymą valgyklos svetainėje."
+    "historySaveError": "Užsakymas išsiųstas, bet istorijos išsaugoti nepavyko. Patikrinkite užsakymą valgyklos svetainėje.",
+    "orderStatusUnknown": "Užsakymo rezultatas nežinomas. Prieš siųsdami dar kartą patikrinkite užsakymą valgyklos svetainėje."
   },
   "notifications": {
     "title": "Užsakymo priminimai",
@@ -166,6 +167,60 @@
     "increaseQty": "+0.5 porcijos"
   },
   "admin": {
+    "logsTitle": "Admin · Veiksmų žurnalas",
+    "logs": {
+      "hint": "Per programėlę siunčiami užsakymai ir administratorių veiksmai. Užsakymų istorija įrašoma atskirai nuo siuntimo rezultatų. Įrašai kaupiami nuo žurnalo įjungimo.",
+      "category": "Skyrius",
+      "orders": "Užsakymai ir istorija",
+      "admin": "Administravimas",
+      "all": "Visi",
+      "action": "Veiksmas",
+      "status": "Rezultatas",
+      "username": "Naudotojo vardas",
+      "from": "Nuo datos",
+      "to": "Iki datos",
+      "apply": "Taikyti",
+      "reset": "Atkurti",
+      "refresh": "Atnaujinti",
+      "loading": "Kraunamas žurnalas…",
+      "empty": "Įrašų nerasta",
+      "loadError": "Nepavyko įkelti žurnalo",
+      "more": "Rodyti daugiau",
+      "details": "Išsamiau",
+      "dishId": "Patiekalas Nr. {id}",
+      "portions": "porc.",
+      "emptyOrder": "Visos porcijos išvalytos",
+      "total": "Iš viso",
+      "statuses": {
+        "success": "Atlikta",
+        "failed": "Atmesta",
+        "pending": "Laukiama rezultato",
+        "unknown": "Rezultatas nežinomas"
+      },
+      "actions": {
+        "order_submit": "Užsakymo siuntimas",
+        "history_save": "Užsakymo istorija išsaugota",
+        "history_update": "Užsakymo istorija pakeista",
+        "history_delete": "Užsakymų istorija ištrinta",
+        "dish_create": "Patiekalas pridėtas",
+        "dish_update": "Patiekalas pakeistas",
+        "dish_delete": "Patiekalas ištrintas",
+        "translation_create": "Vertimas pridėtas",
+        "translation_update": "Vertimas pakeistas",
+        "translation_delete": "Vertimas ištrintas",
+        "update_create": "Naujiena paskelbta",
+        "update_edit": "Naujiena pakeista",
+        "update_delete": "Naujiena ištrinta",
+        "photo_upload": "Nuotrauka įkelta",
+        "photo_delete": "Nuotrauka ištrinta",
+        "feedback_delete": "Pranešimas ištrintas",
+        "admin_create": "Administratorius pridėtas",
+        "admin_update": "Administratorius pakeistas",
+        "admin_delete": "Administratorius ištrintas",
+        "admin_login": "Prisijungimas prie administravimo",
+        "admin_logout": "Atsijungimas nuo administravimo"
+      }
+    },
     "title": "Admin · Atnaujinimai",
     "dishesTitle": "Admin · Patiekalai",
     "photosTitle": "Admin · Nuotraukos",
@@ -175,7 +230,8 @@
       "dishes": "Patiekalai",
       "photos": "Nuotraukos",
       "feedback": "Pranešimai",
-      "admins": "Administratoriai"
+      "admins": "Administratoriai",
+      "logs": "Žurnalas"
     },
     "feedback": {
       "loading": "Kraunami pranešimai…",
@@ -261,7 +317,8 @@
       "translations": "Vertimai",
       "dishes": "Patiekalų katalogas",
       "photos": "Nuotraukos",
-      "feedback": "Pranešimai"
+      "feedback": "Pranešimai",
+      "logs": "Žurnalo peržiūra"
     }
   }
 }

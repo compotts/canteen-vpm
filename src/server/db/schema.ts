@@ -1,7 +1,6 @@
 import {
   index,
   boolean,
-  primaryKey,
   jsonb,
   numeric,
   pgTable,
@@ -13,6 +12,11 @@ import {
 } from "drizzle-orm/pg-core";
 import { desc, sql } from "drizzle-orm";
 import type { AdminPermission } from "@/lib/permissions";
+import type {
+  ActivityAction,
+  ActivityCategory,
+  ActivityStatus,
+} from "@/lib/activity";
 
 export type OrderItem = {
   id: number | string;
@@ -22,6 +26,27 @@ export type OrderItem = {
   pricePerUnit: number;
   totalPrice: number;
 };
+
+export const activityLogs = pgTable(
+  "activity_logs",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    username: text("username").notNull(),
+    category: text("category").$type<ActivityCategory>().notNull(),
+    action: text("action").$type<ActivityAction>().notNull(),
+    status: text("status").$type<ActivityStatus>().notNull().default("success"),
+    target: text("target"),
+    details: jsonb("details").$type<Record<string, unknown>>().notNull().default({}),
+    createdAt: timestamp("created_at", { withTimezone: true, precision: 3 })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    index("activity_logs_created_at_id_idx").on(desc(table.createdAt), desc(table.id)),
+    index("activity_logs_category_created_at_idx").on(table.category, desc(table.createdAt)),
+    index("activity_logs_username_created_at_idx").on(table.username, desc(table.createdAt)),
+  ]
+);
 
 export const dishes = pgTable("dishes", {
   id: text("id").primaryKey(),

@@ -1,3 +1,4 @@
+import { auditMutation } from "@/server/activity";
 import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { translations } from "@/server/db/schema";
@@ -30,17 +31,26 @@ export async function GET(): Promise<Response> {
 export async function POST(request: Request): Promise<Response> {
   try {
     const body = await readJson(request);
-    await requireAdmin(request, "translations");
+    const { username } = await requireAdmin(request, "translations");
 
     const input = parse(translationCreateSchema, body);
-    const [row] = await db
-      .insert(translations)
-      .values({
-        nameLt: input.name,
-        nameRu: input.nameRu,
-        nameEn: input.nameEn,
-      })
-      .returning();
+    const [row] = await auditMutation(
+      db
+        .insert(translations)
+        .values({
+          nameLt: input.name,
+          nameRu: input.nameRu,
+          nameEn: input.nameEn,
+        })
+        .returning(),
+      {
+        username,
+        category: "admin",
+        action: "translation_create",
+        target: input.name,
+        details: input,
+      }
+    );
 
     return json(formatTranslation(row), 201);
   } catch (error) {
@@ -51,19 +61,28 @@ export async function POST(request: Request): Promise<Response> {
 export async function PATCH(request: Request): Promise<Response> {
   try {
     const body = await readJson(request);
-    await requireAdmin(request, "translations");
+    const { username } = await requireAdmin(request, "translations");
 
     const input = parse(translationUpdateSchema, body);
-    const [row] = await db
-      .update(translations)
-      .set({
-        ...(input.name !== null && { nameLt: input.name }),
-        ...(input.nameRu !== null && { nameRu: input.nameRu }),
-        ...(input.nameEn !== null && { nameEn: input.nameEn }),
-        updatedAt: new Date(),
-      })
-      .where(eq(translations.id, input.id))
-      .returning();
+    const [row] = await auditMutation(
+      db
+        .update(translations)
+        .set({
+          ...(input.name !== null && { nameLt: input.name }),
+          ...(input.nameRu !== null && { nameRu: input.nameRu }),
+          ...(input.nameEn !== null && { nameEn: input.nameEn }),
+          updatedAt: new Date(),
+        })
+        .where(eq(translations.id, input.id))
+        .returning(),
+      {
+        username,
+        category: "admin",
+        action: "translation_update",
+        target: String(input.id),
+        details: input,
+      }
+    );
 
     if (!row) throw new HttpError(404, "not found");
     return json(formatTranslation(row));
@@ -74,13 +93,24 @@ export async function PATCH(request: Request): Promise<Response> {
 
 export async function DELETE(request: Request): Promise<Response> {
   try {
-    await requireAdmin(request, "translations");
+    const { username } = await requireAdmin(request, "translations");
 
     const raw = new URL(request.url).searchParams.get("id");
     const id = Number(raw);
     if (!raw || !Number.isInteger(id)) throw new HttpError(400, "id is required");
 
-    await db.delete(translations).where(eq(translations.id, id));
+    await auditMutation(
+      db.delete(translations).where(eq(translations.id, id)),
+      {
+        username,
+        category: "admin",
+        action: "translation_delete",
+        target: String(id),
+        details: {
+
+        },
+      }
+    );
     return noContent();
   } catch (error) {
     return errorResponse(error);
