@@ -23,7 +23,7 @@ export function Header() {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
-    <header className="surface-raised sticky top-0 z-[800] border-x-0 border-t-0 px-4 py-3 md:px-6">
+    <header className="surface-raised sticky top-0 z-[800] border-x-0 border-t-0 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top,0px))] md:px-6">
       <div className="max-w-[430px] md:max-w-4xl mx-auto flex items-center justify-between gap-3">
         <Link
           href="/"
