@@ -68,7 +68,7 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
     }
   };
 
-  const visibleUpdates = expanded ? updates : updates.slice(0, 1);
+  const visibleUpdates = expanded ? updates : updates.slice(0, 3);
 
   return (
     <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border">
@@ -152,7 +152,7 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
                   </div>
                 ))}
 
-                {updates.length > 1 && (
+                {updates.length > 3 && (
                   <button
                     type="button"
                     onClick={() => setExpanded((value) => !value)}
