@@ -34,7 +34,7 @@ export async function POST(
       status: "pending",
       target: date,
       details: { menuDate: date, quantities },
-    });
+    }, request);
 
     const origin = process.env.VALGYKLA_ORIGIN ?? "https://valgykla.vpm.lt";
     const orderUrl = `${origin}/orders/make/${date}`;
@@ -67,7 +67,7 @@ export async function POST(
     try {
       await db.update(activityLogs).set({
         status,
-        details: { menuDate: date, quantities, upstreamStatus },
+        details: { ...entry.details, menuDate: date, quantities, upstreamStatus },
       }).where(eq(activityLogs.id, entry.id));
     } catch (error) {
       console.error("Failed to update order activity:", error);

@@ -52,7 +52,8 @@ export async function POST(request: Request): Promise<Response> {
         action: "dish_create",
         target: input.id,
         details: input,
-      }
+      },
+      request
     );
 
     return json(formatDish(row), 201);
@@ -92,7 +93,8 @@ export async function PATCH(request: Request): Promise<Response> {
         action: "dish_update",
         target: String(input.id),
         details: input,
-      }
+      },
+      request
     );
 
     if (!row) throw new HttpError(404, "not found");
@@ -119,7 +121,8 @@ export async function DELETE(request: Request): Promise<Response> {
         details: {
 
         },
-      }
+      },
+      request
     );
     return noContent();
   } catch (error) {

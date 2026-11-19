@@ -204,7 +204,10 @@ export function ActivityTab() {
                 }`}>{t(`statuses.${entry.status}`)}</span>
               </div>
               <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-[var(--text-muted)]">
-                <span className="break-all font-mono">{entry.username}</span>
+                <span className="min-w-0 break-words">
+                  {entry.fullName && <span className="mr-1.5 font-medium text-[var(--text)]">{entry.fullName}</span>}
+                  <span className="break-all font-mono">{entry.username}</span>
+                </span>
                 <time dateTime={entry.createdAt}>{new Date(entry.createdAt).toLocaleString(locale, { timeZone: "Europe/Vilnius" })}</time>
                 {entry.target && <span className="break-all">{entry.target}</span>}
               </div>

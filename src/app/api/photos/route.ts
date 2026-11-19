@@ -34,7 +34,8 @@ async function writePhotoUrl(
   id: string,
   photoUrl: string | null,
   username: string,
-  current: string | null
+  current: string | null,
+  request: Request
 ): Promise<void> {
   if (table === "dishes") {
     await auditMutation(
@@ -52,7 +53,8 @@ async function writePhotoUrl(
           before: current,
           after: photoUrl,
         },
-      }
+      },
+      request
     );
     return;
   }
@@ -71,7 +73,8 @@ async function writePhotoUrl(
         before: current,
         after: photoUrl,
       },
-    }
+    },
+    request
   );
 }
 
@@ -117,7 +120,7 @@ export async function POST(request: Request): Promise<Response> {
       token: blobToken(),
     });
 
-    await writePhotoUrl(table, id, blob.url, username, current);
+    await writePhotoUrl(table, id, blob.url, username, current, request);
     await deleteBlobSafe(current);
 
     return json({ id, photoUrl: blob.url });
@@ -130,7 +133,7 @@ export async function DELETE(request: Request): Promise<Response> {
   try {
     const { table, id, current, username } = await resolveTarget(request);
 
-    await writePhotoUrl(table, id, null, username, current);
+    await writePhotoUrl(table, id, null, username, current, request);
     await deleteBlobSafe(current);
 
     return noContent();

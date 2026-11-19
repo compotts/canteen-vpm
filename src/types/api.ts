@@ -1,6 +1,11 @@
 export type { OrderItem } from "@/server/db/schema";
 export type { AdminPermission } from "@/lib/permissions";
 
+export type UserProfile = {
+  username: string;
+  fullName: string | null;
+};
+
 export type Dish = {
   id: string;
   category: string;

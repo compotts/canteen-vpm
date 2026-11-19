@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   CheckCircle2,
@@ -13,12 +13,24 @@ import {
 } from "lucide-react";
 import { sendFeedback } from "@/lib/api/feedback";
 import { pickTextByLang } from "@/lib/text";
-import type { AppUpdate } from "@/types/api";
+import type { AppUpdate, UserProfile } from "@/types/api";
+import { loadUserProfile } from "@/lib/api/profile";
 import { OrderStatusCard } from "./order-status-card";
 
 export function HomeView({ updates }: { updates: AppUpdate[] }) {
   const t = useTranslations();
   const locale = useLocale();
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    loadUserProfile(controller.signal)
+      .then((value) => {
+        if (!controller.signal.aborted) setProfile(value);
+      })
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, []);
 
   const [expanded, setExpanded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -60,8 +72,8 @@ export function HomeView({ updates }: { updates: AppUpdate[] }) {
 
   return (
     <div className="flex-1 max-w-[430px] md:max-w-4xl mx-auto w-full px-4 md:px-6 py-6 box-border">
-      <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] m-0 mb-5">
-        {t("nav.home")}
+      <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text)] m-0 mb-5 break-words">
+        {profile?.fullName ? t("home.greeting", { name: profile.fullName }) : t("home.greetingFallback")}
       </h1>
 
       <OrderStatusCard key={locale} />

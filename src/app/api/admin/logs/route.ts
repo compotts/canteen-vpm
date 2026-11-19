@@ -1,6 +1,6 @@
-import { and, desc, eq, lt, or, sql, type SQL } from "drizzle-orm";
+import { and, desc, eq, inArray, lt, or, sql, type SQL } from "drizzle-orm";
 import { z } from "zod";
-import { ACTIVITY_ACTIONS, ACTIVITY_STATUSES } from "@/lib/activity";
+import { ACTIVITY_ACTIONS, ACTIVITY_STATUSES, activityFullName } from "@/lib/activity";
 import { requireAdmin } from "@/server/auth";
 import { db } from "@/server/db";
 import { activityLogs } from "@/server/db/schema";
@@ -59,8 +59,22 @@ export async function GET(request: Request): Promise<Response> {
       .where(and(...conditions))
       .orderBy(desc(activityLogs.createdAt), desc(activityLogs.id))
       .limit(51);
-    const entries = rows.slice(0, 50).map((row) => ({
+    const page = rows.slice(0, 50);
+    const missingNames = [...new Set(page.filter((row) => !activityFullName(row.details)).map((row) => row.username))];
+    const knownNames = missingNames.length
+      ? await db.selectDistinctOn([activityLogs.username], {
+          username: activityLogs.username,
+          fullName: sql<string>`${activityLogs.details}->>'fullName'`,
+        }).from(activityLogs).where(and(
+          inArray(activityLogs.username, missingNames),
+          sql`jsonb_typeof(${activityLogs.details}->'fullName') = 'string'`,
+          sql`length(trim(${activityLogs.details}->>'fullName')) > 0`
+        )).orderBy(activityLogs.username, desc(activityLogs.createdAt), desc(activityLogs.id))
+      : [];
+    const names = new Map(knownNames.map((row) => [row.username, row.fullName.trim()]));
+    const entries = page.map((row) => ({
       ...row,
+      fullName: activityFullName(row.details) ?? names.get(row.username) ?? null,
       createdAt: row.createdAt.toISOString(),
     }));
     const last = entries.at(-1);

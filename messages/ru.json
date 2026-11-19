@@ -33,6 +33,8 @@
     "theme": "Тема"
   },
   "home": {
+    "greeting": "Привет, {name}",
+    "greetingFallback": "Привет!",
     "orderStatus": {
       "title": "Ваш заказ",
       "source": "На ближайшую доступную дату, по данным столовой",

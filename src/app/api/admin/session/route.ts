@@ -82,12 +82,12 @@ export async function POST(request: Request): Promise<Response> {
       const expected = ownerPassword();
       if (!expected || !constantTimeEquals(input.password, expected)) {
         registerFailedPassword(request);
-        await recordActivity({ username, category: "admin", action: "admin_login", status: "failed" });
+        await recordActivity({ username, category: "admin", action: "admin_login", status: "failed" }, request);
         throw new HttpError(401, "invalid password");
       }
 
       const cookie = adminCookieHeader(createAdminSession(username, sessionId));
-      await recordActivity({ username, category: "admin", action: "admin_login" });
+      await recordActivity({ username, category: "admin", action: "admin_login" }, request);
       attempts.delete(throttleKey(request));
       return new Response(
         JSON.stringify({
@@ -108,12 +108,12 @@ export async function POST(request: Request): Promise<Response> {
     const record = await findAdmin(username);
     if (!record || !verifyPassword(input.password, record.passwordHash)) {
       registerFailedPassword(request);
-      await recordActivity({ username, category: "admin", action: "admin_login", status: "failed" });
+      await recordActivity({ username, category: "admin", action: "admin_login", status: "failed" }, request);
       throw new HttpError(401, "invalid password");
     }
 
     const cookie = adminCookieHeader(createAdminSession(username, sessionId));
-    await recordActivity({ username, category: "admin", action: "admin_login" });
+    await recordActivity({ username, category: "admin", action: "admin_login" }, request);
     attempts.delete(throttleKey(request));
     return new Response(
       JSON.stringify({
@@ -142,7 +142,7 @@ export async function DELETE(request: Request): Promise<Response> {
         username: session.username,
         category: "admin",
         action: "admin_logout",
-      });
+      }, request);
     }
     return new Response(null, {
       status: 204,

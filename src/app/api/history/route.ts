@@ -62,7 +62,8 @@ export async function POST(request: Request): Promise<Response> {
           ...input,
           source: "client_history",
         },
-      }
+      },
+      request
     );
 
     return json(formatOrder(row));
@@ -122,7 +123,8 @@ export async function PATCH(request: Request): Promise<Response> {
             nextQuantity: quantity,
             items: nextItems,
           },
-        }
+        },
+        request
       );
       return noContent();
     }
@@ -152,7 +154,8 @@ export async function PATCH(request: Request): Promise<Response> {
           nextQuantity: quantity,
           items: nextItems,
         },
-      }
+      },
+      request
     );
 
     return json(formatOrder(row));
@@ -185,7 +188,8 @@ export async function DELETE(request: Request): Promise<Response> {
         details: {
 
         },
-      }
+      },
+      request
     );
 
     return noContent();

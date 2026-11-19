@@ -61,7 +61,8 @@ export async function POST(request: Request): Promise<Response> {
         details: {
           permissions: input.permissions,
         },
-      }
+      },
+      request
     );
 
     return json({ admin: formatAdmin(row), password }, 201);
@@ -105,7 +106,8 @@ export async function PATCH(request: Request): Promise<Response> {
           permissions: input.permissions,
           passwordChanged: Boolean(password),
         },
-      }
+      },
+      request
     );
 
     return json({ admin: formatAdmin(row), password });
@@ -133,7 +135,8 @@ export async function DELETE(request: Request): Promise<Response> {
         category: "admin",
         action: "admin_delete",
         target: username,
-      }
+      },
+      request
     );
     return noContent();
   } catch (error) {

@@ -54,7 +54,8 @@ export async function POST(request: Request): Promise<Response> {
         action: "update_create",
         target: input.version,
         details: input,
-      }
+      },
+      request
     );
 
     return json(formatUpdate(row), 201);
@@ -87,7 +88,8 @@ export async function PATCH(request: Request): Promise<Response> {
         action: "update_edit",
         target: String(input.id),
         details: input,
-      }
+      },
+      request
     );
 
     if (!row) throw new HttpError(404, "not found");
@@ -114,7 +116,8 @@ export async function DELETE(request: Request): Promise<Response> {
         details: {
 
         },
-      }
+      },
+      request
     );
     return noContent();
   } catch (error) {

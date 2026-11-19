@@ -68,7 +68,8 @@ export async function DELETE(request: Request): Promise<Response> {
         category: "admin",
         action: "feedback_delete",
         target: id,
-      }
+      },
+      request
     );
     return noContent();
   } catch (error) {

@@ -3,11 +3,11 @@ import { readAdminSession, hashSessionId } from "./admin-session";
 import {
   CanteenUnavailableError,
   getSessionId,
-  getValgyklaUsername,
+  getValgyklaProfile,
 } from "./valgykla-identity";
 import { getPermissions, isOwner, normalizeUsername } from "./queries/admins";
 import type { AdminPermission } from "@/lib/permissions";
-import type { AdminSessionInfo } from "@/types/api";
+import type { AdminSessionInfo, UserProfile } from "@/types/api";
 
 const IDENTITY_TTL_MS = 5 * 60 * 1000;
 const NEGATIVE_TTL_MS = 30 * 1000;
@@ -15,7 +15,7 @@ const CACHE_LIMIT = 500;
 
 const identityCache = new Map<
   string,
-  { username: string | null; expiresAt: number }
+  { profile: UserProfile | null; expiresAt: number }
 >();
 
 function pruneCache(): void {
@@ -27,38 +27,44 @@ function pruneCache(): void {
   if (identityCache.size > CACHE_LIMIT) identityCache.clear();
 }
 
-async function resolveIdentity(request: Request): Promise<string | null> {
+async function resolveProfile(request: Request): Promise<UserProfile | null> {
   const sessionId = getSessionId(request);
   if (!sessionId) return null;
 
   const cached = identityCache.get(sessionId);
-  if (cached && Date.now() < cached.expiresAt) return cached.username;
+  if (cached && Date.now() < cached.expiresAt) return cached.profile;
 
-  const reported = await getValgyklaUsername(sessionId, request);
-  const username = reported ? normalizeUsername(reported) : null;
+  const reported = await getValgyklaProfile(sessionId, request);
+  const profile = reported
+    ? { ...reported, username: normalizeUsername(reported.username) }
+    : null;
 
   pruneCache();
   identityCache.set(sessionId, {
-    username,
-    expiresAt: Date.now() + (username ? IDENTITY_TTL_MS : NEGATIVE_TTL_MS),
+    profile,
+    expiresAt: Date.now() + (profile ? IDENTITY_TTL_MS : NEGATIVE_TTL_MS),
   });
 
-  return username;
+  return profile;
 }
 
-export async function getIdentity(request: Request): Promise<string | null> {
+export async function getUserProfile(request: Request): Promise<UserProfile | null> {
   try {
-    return await resolveIdentity(request);
+    return await resolveProfile(request);
   } catch (error) {
     if (error instanceof CanteenUnavailableError) return null;
     throw error;
   }
 }
 
-export async function requireIdentity(request: Request): Promise<string> {
-  let username: string | null;
+export async function getIdentity(request: Request): Promise<string | null> {
+  return (await getUserProfile(request))?.username ?? null;
+}
+
+export async function requireUserProfile(request: Request): Promise<UserProfile> {
+  let profile: UserProfile | null;
   try {
-    username = await resolveIdentity(request);
+    profile = await resolveProfile(request);
   } catch (error) {
     if (error instanceof CanteenUnavailableError) {
       throw new HttpError(503, `canteen unavailable: ${error.reason}`);
@@ -66,8 +72,12 @@ export async function requireIdentity(request: Request): Promise<string> {
     throw error;
   }
 
-  if (!username) throw new HttpError(401, "canteen session required");
-  return username;
+  if (!profile) throw new HttpError(401, "canteen session required");
+  return profile;
+}
+
+export async function requireIdentity(request: Request): Promise<string> {
+  return (await requireUserProfile(request)).username;
 }
 
 export async function getAdminSessionInfo(

@@ -31,6 +31,7 @@ export type ActivityCategory = "orders" | "admin";
 export type ActivityEntry = {
   id: string;
   username: string;
+  fullName: string | null;
   category: ActivityCategory;
   action: ActivityAction;
   status: ActivityStatus;
@@ -43,3 +44,8 @@ export type ActivityPage = {
   entries: ActivityEntry[];
   nextCursor: string | null;
 };
+
+export function activityFullName(details: Record<string, unknown>): string | null {
+  return typeof details.fullName === "string" && details.fullName.trim()
+    ? details.fullName.trim() : null;
+}

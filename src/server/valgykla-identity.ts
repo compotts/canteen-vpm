@@ -1,8 +1,10 @@
+import type { UserProfile } from "@/types/api";
+
 const VALGYKLA_ORIGIN =
   process.env.VALGYKLA_ORIGIN ?? "https://valgykla.vpm.lt";
 const SESSION_COOKIE = "PHPSESSID";
-const USERNAME_PATTERN =
-  /<div id="userinfo">[\s\S]*?<div class="name">[\s\S]*?<em>([^<]+)<\/em>/;
+const USERINFO_PATTERN =
+  /<div\b[^>]*\bid\s*=\s*["']userinfo["'][^>]*>[\s\S]*?<div\b[^>]*\bclass\s*=\s*["'](?:[^"']*\s)?name(?:\s[^"']*)?["'][^>]*>([\s\S]*?)<\/div>/i;
 const STATUS_TTL_MS = 60 * 1000;
 
 export type CanteenProblem = "certificate" | "unreachable";
@@ -40,10 +42,48 @@ export function getSessionId(request: Request): string | null {
   return null;
 }
 
-export async function getValgyklaUsername(
+function htmlText(value: string): string {
+  const entities: Record<string, string> = {
+    amp: "&",
+    lt: "<",
+    gt: ">",
+    quot: '"',
+    apos: "'",
+    nbsp: " ",
+  };
+  return value
+    .replace(/<[^>]*>/g, "")
+    .replace(/&(#x[\da-f]+|#\d+|amp|lt|gt|quot|apos|nbsp);/gi, (match, entity: string) => {
+      if (!entity.startsWith("#")) return entities[entity.toLowerCase()] ?? match;
+      const hex = entity[1]?.toLowerCase() === "x";
+      const code = Number.parseInt(entity.slice(hex ? 2 : 1), hex ? 16 : 10);
+      return code > 0 && code <= 0x10ffff && !(code >= 0xd800 && code <= 0xdfff)
+        ? String.fromCodePoint(code)
+        : match;
+    })
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function parseValgyklaProfile(html: string): UserProfile | null {
+  const name = html.match(USERINFO_PATTERN)?.[1];
+  if (!name) return null;
+
+  const login = name.match(/<em\b[^>]*>([\s\S]*?)<\/em>/i)?.[1];
+  const username = login ? htmlText(login) : "";
+  if (!username) return null;
+
+  const fullName = htmlText(
+    name.replace(/<em\b[^>]*>[\s\S]*?<\/em>/i, "")
+      .replace(/\(\s*\)\s*$/, "")
+  );
+  return { username, fullName: fullName || null };
+}
+
+export async function getValgyklaProfile(
   sessionId: string,
   request?: Request
-): Promise<string | null> {
+): Promise<UserProfile | null> {
   const headers: Record<string, string> = {
     cookie: `${SESSION_COOKIE}=${sessionId}`,
   };
@@ -60,15 +100,20 @@ export async function getValgyklaUsername(
       headers,
       redirect: "manual",
       cache: "no-store",
+      signal: AbortSignal.timeout(8000),
     });
+    if (response.status !== 200) return null;
+    return parseValgyklaProfile(await response.text());
   } catch (error) {
     throw new CanteenUnavailableError(classify(error));
   }
+}
 
-  if (response.status !== 200) return null;
-
-  const match = (await response.text()).match(USERNAME_PATTERN);
-  return match ? match[1].trim() : null;
+export async function getValgyklaUsername(
+  sessionId: string,
+  request?: Request
+): Promise<string | null> {
+  return (await getValgyklaProfile(sessionId, request))?.username ?? null;
 }
 
 let cachedStatus: { status: CanteenStatus; expiresAt: number } | null = null;

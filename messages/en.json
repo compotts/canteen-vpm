@@ -33,6 +33,8 @@
     "theme": "Theme"
   },
   "home": {
+    "greeting": "Hello, {name}",
+    "greetingFallback": "Hello!",
     "orderStatus": {
       "title": "Your order",
       "source": "For the next available date, from the canteen website",

@@ -33,6 +33,8 @@
     "theme": "Tema"
   },
   "home": {
+    "greeting": "Labas, {name}",
+    "greetingFallback": "Labas!",
     "orderStatus": {
       "title": "Jūsų užsakymas",
       "source": "Artimiausiai galimai datai, pagal valgyklos duomenis",
