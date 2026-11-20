@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where(.dark, .dark *, .sand-dark, .sand-dark *, .sage-dark, .sage-dark *, .blue-dark, .blue-dark *));
 
 :root {
+  color-scheme: light;
   --bg: #f5f5f5;
   --bg-card: #ffffff;
   --surface: #ffffff;
@@ -21,7 +22,11 @@
   --radius-xl: 20px;
 }
 
-.dark {
+.dark,
+.sand-dark,
+.sage-dark,
+.blue-dark {
+  color-scheme: dark;
   --bg: #09090b;
   --bg-card: #131316;
   --surface: #131316;
@@ -33,6 +38,84 @@
   --accent: #fafafa;
   --btn-primary-color: #09090b;
   --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sand {
+  --bg: #f6f2eb;
+  --bg-card: #fffcf7;
+  --surface: #fffcf7;
+  --border: #e5dcd0;
+  --border-subtle: #f0e9df;
+  --hover: #f0e9df;
+  --text: #30271f;
+  --text-muted: #7a6b5b;
+  --accent: #805b39;
+  --btn-primary-color: #ffffff;
+}
+
+.sand-dark {
+  --bg: #171411;
+  --bg-card: #211c17;
+  --surface: #211c17;
+  --border: #393027;
+  --border-subtle: #2c251e;
+  --hover: #2c251e;
+  --text: #f5eee5;
+  --text-muted: #b6a794;
+  --accent: #dfbd94;
+  --btn-primary-color: #21180f;
+}
+
+.sage {
+  --bg: #f0f4f1;
+  --bg-card: #fbfdfb;
+  --surface: #fbfdfb;
+  --border: #d7e2da;
+  --border-subtle: #e6eee8;
+  --hover: #e6eee8;
+  --text: #1d3025;
+  --text-muted: #64766a;
+  --accent: #3c6650;
+  --btn-primary-color: #ffffff;
+}
+
+.sage-dark {
+  --bg: #101713;
+  --bg-card: #18221b;
+  --surface: #18221b;
+  --border: #2d3c32;
+  --border-subtle: #223027;
+  --hover: #223027;
+  --text: #e9f2ec;
+  --text-muted: #a0b4a6;
+  --accent: #a3c8af;
+  --btn-primary-color: #14251a;
+}
+
+.blue {
+  --bg: #eff3f8;
+  --bg-card: #fbfcff;
+  --surface: #fbfcff;
+  --border: #d8e1ed;
+  --border-subtle: #e5ecf5;
+  --hover: #e5ecf5;
+  --text: #1e2d43;
+  --text-muted: #64748b;
+  --accent: #395f8a;
+  --btn-primary-color: #ffffff;
+}
+
+.blue-dark {
+  --bg: #101620;
+  --bg-card: #182130;
+  --surface: #182130;
+  --border: #2c3a50;
+  --border-subtle: #212e41;
+  --hover: #212e41;
+  --text: #eaf0f8;
+  --text-muted: #a2b1c7;
+  --accent: #a5c3e8;
+  --btn-primary-color: #14253c;
 }
 
 body {

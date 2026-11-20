@@ -42,7 +42,14 @@
   "settings": {
     "title": "Nustatymai",
     "language": "Kalba",
-    "theme": "Tema"
+    "theme": "Tema",
+    "colorTheme": "Spalvų tema",
+    "colors": {
+      "neutral": "Klasikinė",
+      "sand": "Smėlio",
+      "sage": "Šalavijų",
+      "blue": "Mėlyna"
+    }
   },
   "home": {
     "greeting": "Labas, {name}",

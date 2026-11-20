@@ -42,7 +42,14 @@
   "settings": {
     "title": "Настройки",
     "language": "Язык",
-    "theme": "Тема"
+    "theme": "Тема",
+    "colorTheme": "Цветовая тема",
+    "colors": {
+      "neutral": "Классика",
+      "sand": "Песочная",
+      "sage": "Шалфей",
+      "blue": "Синяя"
+    }
   },
   "home": {
     "greeting": "Привет, {name}",

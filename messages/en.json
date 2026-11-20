@@ -42,7 +42,14 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
-    "theme": "Theme"
+    "theme": "Theme",
+    "colorTheme": "Color theme",
+    "colors": {
+      "neutral": "Classic",
+      "sand": "Sand",
+      "sage": "Sage",
+      "blue": "Blue"
+    }
   },
   "home": {
     "greeting": "Hello, {name}",
