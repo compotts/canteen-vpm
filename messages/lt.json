@@ -1,4 +1,16 @@
 {
+  "favorites": {
+    "title": "Mėgstami",
+    "allDishes": "Visi patiekalai",
+    "add": "Pridėti prie mėgstamų: {name}",
+    "remove": "Pašalinti iš mėgstamų: {name}",
+    "loading": "Kraunami mėgstami patiekalai…",
+    "loadError": "Nepavyko įkelti mėgstamų patiekalų.",
+    "saveError": "Nepavyko išsaugoti pakeitimo. Širdelė grąžinta į ankstesnę būseną.",
+    "reload": "Atnaujinti mėgstamus",
+    "emptyCatalog": "Kataloge dar nėra mėgstamų patiekalų. Pridėkite juos paspaudę širdelę.",
+    "emptyMenu": "Šiai datai mėgstamų patiekalų nėra. Pasirinkite visus patiekalus ir raskite kitą patiekalą."
+  },
   "common": {
     "loading": "Kraunama…",
     "close": "Uždaryti"

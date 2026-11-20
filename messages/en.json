@@ -1,4 +1,16 @@
 {
+  "favorites": {
+    "title": "Favorites",
+    "allDishes": "All dishes",
+    "add": "Add to favorites: {name}",
+    "remove": "Remove from favorites: {name}",
+    "loading": "Loading favorites…",
+    "loadError": "Could not load favorites.",
+    "saveError": "Could not save the change. The heart has been restored to its previous state.",
+    "reload": "Refresh favorites",
+    "emptyCatalog": "No favorite dishes in the catalog yet. Tap a heart to add one.",
+    "emptyMenu": "None of your favorite dishes are available for this date. Switch to all dishes to choose something else."
+  },
   "common": {
     "loading": "Loading…",
     "close": "Close"

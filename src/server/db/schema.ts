@@ -4,6 +4,7 @@ import {
   jsonb,
   numeric,
   pgTable,
+  primaryKey,
   serial,
   text,
   timestamp,
@@ -71,6 +72,20 @@ export const translations = pgTable("translations", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
+
+export const userFavorites = pgTable(
+  "user_favorites",
+  {
+    username: text("username").notNull(),
+    dishKey: text("dish_key").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    primaryKey({ name: "user_favorites_pkey", columns: [table.username, table.dishKey] }),
+  ]
+);
 
 export const orderHistory = pgTable(
   "order_history",

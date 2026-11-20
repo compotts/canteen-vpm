@@ -9,12 +9,16 @@ import {
   CheckCircle2,
   Clock3,
   Loader2,
+  Heart,
   UtensilsCrossed,
 } from "lucide-react";
 import { OrderMenuItem } from "./order-menu-item";
 import { OrderSummary } from "./order-summary";
 import { LOGOUT_EVENT } from "@/components/auth-provider";
 import { PhotoLightbox } from "@/components/photo-lightbox";
+import { FavoritesNotice } from "@/components/favorites-notice";
+import { useFavorites } from "@/components/favorites-provider";
+import { favoriteKey } from "@/lib/favorites";
 import { SECTION_TITLE_KEYS } from "@/lib/constants";
 import { normalizeDishName } from "@/lib/text";
 import { ApiError } from "@/lib/api/client";
@@ -112,6 +116,8 @@ function formatOrderDate(date: string, locale: string): string {
 export function OrderView({ initialDate }: { initialDate?: string }) {
   const t = useTranslations();
   const locale = useLocale();
+  const favorites = useFavorites();
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
 
   const [translations, setTranslations] = useState<DishTranslationMap>({});
   const [linkInfo, setLinkInfo] = useState<OrderLink | null>(null);
@@ -244,6 +250,15 @@ export function OrderView({ initialDate }: { initialDate?: string }) {
     })
   );
   const total = selectedItems.reduce((sum, item) => sum + item.total, 0);
+  const visibleSections = (menu?.sections ?? []).map((section, index) => ({
+    index,
+    section: {
+      ...section,
+      items: favoritesOnly
+        ? section.items.filter((item) => favorites.keys.has(favoriteKey(item.name)))
+        : section.items,
+    },
+  })).filter(({ section }) => section.items.length > 0);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -447,11 +462,24 @@ export function OrderView({ initialDate }: { initialDate?: string }) {
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8">
         <div className="min-w-0">
+          <div className="mb-4 flex flex-wrap gap-2">
+            <button type="button" onClick={() => setFavoritesOnly(false)} aria-pressed={!favoritesOnly} className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium ${!favoritesOnly ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "surface text-[var(--text-muted)]"}`}>
+              {t("favorites.allDishes")}
+            </button>
+            <button type="button" onClick={() => setFavoritesOnly(true)} disabled={!favorites.ready} aria-pressed={favoritesOnly} className={`inline-flex min-h-11 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium disabled:opacity-50 ${favoritesOnly ? "bg-[var(--accent)] text-[var(--btn-primary-color)]" : "surface text-[var(--text-muted)]"}`}>
+              <Heart className="h-4 w-4" aria-hidden="true" />
+              {t("favorites.title")}
+            </button>
+          </div>
+          <FavoritesNotice />
+          {favoritesOnly && visibleSections.length === 0 && (
+            <p className="surface mb-4 rounded-[var(--radius-lg)] px-4 py-6 text-sm leading-relaxed text-[var(--text-muted)]">{t("favorites.emptyMenu")}</p>
+          )}
           <nav
             className="mb-5 flex gap-2 overflow-x-auto pb-1 no-scrollbar"
             aria-label={t("menu.categories")}
           >
-            {menu.sections.map((section, index) => (
+            {visibleSections.map(({ section, index }) => (
               <a
                 key={`${section.title}-${index}`}
                 href={`#order-section-${index}`}
@@ -468,7 +496,7 @@ export function OrderView({ initialDate }: { initialDate?: string }) {
               className="m-0 min-w-0 space-y-5 border-0 p-0 disabled:opacity-60"
             >
               <legend className="sr-only">{t("menu.dailyMenu")}</legend>
-              {menu.sections.map((section, index) => (
+              {visibleSections.map(({ section, index }) => (
                 <section
                   key={`${section.title}-${index}`}
                   id={`order-section-${index}`}

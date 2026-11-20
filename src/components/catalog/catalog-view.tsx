@@ -2,8 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Heart } from "lucide-react";
 import { PhotoLightbox } from "@/components/photo-lightbox";
+import { FavoriteButton } from "@/components/favorite-button";
+import { FavoritesNotice } from "@/components/favorites-notice";
+import { useFavorites } from "@/components/favorites-provider";
+import { favoriteKey } from "@/lib/favorites";
 import { CATEGORY_IDS, type CategoryId } from "@/lib/constants";
 import type { Dish, LightboxPhoto } from "@/types/api";
 
@@ -53,8 +57,9 @@ export function CatalogView({
 }) {
   const t = useTranslations();
   const locale = useLocale();
+  const favorites = useFavorites();
 
-  const [category, setCategory] = useState<CategoryId>("sriubos");
+  const [category, setCategory] = useState<CategoryId | "favorites">("sriubos");
   const [filterOpen, setFilterOpen] = useState(true);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<SortKey>("name");
@@ -64,7 +69,9 @@ export function CatalogView({
   const [lightboxPhoto, setLightboxPhoto] = useState<LightboxPhoto | null>(null);
 
   const items = useMemo(() => {
-    let list = dishes.filter((dish) => dish.category === category);
+    let list = dishes.filter((dish) => category === "favorites"
+      ? favorites.keys.has(favoriteKey(dish.name))
+      : dish.category === category);
 
     if (search.trim()) {
       const query = search.trim().toLowerCase();
@@ -82,7 +89,7 @@ export function CatalogView({
       ...sorted.filter((item) => item.photoUrl),
       ...sorted.filter((item) => !item.photoUrl),
     ];
-  }, [dishes, category, search, sortBy, sortAsc, locale]);
+  }, [dishes, category, search, sortBy, sortAsc, locale, favorites.keys]);
 
   const totalPages = Math.max(1, Math.ceil(items.length / perPage));
   const currentPage = Math.min(page, totalPages);
@@ -110,10 +117,25 @@ export function CatalogView({
 
       <div className="surface rounded-full p-1 mb-4">
         <div className="flex gap-1 overflow-x-auto no-scrollbar">
+          <button
+            type="button"
+            onClick={() => { setCategory("favorites"); setPage(1); }}
+            disabled={!favorites.ready}
+            aria-pressed={category === "favorites"}
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all active:scale-95 disabled:opacity-50 ${
+              category === "favorites"
+                ? "bg-[var(--accent)] text-[var(--btn-primary-color)] shadow-sm"
+                : "text-[var(--text-muted)] hover:text-[var(--text)]"
+            }`}
+          >
+            <Heart className="h-4 w-4" aria-hidden="true" />
+            {t("favorites.title")}
+          </button>
           {CATEGORY_IDS.map((id) => (
             <button
               key={id}
               type="button"
+              aria-pressed={category === id}
               onClick={() => {
                 setCategory(id);
                 setPage(1);
@@ -213,9 +235,11 @@ export function CatalogView({
         </div>
       </div>
 
+      <FavoritesNotice />
+
       {loadFailed || paginatedItems.length === 0 ? (
         <p className="text-[var(--text-muted)] py-8 text-center">
-          {t("catalog.noResults")}
+          {t(category === "favorites" && !loadFailed && !search.trim() ? "favorites.emptyCatalog" : "catalog.noResults")}
         </p>
       ) : (
         <ul className="stagger list-none p-0 m-0 md:grid md:grid-cols-2 md:gap-4">
@@ -247,37 +271,42 @@ export function CatalogView({
 
                 <div className="flex-1 min-w-0 p-4 flex flex-col justify-between gap-3">
                   <div className="flex items-start justify-between gap-2">
-                    <span className="font-semibold text-[var(--text)] leading-snug">
-                      {name}
-                    </span>
-                    {item.weight && (
-                      <span className="text-xs text-[var(--text-muted)] bg-[var(--border-subtle)] rounded-full px-2.5 py-1 whitespace-nowrap flex-shrink-0">
-                        {item.weight}
+                    <div className="min-w-0 flex-1">
+                      <span className="font-semibold text-[var(--text)] leading-snug break-words">
+                        {name}
                       </span>
-                    )}
+                      {item.weight && (
+                        <span className="mt-2 block w-fit text-xs text-[var(--text-muted)] bg-[var(--border-subtle)] rounded-full px-2.5 py-1">
+                          {item.weight}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    <span className="flex items-baseline gap-1.5">
-                      <span className="text-xs text-[var(--text-muted)]">
-                        {t("catalog.priceShort.student")}
+                  <div className="flex items-end justify-between gap-2">
+                    <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
+                      <span className="flex items-baseline gap-1.5">
+                        <span className="text-xs text-[var(--text-muted)]">
+                          {t("catalog.priceShort.student")}
+                        </span>
+                        <span className="text-sm font-semibold tabular-nums text-[var(--text)]">
+                          {Number(item.priceStudent ?? 0).toFixed(2)} €
+                        </span>
                       </span>
-                      <span className="text-sm font-semibold tabular-nums text-[var(--text)]">
-                        {Number(item.priceStudent ?? 0).toFixed(2)} €
+                      <span
+                        className="w-px h-4 bg-[var(--border)]"
+                        aria-hidden="true"
+                      />
+                      <span className="flex items-baseline gap-1.5">
+                        <span className="text-xs text-[var(--text-muted)]">
+                          {t("catalog.priceShort.teacher")}
+                        </span>
+                        <span className="text-sm font-semibold tabular-nums text-[var(--text)]">
+                          {Number(item.priceTeacher ?? 0).toFixed(2)} €
+                        </span>
                       </span>
-                    </span>
-                    <span
-                      className="w-px h-4 bg-[var(--border)]"
-                      aria-hidden="true"
-                    />
-                    <span className="flex items-baseline gap-1.5">
-                      <span className="text-xs text-[var(--text-muted)]">
-                        {t("catalog.priceShort.teacher")}
-                      </span>
-                      <span className="text-sm font-semibold tabular-nums text-[var(--text)]">
-                        {Number(item.priceTeacher ?? 0).toFixed(2)} €
-                      </span>
-                    </span>
+                    </div>
+                    <FavoriteButton name={item.name} displayName={name} />
                   </div>
                 </div>
               </li>

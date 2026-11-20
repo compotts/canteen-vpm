@@ -3,6 +3,7 @@
 import { Check, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MenuItem } from "@/lib/valgykla/types";
+import { FavoriteButton } from "@/components/favorite-button";
 
 export function OrderMenuItem({
   item,
@@ -69,10 +70,8 @@ export function OrderMenuItem({
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-2 sm:block">
-        <span className="hidden text-xs text-[var(--text-muted)] min-[400px]:inline sm:hidden">
-          {t("quantityLabel")}
-        </span>
+      <div className="flex items-center justify-between gap-2">
+        <FavoriteButton name={item.name} displayName={name} />
         <div className="flex shrink-0 items-center gap-1" role="group" aria-label={`${name}, ${t("quantityLabel")}`}>
           <div className="flex rounded-lg bg-[var(--border-subtle)] p-0.5">
             {["0.5", "1", "2"].map((preset) => (
