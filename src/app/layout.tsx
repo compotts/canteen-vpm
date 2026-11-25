@@ -19,7 +19,7 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Valgyklos VPM",
   description:
-    "Vilniaus Petro Vileišio progimnazijos valgyklos meniu, užsakymai ir istorija.",
+    "Visaginas TECH valgyklos meniu, užsakymai ir istorija.",
   applicationName: "Valgyklos VPM",
   appleWebApp: {
     capable: true,
