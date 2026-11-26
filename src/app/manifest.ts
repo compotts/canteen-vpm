@@ -1,13 +1,15 @@
 import type { MetadataRoute } from "next";
+import { APP_DESCRIPTION, APP_NAME, APP_SHORT_NAME } from "@/lib/app-metadata";
+
+export const dynamic = "force-dynamic";
 
 const SIZES = [48, 72, 96, 128, 192, 256, 512] as const;
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Valgyklos VPM",
-    short_name: "Valgykla",
-    description:
-      "Visaginas TECH valgyklos meniu, užsakymai ir istorija.",
+    name: APP_NAME,
+    short_name: APP_SHORT_NAME,
+    description: APP_DESCRIPTION,
     id: "/",
     start_url: "/",
     scope: "/",

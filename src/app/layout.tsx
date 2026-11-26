@@ -8,6 +8,7 @@ import { Header } from "@/components/header";
 import { BottomTabBar } from "@/components/bottom-tab-bar";
 import { PageTransition } from "@/components/page-transition";
 import { CanteenStatusBanner } from "@/components/canteen-status-banner";
+import { APP_DESCRIPTION, APP_NAME, APP_SHORT_NAME } from "@/lib/app-metadata";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -17,13 +18,23 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Valgyklos VPM",
-  description:
-    "Visaginas TECH valgyklos meniu, užsakymai ir istorija.",
-  applicationName: "Valgyklos VPM",
+  title: APP_NAME,
+  description: APP_DESCRIPTION,
+  applicationName: APP_NAME,
+  openGraph: {
+    type: "website",
+    title: APP_NAME,
+    description: APP_DESCRIPTION,
+    siteName: APP_NAME,
+  },
+  twitter: {
+    card: "summary",
+    title: APP_NAME,
+    description: APP_DESCRIPTION,
+  },
   appleWebApp: {
     capable: true,
-    title: "Valgykla",
+    title: APP_SHORT_NAME,
     statusBarStyle: "black-translucent",
   },
   icons: {
