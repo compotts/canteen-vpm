@@ -472,7 +472,12 @@
     "admin": "Administravimas",
     "logout": "Atsijungti",
     "saveOrderLabel": "Išsaugoti užsakymą",
-    "orderLabel": "Užsakymas"
+    "orderLabel": "Užsakymas",
+    "theme": {
+      "title": "Išvaizda",
+      "light": "Šviesi",
+      "dark": "Tamsi"
+    }
   },
   "interface": {
     "title": "Sąsaja",

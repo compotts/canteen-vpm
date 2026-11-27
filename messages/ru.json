@@ -472,7 +472,12 @@
     "admin": "Админка",
     "logout": "Выйти",
     "saveOrderLabel": "Сохранить заказ",
-    "orderLabel": "Заказ"
+    "orderLabel": "Заказ",
+    "theme": {
+      "title": "Оформление",
+      "light": "Светлое",
+      "dark": "Темное"
+    }
   },
   "interface": {
     "title": "Интерфейс",

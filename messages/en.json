@@ -472,7 +472,12 @@
     "admin": "Administration",
     "logout": "Log out",
     "saveOrderLabel": "Save order",
-    "orderLabel": "Order"
+    "orderLabel": "Order",
+    "theme": {
+      "title": "Appearance",
+      "light": "Light",
+      "dark": "Dark"
+    }
   },
   "interface": {
     "title": "Interface",

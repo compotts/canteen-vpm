@@ -63,6 +63,7 @@ import { normalizeDishName } from "@/lib/text";
 import type { ArchivedMenu } from "@/lib/menu-archive";
 import type { DishTranslationMap } from "@/lib/valgykla/types";
 import { SECTION_TITLE_KEYS } from "@/lib/constants";
+import { DesignThemeSwitcher } from "./design-theme-switcher";
 import { DesignDialog } from "./design-dialog";
 import { DesignNews } from "./design-news";
 import { DesignFeedbackForm } from "./design-feedback-form";
@@ -1377,7 +1378,7 @@ export function CanteenApp() {
             <>
               <button
                 type="button"
-                className="design-icon-button"
+                className="design-settings-brand"
                 aria-label={t("admin")}
                 onClick={() => {
                   const now = Date.now();
@@ -1396,6 +1397,7 @@ export function CanteenApp() {
               </button>
               <p>{t("language")}</p>
               <LanguageSwitcher variant="panel" />
+              <DesignThemeSwitcher />
               <InterfaceSwitcher onChange={closeModal} />
               <NotificationSettings />
               {isAdmin && (
