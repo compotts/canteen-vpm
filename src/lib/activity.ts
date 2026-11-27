@@ -12,6 +12,7 @@ export const ACTIVITY_ACTIONS = [
   "update_create",
   "update_edit",
   "update_delete",
+  "content_update",
   "photo_upload",
   "photo_delete",
   "feedback_delete",
@@ -22,7 +23,12 @@ export const ACTIVITY_ACTIONS = [
   "admin_logout",
 ] as const;
 
-export const ACTIVITY_STATUSES = ["success", "failed", "pending", "unknown"] as const;
+export const ACTIVITY_STATUSES = [
+  "success",
+  "failed",
+  "pending",
+  "unknown",
+] as const;
 
 export type ActivityAction = (typeof ACTIVITY_ACTIONS)[number];
 export type ActivityStatus = (typeof ACTIVITY_STATUSES)[number];
@@ -45,7 +51,10 @@ export type ActivityPage = {
   nextCursor: string | null;
 };
 
-export function activityFullName(details: Record<string, unknown>): string | null {
+export function activityFullName(
+  details: Record<string, unknown>,
+): string | null {
   return typeof details.fullName === "string" && details.fullName.trim()
-    ? details.fullName.trim() : null;
+    ? details.fullName.trim()
+    : null;
 }

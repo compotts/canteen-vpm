@@ -12,6 +12,7 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import { desc, sql } from "drizzle-orm";
+import type { ArchivedMenuSection } from "@/lib/menu-archive";
 import type { AdminPermission } from "@/lib/permissions";
 import type {
   ActivityAction,
@@ -37,16 +38,28 @@ export const activityLogs = pgTable(
     action: text("action").$type<ActivityAction>().notNull(),
     status: text("status").$type<ActivityStatus>().notNull().default("success"),
     target: text("target"),
-    details: jsonb("details").$type<Record<string, unknown>>().notNull().default({}),
+    details: jsonb("details")
+      .$type<Record<string, unknown>>()
+      .notNull()
+      .default({}),
     createdAt: timestamp("created_at", { withTimezone: true, precision: 3 })
       .notNull()
       .defaultNow(),
   },
   (table) => [
-    index("activity_logs_created_at_id_idx").on(desc(table.createdAt), desc(table.id)),
-    index("activity_logs_category_created_at_idx").on(table.category, desc(table.createdAt)),
-    index("activity_logs_username_created_at_idx").on(table.username, desc(table.createdAt)),
-  ]
+    index("activity_logs_created_at_id_idx").on(
+      desc(table.createdAt),
+      desc(table.id),
+    ),
+    index("activity_logs_category_created_at_idx").on(
+      table.category,
+      desc(table.createdAt),
+    ),
+    index("activity_logs_username_created_at_idx").on(
+      table.username,
+      desc(table.createdAt),
+    ),
+  ],
 );
 
 export const dishes = pgTable("dishes", {
@@ -83,8 +96,11 @@ export const userFavorites = pgTable(
       .defaultNow(),
   },
   (table) => [
-    primaryKey({ name: "user_favorites_pkey", columns: [table.username, table.dishKey] }),
-  ]
+    primaryKey({
+      name: "user_favorites_pkey",
+      columns: [table.username, table.dishKey],
+    }),
+  ],
 );
 
 export const orderHistory = pgTable(
@@ -107,13 +123,13 @@ export const orderHistory = pgTable(
   (table) => [
     uniqueIndex("order_history_username_menu_date_key").on(
       table.username,
-      table.menuDate
+      table.menuDate,
     ),
     index("order_history_username_created_at_idx").on(
       table.username,
-      desc(table.createdAt)
+      desc(table.createdAt),
     ),
-  ]
+  ],
 );
 
 export const feedback = pgTable(
@@ -128,7 +144,7 @@ export const feedback = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (table) => [index("feedback_created_at_idx").on(desc(table.createdAt))]
+  (table) => [index("feedback_created_at_idx").on(desc(table.createdAt))],
 );
 
 export const appUpdates = pgTable(
@@ -151,7 +167,7 @@ export const appUpdates = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (table) => [index("app_updates_created_at_idx").on(desc(table.createdAt))]
+  (table) => [index("app_updates_created_at_idx").on(desc(table.createdAt))],
 );
 
 export const admins = pgTable("admins", {
@@ -189,7 +205,7 @@ export const webPushSubscriptions = pgTable(
   (table) => [
     uniqueIndex("web_push_subscriptions_endpoint_key").on(table.endpoint),
     index("web_push_subscriptions_username_idx").on(table.username),
-  ]
+  ],
 );
 
 export const sentOrderReminders = pgTable(
@@ -201,16 +217,36 @@ export const sentOrderReminders = pgTable(
     username: text("username").notNull(),
     menuDate: text("menu_date").notNull(),
     reminderKind: text("reminder_kind").notNull(),
-    sentAt: timestamp("sent_at", { withTimezone: true })
-      .notNull()
-      .defaultNow(),
+    sentAt: timestamp("sent_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => [
     uniqueIndex("sent_order_reminders_user_date_kind_key").on(
       table.username,
       table.menuDate,
-      table.reminderKind
+      table.reminderKind,
     ),
     index("sent_order_reminders_menu_date_idx").on(table.menuDate),
-  ]
+  ],
 );
+
+export const dailyMenus = pgTable("daily_menus", {
+  date: text("date").primaryKey(),
+  sections: jsonb("sections").$type<ArchivedMenuSection[]>().notNull(),
+  capturedAt: timestamp("captured_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export const siteContent = pgTable("site_content", {
+  key: text("key").primaryKey(),
+  textLt: text("text_lt").notNull().default(""),
+  textRu: text("text_ru").notNull().default(""),
+  textEn: text("text_en").notNull().default(""),
+  updatedBy: text("updated_by"),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});

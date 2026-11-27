@@ -25,14 +25,19 @@ function getWeightFromRow(row: Element): string | undefined {
 }
 
 function extractDateFromDoc(doc: Document): string {
-  const match = doc.querySelector("h2")?.textContent?.match(
-    /\((\d{4}-\d{2}-\d{2})\)/
-  );
+  const match = doc
+    .querySelector("h2")
+    ?.textContent?.match(/\((\d{4}-\d{2}-\d{2})\)/);
   return match ? match[1] : formatDate(new Date());
 }
 
 export function parseOrderMakeLink(html: string): OrderLink | null {
-  const doc = new DOMParser().parseFromString(html, "text/html");
+  return parseOrderMakeDocument(
+    new DOMParser().parseFromString(html, "text/html"),
+  );
+}
+
+export function parseOrderMakeDocument(doc: Document): OrderLink | null {
   const anchor = doc.querySelector('a[href^="orders/make/"]');
   if (!anchor) return null;
 
@@ -45,12 +50,19 @@ export function parseOrderMakeLink(html: string): OrderLink | null {
 }
 
 export function parseMenuFromHtml(html: string, dateStr?: string): Menu {
-  const doc = new DOMParser().parseFromString(html, "text/html");
+  return parseMenuDocument(
+    new DOMParser().parseFromString(html, "text/html"),
+    dateStr,
+  );
+}
+
+export function parseMenuDocument(doc: Document, dateStr?: string): Menu {
   const date = dateStr || extractDateFromDoc(doc);
   const sections: MenuSection[] = [];
 
   const tables = doc.querySelectorAll("form .container .form-control table");
-  if (!tables.length) throw new Error("PARSE_ERROR contact with developer please");
+  if (!tables.length)
+    throw new Error("PARSE_ERROR contact with developer please");
 
   tables.forEach((table) => {
     const title = table.querySelector("thead tr th")?.textContent?.trim() ?? "";

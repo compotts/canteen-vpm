@@ -9,8 +9,8 @@ export type UpdateInput = {
   text: UpdateText;
 };
 
-export function loadUpdates(): Promise<AppUpdate[]> {
-  return apiFetch<AppUpdate[]>("/api/updates");
+export function loadUpdates(signal?: AbortSignal): Promise<AppUpdate[]> {
+  return apiFetch<AppUpdate[]>("/api/updates", { cache: "no-store", signal });
 }
 
 export function createUpdate(payload: UpdateInput): Promise<AppUpdate> {

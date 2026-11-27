@@ -37,7 +37,8 @@
     "themeLight": "Light theme",
     "themeDark": "Dark theme",
     "translationDisclaimer": "Translation may be inaccurate.",
-    "settings": "Settings"
+    "settings": "Settings",
+    "navigation": "Main navigation"
   },
   "settings": {
     "title": "Settings",
@@ -145,7 +146,8 @@
     "categories": "Menu categories",
     "saveError": "Could not save your order. Please try again.",
     "historySaveError": "Your order was sent, but history could not be saved. Check your order on the canteen website.",
-    "orderStatusUnknown": "The order result is unknown. Check your order on the canteen website before submitting again."
+    "orderStatusUnknown": "The order result is unknown. Check your order on the canteen website before submitting again.",
+    "orderDateClosed": "Ordering for this date is closed or not available yet. Reopen the menu and choose an available date."
   },
   "notifications": {
     "title": "Order reminders",
@@ -256,7 +258,8 @@
         "admin_update": "Administrator changed",
         "admin_delete": "Administrator deleted",
         "admin_login": "Admin sign in",
-        "admin_logout": "Admin sign out"
+        "admin_logout": "Admin sign out",
+        "content_update": "Site content updated"
       }
     },
     "title": "Admin · Updates",
@@ -269,7 +272,8 @@
       "photos": "Photos",
       "feedback": "Feedback",
       "admins": "Admins",
-      "logs": "Activity"
+      "logs": "Activity",
+      "content": "Site content"
     },
     "feedback": {
       "loading": "Loading feedback…",
@@ -357,6 +361,122 @@
       "photos": "Photos",
       "feedback": "Feedback",
       "logs": "View activity log"
+    },
+    "content": {
+      "title": "Admin · Site content",
+      "hint": "Content shown in the home page dialogs. All three languages are saved together. Empty text clears the section.",
+      "saved": "Content saved."
     }
+  },
+  "design": {
+    "navigation": "Navigation",
+    "nav": {
+      "home": "Home",
+      "menu": "Menu",
+      "orders": "My lunch",
+      "history": "History"
+    },
+    "heroTitle": "What’s for lunch",
+    "orderUntil": "Order before",
+    "weekMenu": "Menu by day",
+    "previousWeek": "Previous week",
+    "nextWeek": "Next week",
+    "todayChoice": "Today’s pick",
+    "madeForYou": "Made with care",
+    "previousDish": "Previous dish",
+    "nextDish": "Next dish",
+    "myLunch": "My lunch",
+    "portions": "port.",
+    "grams": "g",
+    "total": "Total",
+    "reviewOrder": "Review order",
+    "saveHint": "Your order will be sent to the canteen. You can edit it before ordering closes.",
+    "emptyCart": "What sounds good?",
+    "emptyCartHint": "Add your favorite dishes from the menu to see them here.",
+    "dayMenu": "Daily menu",
+    "favorites": "Favorites",
+    "search": "Find your favorite dish",
+    "categories": {
+      "all": "All dishes",
+      "main": "Mains",
+      "sides": "Sides",
+      "salads": "Salads",
+      "soups": "Soups"
+    },
+    "addToLunch": "Add to lunch",
+    "inLunch": "In your lunch",
+    "added": "{name}, added to your order.",
+    "saved": "Your order has been saved at the canteen.",
+    "removeDish": "Remove from order: {name}",
+    "increase": "Increase portions: {name}",
+    "decrease": "Decrease portions: {name}",
+    "dishDetails": "Dish details: {name}",
+    "dishAllergens": "Dish allergens: {name}",
+    "addFavorite": "Add to favorites: {name}",
+    "removeFavorite": "Remove from favorites: {name}",
+    "needsConfirmation": "Details pending",
+    "portionSize": "Portion size",
+    "customQuantity": "Custom portions: {name}",
+    "chooseQuantity": "Choose portions: {name}",
+    "nothingFound": "Nothing here yet",
+    "changeFilters": "Try a different category, search or add dishes to your favorites.",
+    "resetFilters": "Show all dishes",
+    "allergenTitle": "Allergens",
+    "allergens": {
+      "gluten": "Gluten",
+      "eggs": "Eggs",
+      "milk": "Milk",
+      "nuts": "Nuts"
+    },
+    "allergenDescription": "Icons highlight the listed allergens. Open a dish to see more information about its ingredients.",
+    "unknownAllergens": "Allergen information has not been provided yet. Missing icons do not mean a dish is free of allergens.",
+    "about": "About the canteen project :)",
+    "ecoTitle": "ECO CHOICE",
+    "dishCount": "{count, plural, one {# dish} other {# dishes}}",
+    "orderHint": "Adjust portions and save your order to send it to the canteen.",
+    "chooseMore": "Add more dishes",
+    "emptyHistory": "It starts with lunch",
+    "emptyHistoryHint": "Your saved orders will appear here.",
+    "settings": "Settings",
+    "language": "Interface language",
+    "close": "Close",
+    "viewAvailableMenu": "Open menu",
+    "archiveOnly": "View only",
+    "archiveNotice": "Ordering is closed for this date. The saved menu is available for viewing only.",
+    "notPublished": "Oops, the menu for this date is not available yet. Check back later.",
+    "notPublishedTitle": "The menu is coming soon",
+    "archiveEmptyTitle": "No saved menu yet",
+    "archiveMissing": "There is no archived menu for this date yet.",
+    "archiveError": "Could not load the menu archive. Please try again.",
+    "archiveLoading": "Loading the saved menu…",
+    "retry": "Refresh",
+    "weightUnknown": "Weight not provided",
+    "newsTitle": "Updates",
+    "newsUnread": "Updates, {count} unread",
+    "newsEmpty": "No updates yet.",
+    "newsError": "Could not load updates. Please try again.",
+    "reportProblem": "Report a problem",
+    "feedbackTitle": "Found a problem?",
+    "feedbackHint": "Tell us what went wrong or what could be improved.",
+    "infoLoading": "Loading…",
+    "infoError": "Could not load this information. Please try again.",
+    "contentEmpty": "This section has not been filled in yet.",
+    "allergenNote": "Please confirm ingredients and possible allergens with the canteen.",
+    "sending": "Sending…",
+    "saveError": "Could not save your order. Check your connection and try again.",
+    "resultUnknown": "The canteen did not confirm the result. Reload the page and check your order before submitting again.",
+    "menuChanged": "The menu has changed. Reload the page and review the dishes.",
+    "historySaveError": "Your order was sent to the canteen, but could not be saved in history.",
+    "historyError": "Could not load order history.",
+    "favoritesError": "Could not update favorites.",
+    "admin": "Administration",
+    "logout": "Log out",
+    "saveOrderLabel": "Save order",
+    "orderLabel": "Order"
+  },
+  "interface": {
+    "title": "Interface",
+    "new": "New",
+    "old": "Previous"
   }
 }

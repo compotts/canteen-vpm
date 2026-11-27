@@ -9,13 +9,14 @@ import { closeAdminSession } from "@/lib/api/admin";
 import type { AdminPermission } from "@/lib/permissions";
 import { AdminLogin } from "./admin-login";
 import { UpdatesTab } from "./updates-tab";
+import { ContentTab } from "./content-tab";
 import { TranslationsTab } from "./translations-tab";
 import { PhotosTab } from "./photos-tab";
 import { FeedbackTab } from "./feedback-tab";
 import { AdminsTab } from "./admins-tab";
 import { ActivityTab } from "./activity-tab";
 
-type TabId = AdminPermission | "admins";
+type TabId = AdminPermission | "admins" | "content";
 
 type TabDefinition = {
   id: TabId;
@@ -36,6 +37,12 @@ const TABS: TabDefinition[] = [
     permission: "updates",
     labelKey: "admin.tabs.updates",
     titleKey: "admin.title",
+  },
+  {
+    id: "content",
+    permission: "updates",
+    labelKey: "admin.tabs.content",
+    titleKey: "admin.content.title",
   },
   {
     id: "translations",
@@ -82,7 +89,7 @@ export function AdminView() {
   }
 
   const visible = TABS.filter((tab) =>
-    tab.permission === null ? isOwner : can(tab.permission)
+    tab.permission === null ? isOwner : can(tab.permission),
   );
 
   const active = visible.find((tab) => tab.id === preferred) ?? visible[0];
@@ -133,6 +140,7 @@ export function AdminView() {
       </div>
 
       {active?.id === "updates" && <UpdatesTab key="updates" />}
+      {active?.id === "content" && <ContentTab key="content" />}
       {active?.id === "translations" && <TranslationsTab key="translations" />}
       {active?.id === "photos" && <PhotosTab key="photos" />}
       {active?.id === "feedback" && <FeedbackTab key="feedback" />}

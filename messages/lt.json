@@ -37,7 +37,8 @@
     "themeLight": "Šviesi tema",
     "themeDark": "Tamsi tema",
     "translationDisclaimer": "Vertimas gali būti netikslus.",
-    "settings": "Nustatymai"
+    "settings": "Nustatymai",
+    "navigation": "Pagrindinė navigacija"
   },
   "settings": {
     "title": "Nustatymai",
@@ -145,7 +146,8 @@
     "categories": "Meniu kategorijos",
     "saveError": "Nepavyko išsaugoti užsakymo. Bandykite dar kartą.",
     "historySaveError": "Užsakymas išsiųstas, bet istorijos išsaugoti nepavyko. Patikrinkite užsakymą valgyklos svetainėje.",
-    "orderStatusUnknown": "Užsakymo rezultatas nežinomas. Prieš siųsdami dar kartą patikrinkite užsakymą valgyklos svetainėje."
+    "orderStatusUnknown": "Užsakymo rezultatas nežinomas. Prieš siųsdami dar kartą patikrinkite užsakymą valgyklos svetainėje.",
+    "orderDateClosed": "Šiai datai užsakymai jau uždaryti arba dar nepriimami. Atidarykite meniu iš naujo ir pasirinkite galimą datą."
   },
   "notifications": {
     "title": "Užsakymo priminimai",
@@ -256,7 +258,8 @@
         "admin_update": "Administratorius pakeistas",
         "admin_delete": "Administratorius ištrintas",
         "admin_login": "Prisijungimas prie administravimo",
-        "admin_logout": "Atsijungimas nuo administravimo"
+        "admin_logout": "Atsijungimas nuo administravimo",
+        "content_update": "Svetainės teksto keitimas"
       }
     },
     "title": "Admin · Atnaujinimai",
@@ -269,7 +272,8 @@
       "photos": "Nuotraukos",
       "feedback": "Pranešimai",
       "admins": "Administratoriai",
-      "logs": "Žurnalas"
+      "logs": "Žurnalas",
+      "content": "Svetainės tekstai"
     },
     "feedback": {
       "loading": "Kraunami pranešimai…",
@@ -357,6 +361,122 @@
       "photos": "Nuotraukos",
       "feedback": "Pranešimai",
       "logs": "Žurnalo peržiūra"
+    },
+    "content": {
+      "title": "Administravimas · Svetainės tekstai",
+      "hint": "Tekstai pradžios puslapio languose. Visos trys kalbos išsaugomos kartu. Tuščias tekstas išvalo skyriaus turinį.",
+      "saved": "Tekstas išsaugotas."
     }
+  },
+  "design": {
+    "navigation": "Navigacija",
+    "nav": {
+      "home": "Pradžia",
+      "menu": "Meniu",
+      "orders": "Mano pietūs",
+      "history": "Istorija"
+    },
+    "heroTitle": "Ką valgysime",
+    "orderUntil": "Užsakymai iki",
+    "weekMenu": "Meniu pagal dienas",
+    "previousWeek": "Ankstesnė savaitė",
+    "nextWeek": "Kita savaitė",
+    "todayChoice": "Šiandienos pasiūlymas",
+    "madeForYou": "Pagaminta su rūpesčiu",
+    "previousDish": "Ankstesnis patiekalas",
+    "nextDish": "Kitas patiekalas",
+    "myLunch": "Mano pietūs",
+    "portions": "porc.",
+    "grams": "g",
+    "total": "Iš viso",
+    "reviewOrder": "Peržiūrėti užsakymą",
+    "saveHint": "Užsakymas bus išsiųstas valgyklai. Jį galima keisti iki užsakymų priėmimo pabaigos.",
+    "emptyCart": "Ką rinksiesi pietums?",
+    "emptyCartHint": "Pridėk mėgstamus patiekalus iš meniu ir jie atsiras čia.",
+    "dayMenu": "Dienos meniu",
+    "favorites": "Mėgstamiausi",
+    "search": "Rasti mėgstamą patiekalą",
+    "categories": {
+      "all": "Visi patiekalai",
+      "main": "Pagrindiniai",
+      "sides": "Garnyrai",
+      "salads": "Salotos",
+      "soups": "Sriubos"
+    },
+    "addToLunch": "Į užsakymą",
+    "inLunch": "Užsakyme",
+    "added": "{name}, pridėta į užsakymą.",
+    "saved": "Užsakymas išsaugotas valgykloje.",
+    "removeDish": "Pašalinti iš užsakymo: {name}",
+    "increase": "Padidinti porciją: {name}",
+    "decrease": "Sumažinti porciją: {name}",
+    "dishDetails": "Apie patiekalą: {name}",
+    "dishAllergens": "Patiekalo alergenai: {name}",
+    "addFavorite": "Pridėti prie mėgstamiausių: {name}",
+    "removeFavorite": "Pašalinti iš mėgstamiausių: {name}",
+    "needsConfirmation": "Sudėtis tikslinama",
+    "portionSize": "Porcijos dydis",
+    "customQuantity": "Kitas porcijų kiekis: {name}",
+    "chooseQuantity": "Pasirinkti porcijas: {name}",
+    "nothingFound": "Čia dar nieko nėra",
+    "changeFilters": "Išbandyk kitą kategoriją, paiešką arba pridėk patiekalų prie mėgstamiausių.",
+    "resetFilters": "Rodyti visus patiekalus",
+    "allergenTitle": "Alergenai",
+    "allergens": {
+      "gluten": "Glitimas",
+      "eggs": "Kiaušiniai",
+      "milk": "Pienas",
+      "nuts": "Riešutai"
+    },
+    "allergenDescription": "Piktogramos padeda pastebėti nurodytus alergenus. Atidaryk patiekalą ir peržiūrėk daugiau informacijos apie jo sudėtį.",
+    "unknownAllergens": "Informacija apie alergenus dar nepateikta. Ženkliukų nebuvimas nereiškia, kad alergenų nėra.",
+    "about": "Apie valgyklos projektą :)",
+    "ecoTitle": "ECO CHOICE",
+    "dishCount": "{count, plural, one {# patiekalas} few {# patiekalai} other {# patiekalų}}",
+    "orderHint": "Pakeisk porcijas ir išsaugok užsakymą, kad jis būtų išsiųstas valgyklai.",
+    "chooseMore": "Pridėti patiekalų",
+    "emptyHistory": "Istorija prasideda nuo pietų",
+    "emptyHistoryHint": "Čia bus rodomi išsaugoti užsakymai.",
+    "settings": "Nustatymai",
+    "language": "Sąsajos kalba",
+    "close": "Uždaryti",
+    "viewAvailableMenu": "Atidaryti meniu",
+    "archiveOnly": "Tik peržiūra",
+    "archiveNotice": "Šiai datai užsakymai nebepriimami. Išsaugotą meniu galima tik peržiūrėti.",
+    "notPublished": "Šios dienos meniu dar nepasiekiamas. Užsuk vėliau.",
+    "notPublishedTitle": "Meniu pasirodys vėliau",
+    "archiveEmptyTitle": "Meniu dar neišsaugotas",
+    "archiveMissing": "Šiai dienai archyve meniu dar nėra.",
+    "archiveError": "Nepavyko įkelti meniu archyvo. Pabandyk dar kartą.",
+    "archiveLoading": "Įkeliamas išsaugotas meniu…",
+    "retry": "Atnaujinti",
+    "weightUnknown": "Svoris nenurodytas",
+    "newsTitle": "Atnaujinimai",
+    "newsUnread": "Atnaujinimai, neperskaityta: {count}",
+    "newsEmpty": "Atnaujinimų dar nėra.",
+    "newsError": "Nepavyko įkelti atnaujinimų. Pabandykite dar kartą.",
+    "reportProblem": "Pranešti apie problemą",
+    "feedbackTitle": "Pastebėjai klaidą?",
+    "feedbackHint": "Parašyk, kas nutiko arba ką galėtume patobulinti.",
+    "infoLoading": "Įkeliama…",
+    "infoError": "Nepavyko įkelti informacijos. Pabandykite dar kartą.",
+    "contentEmpty": "Šis skyrius dar neužpildytas.",
+    "allergenNote": "Patiekalo sudėtį ir galimus alergenus pasitikslinkite valgykloje.",
+    "sending": "Siunčiama…",
+    "saveError": "Nepavyko išsaugoti užsakymo. Patikrink ryšį ir bandyk dar kartą.",
+    "resultUnknown": "Valgykla nepatvirtino rezultato. Prieš siųsdamas dar kartą, perkrauk puslapį ir patikrink užsakymą.",
+    "menuChanged": "Meniu pasikeitė. Perkrauk puslapį ir patikrink patiekalus.",
+    "historySaveError": "Užsakymas išsiųstas valgyklai, tačiau jo nepavyko išsaugoti istorijoje.",
+    "historyError": "Nepavyko įkelti užsakymų istorijos.",
+    "favoritesError": "Nepavyko atnaujinti mėgstamiausių.",
+    "admin": "Administravimas",
+    "logout": "Atsijungti",
+    "saveOrderLabel": "Išsaugoti užsakymą",
+    "orderLabel": "Užsakymas"
+  },
+  "interface": {
+    "title": "Sąsaja",
+    "new": "Nauja",
+    "old": "Ankstesnė"
   }
 }

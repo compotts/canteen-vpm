@@ -26,7 +26,6 @@ export async function getUpdates(): Promise<AppUpdate[]> {
   const rows = await db
     .select()
     .from(appUpdates)
-    .orderBy(desc(appUpdates.createdAt))
-    .limit(50);
+    .orderBy(desc(appUpdates.createdAt));
   return rows.map(formatUpdate);
 }

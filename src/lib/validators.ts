@@ -1,3 +1,4 @@
+import { SITE_CONTENT_KEYS } from "./site-content";
 import { z } from "zod";
 import { ADMIN_PERMISSIONS } from "./permissions";
 
@@ -112,9 +113,7 @@ export const adminLoginSchema = z.object({
   password: z.string().min(1, "password is required"),
 });
 
-const permissionList = z
-  .array(z.enum(ADMIN_PERMISSIONS))
-  .default([]);
+const permissionList = z.array(z.enum(ADMIN_PERMISSIONS)).default([]);
 
 const adminUsername = z
   .string()
@@ -144,4 +143,13 @@ export const adminUpdateSchema = z.object({
     .optional()
     .or(z.literal("").transform(() => undefined)),
   regeneratePassword: z.boolean().optional(),
+});
+
+export const siteContentSchema = z.object({
+  key: z.enum(SITE_CONTENT_KEYS),
+  text: z.object({
+    lt: z.string().trim().max(8000),
+    ru: z.string().trim().max(8000),
+    en: z.string().trim().max(8000),
+  }),
 });

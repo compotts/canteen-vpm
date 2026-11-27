@@ -25,7 +25,9 @@ function textColumns(text: UpdateText) {
 
 export async function GET(): Promise<Response> {
   try {
-    return json(await getUpdates());
+    return Response.json(await getUpdates(), {
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch (error) {
     return errorResponse(error);
   }
@@ -55,7 +57,7 @@ export async function POST(request: Request): Promise<Response> {
         target: input.version,
         details: input,
       },
-      request
+      request,
     );
 
     return json(formatUpdate(row), 201);
@@ -89,7 +91,7 @@ export async function PATCH(request: Request): Promise<Response> {
         target: String(input.id),
         details: input,
       },
-      request
+      request,
     );
 
     if (!row) throw new HttpError(404, "not found");
@@ -113,11 +115,9 @@ export async function DELETE(request: Request): Promise<Response> {
         category: "admin",
         action: "update_delete",
         target: String(id),
-        details: {
-
-        },
+        details: {},
       },
-      request
+      request,
     );
     return noContent();
   } catch (error) {
