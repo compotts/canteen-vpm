@@ -259,7 +259,8 @@
         "admin_delete": "Administrator deleted",
         "admin_login": "Admin sign in",
         "admin_logout": "Admin sign out",
-        "content_update": "Site content updated"
+        "content_update": "Site content updated",
+        "notification_broadcast": "Notification broadcast"
       }
     },
     "title": "Admin · Updates",
@@ -366,6 +367,22 @@
       "title": "Admin · Site content",
       "hint": "Content shown in the home page dialogs. All three languages are saved together. Empty text clears the section.",
       "saved": "Content saved."
+    },
+    "broadcast": {
+      "title": "Notify everyone",
+      "hint": "Notifications will be sent to devices whose users enabled notifications in settings. The same text will be used for all languages. The broadcast will appear in the activity log.",
+      "heading": "Title",
+      "body": "Notification text",
+      "send": "Send to everyone",
+      "sending": "Sending…",
+      "check": "Check result",
+      "new": "New notification",
+      "result": "Devices: {total}. Accepted by delivery services: {sent}. Not sent: {failed}. Expired subscriptions: {expired}.",
+      "pending": "The broadcast was registered, but its result has not been confirmed. Check again or review the activity log before sending another notification.",
+      "unknown": "Could not retrieve the broadcast result. Check using the same request, this will not send the notification again.",
+      "notConfigured": "Notifications are not configured on the server. Check the VAPID environment variables on your host.",
+      "forbidden": "Sign in to administration with permission to publish updates.",
+      "invalid": "Check the notification title and text. The broadcast request could not be accepted."
     }
   },
   "design": {

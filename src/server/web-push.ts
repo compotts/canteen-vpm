@@ -2,7 +2,7 @@ import webpush from "web-push";
 
 let configured = false;
 
-function configureWebPush( ): void {
+export function configureWebPush(): void {
   if (configured) return;
 
   const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
@@ -27,11 +27,12 @@ export type PushSubscriptionData = {
 
 export async function sendWebPush(
   subscription: PushSubscriptionData,
-  payload: { title: string; body: string; url: string; tag: string }
+  payload: { title: string; body: string; url: string; tag: string },
 ): Promise<void> {
   configureWebPush();
   await webpush.sendNotification(subscription, JSON.stringify(payload), {
     TTL: 60 * 60 * 12,
+    timeout: 8000,
   });
 }
 

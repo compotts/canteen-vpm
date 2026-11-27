@@ -259,7 +259,8 @@
         "admin_delete": "Administratorius ištrintas",
         "admin_login": "Prisijungimas prie administravimo",
         "admin_logout": "Atsijungimas nuo administravimo",
-        "content_update": "Svetainės teksto keitimas"
+        "content_update": "Svetainės teksto keitimas",
+        "notification_broadcast": "Pranešimų siuntimas visiems"
       }
     },
     "title": "Admin · Atnaujinimai",
@@ -366,6 +367,22 @@
       "title": "Administravimas · Svetainės tekstai",
       "hint": "Tekstai pradžios puslapio languose. Visos trys kalbos išsaugomos kartu. Tuščias tekstas išvalo skyriaus turinį.",
       "saved": "Tekstas išsaugotas."
+    },
+    "broadcast": {
+      "title": "Pranešimas visiems",
+      "hint": "Pranešimas bus siunčiamas įrenginiams, kuriuose naudotojai leido pranešimus nustatymuose. Tekstas bus vienodas visomis kalbomis. Siuntimas bus įrašytas veiklos žurnale.",
+      "heading": "Antraštė",
+      "body": "Pranešimo tekstas",
+      "send": "Siųsti visiems",
+      "sending": "Siunčiama…",
+      "check": "Patikrinti rezultatą",
+      "new": "Naujas pranešimas",
+      "result": "Įrenginių: {total}. Pristatymo tarnybų priimta: {sent}. Neišsiųsta: {failed}. Nebegaliojančios prenumeratos: {expired}.",
+      "pending": "Siuntimas užregistruotas, tačiau rezultatas dar nepatvirtintas. Patikrink rezultatą dar kartą arba peržiūrėk veiklos žurnalą prieš siųsdamas naują pranešimą.",
+      "unknown": "Nepavyko gauti siuntimo rezultato. Patikrink rezultatą ta pačia užklausa, pranešimas nebus siunčiamas pakartotinai.",
+      "notConfigured": "Pranešimai serveryje nesukonfigūruoti. Patikrink VAPID aplinkos kintamuosius.",
+      "forbidden": "Reikia prisijungti prie administravimo su teise skelbti naujienas.",
+      "invalid": "Patikrink antraštę ir tekstą. Siuntimo užklausa nepriimta."
     }
   },
   "design": {

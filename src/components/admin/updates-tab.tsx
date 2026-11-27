@@ -11,6 +11,7 @@ import {
 } from "@/lib/api/updates";
 import { pickTextByLang } from "@/lib/text";
 import { locales, type Locale } from "@/i18n/config";
+import { BroadcastForm } from "./broadcast-form";
 import { ErrorBanner } from "./error-banner";
 import type { AppUpdate, UpdateText } from "@/types/api";
 
@@ -71,7 +72,7 @@ export function UpdatesTab() {
       if (editingId) {
         const updated = await updateUpdate(payload);
         setUpdates((previous) =>
-          previous.map((item) => (item.id === updated.id ? updated : item))
+          previous.map((item) => (item.id === updated.id ? updated : item)),
         );
       } else {
         const created = await createUpdate(payload);
@@ -112,6 +113,7 @@ export function UpdatesTab() {
 
   return (
     <>
+      <BroadcastForm />
       <ErrorBanner message={error} />
 
       <form

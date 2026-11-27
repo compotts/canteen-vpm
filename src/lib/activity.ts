@@ -13,6 +13,7 @@ export const ACTIVITY_ACTIONS = [
   "update_edit",
   "update_delete",
   "content_update",
+  "notification_broadcast",
   "photo_upload",
   "photo_delete",
   "feedback_delete",

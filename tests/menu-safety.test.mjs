@@ -216,3 +216,292 @@ test("interface choice persists in storage and cookie even if storage is blocked
   blocked.rememberInterface("new");
   assert.match(document.cookie, /valgyklos_interface=new/);
 });
+
+test("broadcast fanout bounds concurrency and separates expired subscriptions from failures", async () => {
+  let active = 0;
+  let maximum = 0;
+  const sent = [];
+  const service = load("src/server/broadcast.ts", {
+    "./web-push": {
+      sendWebPush: async (subscription, payload) => {
+        active++;
+        maximum = Math.max(maximum, active);
+        await Promise.resolve();
+        active--;
+        if (subscription.endpoint === "expired") throw { statusCode: 410 };
+        if (subscription.endpoint === "failed") throw { statusCode: 500 };
+        sent.push(payload);
+      },
+      isExpiredPushSubscription: (error) => error.statusCode === 410,
+    },
+  });
+  const recipients = Array.from({ length: 25 }, (_, i) => ({
+    id: String(i),
+    endpoint: i === 0 ? "expired" : i === 1 ? "failed" : `device-${i}`,
+    p256dh: "key",
+    auth: "key",
+  }));
+  const input = {
+    id: "59d8bd87-5b68-45cf-a880-20f58eb2b5a0",
+    title: "Title",
+    body: "Text",
+  };
+  const result = await service.deliverBroadcast(recipients, input);
+  assert.deepEqual(result, {
+    total: 25,
+    sent: 23,
+    failed: 1,
+    expired: 1,
+    expiredIds: ["0"],
+  });
+  assert.ok(maximum <= 10);
+  assert.equal(sent[0].tag, `broadcast-${input.id}`);
+  assert.equal(sent[0].url, "/");
+  assert.deepEqual(await service.deliverBroadcast([], input), {
+    total: 0,
+    sent: 0,
+    failed: 0,
+    expired: 0,
+    expiredIds: [],
+  });
+});
+
+test("broadcast deadline reports unsent devices without starting extra sends", async () => {
+  let now = 0;
+  let calls = 0;
+  const service = load(
+    "src/server/broadcast.ts",
+    {
+      "./web-push": {
+        sendWebPush: async () => {
+          calls++;
+          now = 50000;
+        },
+        isExpiredPushSubscription: () => false,
+      },
+    },
+    { Date: { now: () => now } },
+  );
+  const result = await service.deliverBroadcast(
+    Array.from({ length: 30 }, (_, i) => ({
+      id: String(i),
+      endpoint: "device",
+      p256dh: "key",
+      auth: "key",
+    })),
+    { id: "id", title: "Title", body: "Body" },
+  );
+  assert.equal(calls, 1);
+  assert.equal(result.sent, 1);
+  assert.equal(result.failed, 29);
+});
+
+function broadcastRoute({
+  deny = false,
+  configured = true,
+  failUpdate = false,
+  deliver,
+} = {}) {
+  const entries = new Map();
+  const permissions = [];
+  let sends = 0;
+  let reads = 0;
+  const tables = {
+    activityLogs: { id: "activity-id" },
+    webPushSubscriptions: { id: "subscription-id", enabled: "enabled" },
+  };
+  const subscriptions = [
+    { id: "expired-device", endpoint: "device", enabled: true },
+  ];
+  const db = {
+    select: () => ({
+      from: (table) => ({
+        where: (condition) => {
+          reads++;
+          const rows =
+            table === tables.activityLogs
+              ? [entries.get(condition.value)].filter(Boolean)
+              : subscriptions.filter((item) => item.enabled);
+          return {
+            limit: async () => rows,
+            then: (ok, error) => Promise.resolve(rows).then(ok, error),
+          };
+        },
+      }),
+    }),
+    update: () => ({
+      set: (data) => ({
+        where: async (condition) => {
+          if (failUpdate) throw new Error("Log update failed");
+          Object.assign(entries.get(condition.value), data);
+        },
+      }),
+    }),
+    delete: () => ({ where: async () => {} }),
+  };
+  const route = load("src/app/api/admin/broadcast/route.ts", {
+    "drizzle-orm": {
+      eq: (column, value) => ({ column, value }),
+      inArray: (column, value) => ({ column, value }),
+    },
+    "@/server/auth": {
+      requireAdmin: async (_, permission) => {
+        permissions.push(permission);
+        if (deny) {
+          const error = new Error("forbidden");
+          error.status = 403;
+          throw error;
+        }
+        return { username: "admin" };
+      },
+    },
+    "@/server/http": {
+      HttpError: class extends Error {
+        constructor(status, message, data) {
+          super(message);
+          this.status = status;
+          this.data = data;
+        }
+      },
+      errorResponse: (error) =>
+        Response.json(
+          { error: error.message, ...error.data },
+          { status: error.status ?? 500 },
+        ),
+      readJson: (request) => request.json(),
+      parse: (schema, input) => {
+        const result = schema.safeParse(input);
+        if (!result.success) {
+          const error = new Error("invalid");
+          error.status = 400;
+          throw error;
+        }
+        return result.data;
+      },
+    },
+    "@/server/db": { db },
+    "@/server/db/schema": tables,
+    "@/server/activity": {
+      recordActivity: async (input) => {
+        if (entries.has(input.id)) throw new Error("duplicate");
+        const entry = {
+          ...input,
+          details: { ...input.details, fullName: "Admin Name" },
+        };
+        entries.set(input.id, entry);
+        return [entry];
+      },
+    },
+    "@/server/web-push": {
+      configureWebPush: () => {
+        if (!configured) throw new Error("missing VAPID");
+      },
+    },
+    "@/server/broadcast": {
+      deliverBroadcast: async () => {
+        sends++;
+        if (deliver) await deliver();
+        return {
+          total: 1,
+          sent: 0,
+          failed: 0,
+          expired: 1,
+          expiredIds: ["expired-device"],
+        };
+      },
+    },
+  });
+  return {
+    route,
+    entries,
+    permissions,
+    sends: () => sends,
+    reads: () => reads,
+  };
+}
+
+const broadcastInput = {
+  id: "59d8bd87-5b68-45cf-a880-20f58eb2b5a0",
+  title: "Heading",
+  body: "Notification",
+};
+const broadcastRequest = (input = broadcastInput) =>
+  new Request("https://test/api/admin/broadcast", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+
+test("broadcast requires updates permission and validates content before any side effects", async () => {
+  const denied = broadcastRoute({ deny: true });
+  assert.equal((await denied.route.POST(broadcastRequest())).status, 403);
+  assert.deepEqual(denied.permissions, ["updates"]);
+  assert.equal(denied.reads(), 0);
+  const invalid = broadcastRoute();
+  assert.equal(
+    (
+      await invalid.route.POST(
+        broadcastRequest({ ...broadcastInput, body: "   " }),
+      )
+    ).status,
+    400,
+  );
+  assert.equal(invalid.reads(), 0);
+  const missing = broadcastRoute({ configured: false });
+  const result = await missing.route.POST(broadcastRequest());
+  assert.equal(result.status, 503);
+  assert.equal((await result.json()).code, "push_not_configured");
+  assert.equal(missing.entries.size, 0);
+  assert.equal(missing.sends(), 0);
+});
+
+test("concurrent and repeated broadcasts reuse their audit claim without sending again", async () => {
+  let finish;
+  let started;
+  const startedPromise = new Promise((resolve) => {
+    started = resolve;
+  });
+  const gate = new Promise((resolve) => {
+    finish = resolve;
+  });
+  const fixture = broadcastRoute({
+    deliver: async () => {
+      started();
+      await gate;
+    },
+  });
+  const first = fixture.route.POST(broadcastRequest());
+  await startedPromise;
+  const pending = await fixture.route.POST(broadcastRequest());
+  assert.equal((await pending.json()).state, "pending");
+  finish();
+  const completed = await first;
+  const result = await completed.json();
+  assert.equal(result.state, "complete");
+  const repeated = await fixture.route.POST(broadcastRequest());
+  assert.deepEqual(await repeated.json(), result);
+  assert.equal(fixture.sends(), 1);
+  assert.equal(
+    fixture.entries.get(broadcastInput.id).details.fullName,
+    "Admin Name",
+  );
+  assert.equal(
+    fixture.entries.get(broadcastInput.id).action,
+    "notification_broadcast",
+  );
+  assert.equal(
+    (
+      await fixture.route.POST(
+        broadcastRequest({ ...broadcastInput, body: "Different text" }),
+      )
+    ).status,
+    409,
+  );
+});
+
+test("failure to persist a broadcast result never allows it to be sent twice", async () => {
+  const fixture = broadcastRoute({ failUpdate: true });
+  assert.equal((await fixture.route.POST(broadcastRequest())).status, 500);
+  const repeated = await fixture.route.POST(broadcastRequest());
+  assert.equal((await repeated.json()).state, "pending");
+  assert.equal(fixture.sends(), 1);
+});
