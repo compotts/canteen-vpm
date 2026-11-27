@@ -7,19 +7,34 @@ import { activityLogs } from "@/server/db/schema";
 import { errorResponse, HttpError, json, parse, readJson } from "@/server/http";
 import { getSessionId } from "@/server/valgykla-identity";
 import { orderResponseStatus } from "@/server/order-response";
+import { getAvailableMenuLink, getSessionMenu } from "@/server/menu/source";
+import { isMenuDateOpen } from "@/lib/menu-dates";
 
 const quantitiesSchema = z.object({
-  quantities: z.record(
-    z.string().regex(/^\d{1,20}$/),
-    z.string().trim().max(20).refine((value) =>
-      value === "" || (Number.isFinite(Number(value)) && Number(value) >= 0 && Number(value) <= 1000)
+  quantities: z
+    .record(
+      z.string().regex(/^\d{1,20}$/),
+      z
+        .string()
+        .trim()
+        .max(20)
+        .refine(
+          (value) =>
+            value === "" ||
+            (Number.isFinite(Number(value)) &&
+              Number(value) >= 0 &&
+              Number(value) <= 1000),
+        ),
     )
-  ).refine((value) => Object.keys(value).length > 0 && Object.keys(value).length <= 500),
+    .refine(
+      (value) =>
+        Object.keys(value).length > 0 && Object.keys(value).length <= 500,
+    ),
 });
 
 export async function POST(
   request: Request,
-  context: { params: Promise<{ date: string }> }
+  context: { params: Promise<{ date: string }> },
 ): Promise<Response> {
   try {
     const username = await requireIdentity(request);
@@ -27,14 +42,34 @@ export async function POST(
     if (!sessionId) throw new HttpError(401, "canteen session required");
     const date = parse(z.iso.date(), (await context.params).date);
     const { quantities } = parse(quantitiesSchema, await readJson(request));
-    const [entry] = await recordActivity({
-      username,
-      category: "orders",
-      action: "order_submit",
-      status: "pending",
-      target: date,
-      details: { menuDate: date, quantities },
-    }, request);
+    const available = await getAvailableMenuLink(sessionId);
+    if (!isMenuDateOpen(date, available?.date ?? null)) {
+      throw new HttpError(409, "ordering is closed for this date", {
+        code: "order_date_closed",
+      });
+    }
+    const current = await getSessionMenu(sessionId, date);
+    const ids = new Set(
+      current.sections.flatMap((section) =>
+        section.items.map((item) => String(item.id)),
+      ),
+    );
+    if (
+      Object.keys(quantities).length !== ids.size ||
+      Object.keys(quantities).some((id) => !ids.has(id))
+    )
+      throw new HttpError(409, "menu changed", { code: "menu_changed" });
+    const [entry] = await recordActivity(
+      {
+        username,
+        category: "orders",
+        action: "order_submit",
+        status: "pending",
+        target: date,
+        details: { menuDate: date, quantities },
+      },
+      request,
+    );
 
     const origin = process.env.VALGYKLA_ORIGIN ?? "https://valgykla.vpm.lt";
     const orderUrl = `${origin}/orders/make/${date}`;
@@ -65,18 +100,29 @@ export async function POST(
     }
 
     try {
-      await db.update(activityLogs).set({
-        status,
-        details: { ...entry.details, menuDate: date, quantities, upstreamStatus },
-      }).where(eq(activityLogs.id, entry.id));
+      await db
+        .update(activityLogs)
+        .set({
+          status,
+          details: {
+            ...entry.details,
+            menuDate: date,
+            quantities,
+            upstreamStatus,
+          },
+        })
+        .where(eq(activityLogs.id, entry.id));
     } catch (error) {
       console.error("Failed to update order activity:", error);
     }
 
     if (status === "unknown") {
-      throw new HttpError(502, "order result unknown", { code: "order_status_unknown" });
+      throw new HttpError(502, "order result unknown", {
+        code: "order_status_unknown",
+      });
     }
-    if (status === "failed") throw new HttpError(400, "canteen rejected the order");
+    if (status === "failed")
+      throw new HttpError(400, "canteen rejected the order");
     return json({ ok: true });
   } catch (error) {
     return errorResponse(error);
