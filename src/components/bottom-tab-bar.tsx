@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { legacyPath } from "@/lib/interface";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
@@ -12,6 +13,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "./auth-provider";
 import { useAdminSession } from "./admin-session-provider";
+import { CATALOG_ENABLED } from "@/lib/constants";
 
 export function BottomTabBar() {
   const { isAuth } = useAuth();
@@ -24,10 +26,16 @@ function TabBarPill() {
   const pathname = usePathname();
 
   const { isAdmin } = useAdminSession();
+  const path = (href: string) =>
+    pathname.startsWith("/old-design") && href !== "/admin"
+      ? legacyPath(href)
+      : href;
 
   const tabs = [
     { href: "/", icon: Home, label: t("nav.home"), exact: true },
-    { href: "/menu", icon: UtensilsCrossed, label: t("nav.catalog") },
+    ...(CATALOG_ENABLED
+      ? [{ href: "/menu", icon: UtensilsCrossed, label: t("nav.catalog") }]
+      : []),
     { href: "/order", icon: ShoppingCart, label: t("nav.order") },
     { href: "/history", icon: History, label: t("nav.history") },
     ...(isAdmin
@@ -39,19 +47,19 @@ function TabBarPill() {
     <nav
       className="md:hidden fixed inset-x-0 bottom-0 z-[900] flex justify-center pointer-events-none px-4"
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
-      aria-label={t("nav.catalog")}
+      aria-label={t("nav.navigation")}
     >
       <div className="surface-raised pointer-events-auto rounded-full p-1.5 max-w-full">
         <div className="flex items-stretch gap-1 rounded-full overflow-x-auto no-scrollbar">
           {tabs.map(({ href, icon: Icon, label, exact }) => {
             const isActive = exact
-              ? pathname === href
-              : pathname.startsWith(href);
+              ? pathname === path(href)
+              : pathname.startsWith(path(href));
 
             return (
               <Link
                 key={href}
-                href={href}
+                href={path(href)}
                 className={`flex flex-col items-center justify-center gap-0.5 rounded-full px-3 py-1.5 min-w-[54px] whitespace-nowrap transition-all active:scale-95 ${
                   isActive
                     ? "bg-[var(--accent)] text-[var(--btn-primary-color)] shadow-sm"

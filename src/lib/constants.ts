@@ -1,3 +1,5 @@
+export const CATALOG_ENABLED = false;
+
 export const VALGYKLA_API_BASE = "/valgykla";
 
 export const REMEMBER_ME_KEY = "valgyklos_remember_me";

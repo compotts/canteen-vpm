@@ -1,12 +1,15 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
+import { legacyPath } from "@/lib/interface";
 import { useTranslations } from "next-intl";
 import { Settings } from "lucide-react";
 import { useAuth } from "./auth-provider";
 import { SettingsPanel } from "./settings-panel";
 import { useAdminSession } from "./admin-session-provider";
+import { CATALOG_ENABLED } from "@/lib/constants";
 
 const DESKTOP_LINKS = [
   { href: "/", key: "nav.home", adminOnly: false },
@@ -18,6 +21,9 @@ const DESKTOP_LINKS = [
 
 export function Header() {
   const t = useTranslations();
+  const old = usePathname().startsWith("/old-design");
+  const path = (href: string) =>
+    old && href !== "/admin" ? legacyPath(href) : href;
   const { isAuth } = useAuth();
   const { isAdmin } = useAdminSession();
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -26,10 +32,16 @@ export function Header() {
     <header className="surface-raised sticky top-0 z-[800] border-x-0 border-t-0 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top,0px))] md:px-6">
       <div className="max-w-[430px] md:max-w-4xl mx-auto flex items-center justify-between gap-3">
         <Link
-          href="/"
+          href={path("/")}
           className="flex items-center gap-2 no-underline text-inherit shrink-0"
         >
-          <img src="/icon.svg" alt="" width={45} height={18} className="block" />
+          <img
+            src="/icon.svg"
+            alt=""
+            width={45}
+            height={18}
+            className="block"
+          />
           <span className="hidden sm:inline text-xl font-bold tracking-tight text-[var(--text)]">
             Valgyklos VPM
           </span>
@@ -39,19 +51,21 @@ export function Header() {
           <>
             <nav
               className="hidden md:flex items-center gap-1"
-              aria-label={t("nav.catalog")}
+              aria-label={t("nav.navigation")}
             >
-              {DESKTOP_LINKS.filter((link) => !link.adminOnly || isAdmin).map(
-                (link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="px-3 py-2 rounded-full text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--hover)] transition-colors"
-                  >
-                    {t(link.key)}
-                  </Link>
-                )
-              )}
+              {DESKTOP_LINKS.filter(
+                (link) =>
+                  (!link.adminOnly || isAdmin) &&
+                  (CATALOG_ENABLED || link.href !== "/menu"),
+              ).map((link) => (
+                <Link
+                  key={link.href}
+                  href={path(link.href)}
+                  className="px-3 py-2 rounded-full text-[var(--text)] no-underline text-sm font-medium hover:bg-[var(--hover)] transition-colors"
+                >
+                  {t(link.key)}
+                </Link>
+              ))}
             </nav>
 
             <div className="flex items-center md:border-l md:border-[var(--border)] md:pl-3 md:ml-1">
@@ -69,9 +83,7 @@ export function Header() {
         )}
       </div>
 
-      {settingsOpen && (
-        <SettingsPanel onClose={() => setSettingsOpen(false)} />
-      )}
+      {settingsOpen && <SettingsPanel onClose={() => setSettingsOpen(false)} />}
     </header>
   );
 }

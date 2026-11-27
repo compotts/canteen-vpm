@@ -1,14 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Lora, Manrope, Plus_Jakarta_Sans } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import "./globals.css";
+import "./design/design.css";
 import { Providers } from "@/components/providers";
-import { Header } from "@/components/header";
-import { BottomTabBar } from "@/components/bottom-tab-bar";
-import { PageTransition } from "@/components/page-transition";
-import { CanteenStatusBanner } from "@/components/canteen-status-banner";
+import { AppShell } from "@/components/app-shell";
 import { APP_DESCRIPTION, APP_NAME, APP_SHORT_NAME } from "@/lib/app-metadata";
+
+const manrope = Manrope({
+  variable: "--font-design-sans",
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  display: "swap",
+});
+const lora = Lora({
+  variable: "--font-design-heading",
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  display: "swap",
+});
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -65,17 +74,12 @@ export default async function RootLayout({
     <html
       lang={locale}
       suppressHydrationWarning
-      className={`${jakarta.variable} antialiased`}
+      className={`${jakarta.variable} ${manrope.variable} ${lora.variable} antialiased`}
     >
       <body>
         <NextIntlClientProvider>
           <Providers>
-            <Header />
-            <CanteenStatusBanner />
-            <main className="flex flex-1 flex-col pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0">
-              <PageTransition>{children}</PageTransition>
-            </main>
-            <BottomTabBar />
+            <AppShell>{children}</AppShell>
           </Providers>
         </NextIntlClientProvider>
       </body>

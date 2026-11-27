@@ -6,11 +6,16 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { Check, LogOut, Moon, Sun, X } from "lucide-react";
+import { InterfaceSwitcher } from "./interface-switcher";
 import { LanguageSwitcher } from "./language-switcher";
 import { NotificationSettings } from "./notification-settings";
 import { useAuth } from "./auth-provider";
-import { COLOR_THEMES, getColorTheme, getThemeName, isDarkTheme } from "@/lib/themes";
-
+import {
+  COLOR_THEMES,
+  getColorTheme,
+  getThemeName,
+  isDarkTheme,
+} from "@/lib/themes";
 
 const TAPS_TO_OPEN_ADMIN = 5;
 const TAP_WINDOW_MS = 3000;
@@ -101,7 +106,9 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
           </div>
 
           <div className="py-3">
-            <p className="m-0 mb-3 text-sm font-medium text-[var(--text)]">{t("settings.theme")}</p>
+            <p className="m-0 mb-3 text-sm font-medium text-[var(--text)]">
+              {t("settings.theme")}
+            </p>
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
@@ -125,7 +132,9 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
           </div>
 
           <div className="py-3">
-            <p className="m-0 mb-3 text-sm font-medium text-[var(--text)]">{t("settings.colorTheme")}</p>
+            <p className="m-0 mb-3 text-sm font-medium text-[var(--text)]">
+              {t("settings.colorTheme")}
+            </p>
             <div className="grid grid-cols-2 gap-2">
               {COLOR_THEMES.map((color) => (
                 <button
@@ -135,16 +144,33 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
                   aria-pressed={colorTheme === color.id}
                   className={`relative flex min-h-14 items-center gap-2 rounded-xl border px-2.5 py-2 pr-7 text-left text-sm font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${colorTheme === color.id ? "border-[var(--accent)] bg-[var(--hover)] text-[var(--text)]" : "border-[var(--border)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:border-[var(--text-muted)]"}`}
                 >
-                  <span className="relative flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-full border border-black/10" style={{ backgroundColor: isDark ? color.dark : color.light }} aria-hidden="true">
-                    <span className="absolute inset-y-0 right-0 w-1/2" style={{ backgroundColor: color.accent }} />
+                  <span
+                    className="relative flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-full border border-black/10"
+                    style={{
+                      backgroundColor: isDark ? color.dark : color.light,
+                    }}
+                    aria-hidden="true"
+                  >
+                    <span
+                      className="absolute inset-y-0 right-0 w-1/2"
+                      style={{ backgroundColor: color.accent }}
+                    />
                   </span>
-                  <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">{t(`settings.colors.${color.id}`)}</span>
-                  {colorTheme === color.id && <Check className="absolute right-2 h-3.5 w-3.5" aria-hidden="true" />}
+                  <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">
+                    {t(`settings.colors.${color.id}`)}
+                  </span>
+                  {colorTheme === color.id && (
+                    <Check
+                      className="absolute right-2 h-3.5 w-3.5"
+                      aria-hidden="true"
+                    />
+                  )}
                 </button>
               ))}
             </div>
           </div>
 
+          <InterfaceSwitcher onChange={onClose} />
           <NotificationSettings />
 
           <div className="pt-4">
@@ -163,6 +189,6 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }

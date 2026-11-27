@@ -2,11 +2,16 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { legacyPath } from "@/lib/interface";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, CheckCircle2, RefreshCw, ShoppingBag } from "lucide-react";
 import { LOGOUT_EVENT } from "@/components/auth-provider";
 import { ApiError } from "@/lib/api/client";
-import { loadCurrentOrder, type CurrentOrder } from "@/lib/valgykla/order-status";
+import {
+  loadCurrentOrder,
+  type CurrentOrder,
+} from "@/lib/valgykla/order-status";
 
 type OrderState =
   | { status: "loading" | "unavailable" | "error" }
@@ -32,7 +37,9 @@ export function OrderStatusCard() {
     loadCurrentOrder(locale, controller.signal)
       .then((order) => {
         if (controller.signal.aborted) return;
-        setState(order ? { status: "ready", order } : { status: "unavailable" });
+        setState(
+          order ? { status: "ready", order } : { status: "unavailable" },
+        );
       })
       .catch((error: unknown) => {
         if (controller.signal.aborted) return;
@@ -63,7 +70,10 @@ export function OrderStatusCard() {
 
   const order = state.status === "ready" ? state.order : null;
   const hasOrder = Boolean(order?.items.length);
-  const href = order ? `/order?date=${encodeURIComponent(order.date)}` : "/order";
+  const old = usePathname().startsWith("/old-design");
+  const href = order
+    ? `/order?date=${encodeURIComponent(order.date)}`
+    : "/order";
 
   return (
     <section
@@ -94,7 +104,10 @@ export function OrderStatusCard() {
           title={t("refresh")}
           className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[var(--text-muted)] cursor-pointer hover:bg-[var(--hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] disabled:opacity-50"
         >
-          <RefreshCw className={`h-4 w-4 ${state.status === "loading" ? "animate-spin" : ""}`} aria-hidden="true" />
+          <RefreshCw
+            className={`h-4 w-4 ${state.status === "loading" ? "animate-spin" : ""}`}
+            aria-hidden="true"
+          />
         </button>
       </div>
 
@@ -104,29 +117,44 @@ export function OrderStatusCard() {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="m-0 text-sm font-medium capitalize">
                 {new Intl.DateTimeFormat(locale, {
-                  weekday: "long", day: "numeric", month: "long", year: "numeric",
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
                 }).format(new Date(`${order.date}T12:00:00`))}
               </p>
-              <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
-                hasOrder
-                  ? "bg-green-500/10 text-green-700 dark:text-green-400"
-                  : "bg-[var(--hover)] text-[var(--text-muted)]"
-              }`}>
-                {hasOrder && <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />}
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
+                  hasOrder
+                    ? "bg-green-500/10 text-green-700 dark:text-green-400"
+                    : "bg-[var(--hover)] text-[var(--text-muted)]"
+                }`}
+              >
+                {hasOrder && (
+                  <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
+                )}
                 {t(hasOrder ? "saved" : "notOrdered")}
               </span>
             </div>
             {hasOrder ? (
               <ul className="m-0 mt-4 max-h-60 list-none space-y-3 overflow-y-auto p-0">
                 {order.items.map((item) => (
-                  <li key={item.id} className="flex items-start justify-between gap-4">
+                  <li
+                    key={item.id}
+                    className="flex items-start justify-between gap-4"
+                  >
                     <div className="min-w-0">
-                      <p className="m-0 text-sm leading-snug break-words">{item.name}</p>
+                      <p className="m-0 text-sm leading-snug break-words">
+                        {item.name}
+                      </p>
                       <p className="m-0 mt-1 text-xs text-[var(--text-muted)]">
-                        {item.quantity} {t("portions")}{item.weight ? ` · ${item.weight}` : ""}
+                        {item.quantity} {t("portions")}
+                        {item.weight ? ` · ${item.weight}` : ""}
                       </p>
                     </div>
-                    <span className="shrink-0 text-sm tabular-nums">{item.total.toFixed(2)} €</span>
+                    <span className="shrink-0 text-sm tabular-nums">
+                      {item.total.toFixed(2)} €
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -137,8 +165,17 @@ export function OrderStatusCard() {
             )}
           </>
         ) : (
-          <p role={state.status === "error" ? "alert" : "status"} className="m-0 text-sm leading-relaxed text-[var(--text-muted)]">
-            {t(state.status === "loading" ? "loading" : state.status === "unavailable" ? "unavailable" : "error")}
+          <p
+            role={state.status === "error" ? "alert" : "status"}
+            className="m-0 text-sm leading-relaxed text-[var(--text-muted)]"
+          >
+            {t(
+              state.status === "loading"
+                ? "loading"
+                : state.status === "unavailable"
+                  ? "unavailable"
+                  : "error",
+            )}
           </p>
         )}
       </div>
@@ -147,17 +184,23 @@ export function OrderStatusCard() {
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--border)] px-5 py-4">
           {order && hasOrder ? (
             <div className="flex items-baseline gap-2">
-              <span className="text-xs text-[var(--text-muted)]">{t("total")}</span>
-              <strong className="text-xl font-semibold tabular-nums">{order.total.toFixed(2)} €</strong>
+              <span className="text-xs text-[var(--text-muted)]">
+                {t("total")}
+              </span>
+              <strong className="text-xl font-semibold tabular-nums">
+                {order.total.toFixed(2)} €
+              </strong>
             </div>
           ) : (
-            <p className="m-0 max-w-xs text-xs text-[var(--text-muted)]">{t("deadline")}</p>
+            <p className="m-0 max-w-xs text-xs text-[var(--text-muted)]">
+              {t("deadline")}
+            </p>
           )}
           <Link
-            href={href}
+            href={old ? legacyPath(href) : href}
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-4 py-2.5 text-sm font-medium text-[var(--btn-primary-color)] no-underline transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--text-muted)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]"
           >
-            {t(order ? hasOrder ? "edit" : "choose" : "open")}
+            {t(order ? (hasOrder ? "edit" : "choose") : "open")}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>

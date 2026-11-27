@@ -1,16 +1,6 @@
-import { ProtectedRoute } from "@/components/protected-route";
-import { OrderView } from "@/components/order/order-view";
+import { redirectLegacy } from "@/server/interface";
 
-export default async function OrderPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ date?: string | string[] }>;
-}) {
-  const { date } = await searchParams;
-  const initialDate = typeof date === "string" ? date : undefined;
-  return (
-    <ProtectedRoute>
-      <OrderView initialDate={initialDate} />
-    </ProtectedRoute>
-  );
+export default async function Page() {
+  await redirectLegacy("/order");
+  return null;
 }

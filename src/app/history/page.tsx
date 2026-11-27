@@ -1,10 +1,6 @@
-import { ProtectedRoute } from "@/components/protected-route";
-import { HistoryView } from "@/components/history/history-view";
+import { redirectLegacy } from "@/server/interface";
 
-export default function HistoryPage() {
-  return (
-    <ProtectedRoute>
-      <HistoryView />
-    </ProtectedRoute>
-  );
+export default async function Page() {
+  await redirectLegacy("/history");
+  return null;
 }

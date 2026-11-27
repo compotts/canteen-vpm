@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+import { CATALOG_ENABLED } from "@/lib/constants";
 import { ProtectedRoute } from "@/components/protected-route";
 import { CatalogView } from "@/components/catalog/catalog-view";
 import { getDishes } from "@/server/queries/dishes";
@@ -6,6 +8,7 @@ import type { Dish } from "@/types/api";
 export const dynamic = "force-dynamic";
 
 export default async function MenuPage() {
+  if (!CATALOG_ENABLED) notFound();
   let dishes: Dish[] = [];
   let loadFailed = false;
 
