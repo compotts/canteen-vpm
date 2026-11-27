@@ -13,7 +13,6 @@ import {
   LockKeyhole,
   Moon,
   Snowflake,
-  Sparkles,
   Sun,
   UserRound,
 } from "lucide-react";
@@ -116,39 +115,21 @@ export function LoginForm() {
         </div>
       </header>
       <main className="login-layout">
-        <section className="login-welcome" aria-labelledby="welcome-title">
-          <div className="login-season">
-            <Sparkles size={14} aria-hidden="true" />
-            {t("login.winter.season")}
-          </div>
-          <h1 id="welcome-title">
-            {t("login.winter.headline")}
-            <br />
-            <em>{t("login.winter.headlineAccent")}</em>
-          </h1>
-          <p className="login-intro">{t("login.winter.intro")}</p>
+        <div className="login-illustration" aria-hidden="true">
           <div className="login-art">
-            <span className="login-art-orbit" aria-hidden="true" />
+            <span className="login-art-orbit" />
             <WinterLunchArt />
-            <div className="login-art-caption">
-              <span aria-hidden="true">✦</span>
-              {t("login.winter.artCaption")}
-              <span className="login-art-caption-line" aria-hidden="true" />
-            </div>
           </div>
-        </section>
+        </div>
         <section className="login-card" aria-labelledby="login-title">
           <div className="login-card-decoration" aria-hidden="true">
             <Snowflake size={58} />
             <span>✦</span>
           </div>
-          <span className="login-card-eyebrow">
-            {t("login.winter.welcome")}
-          </span>
-          <h2 id="login-title">
+          <h1 id="login-title">
             {t("login.title")}
             <span>.</span>
-          </h2>
+          </h1>
           <p className="login-card-intro" id="login-description">
             {t("login.winter.credentials")}
           </p>

@@ -91,45 +91,10 @@
   flex: 1;
   padding: 34px 72px 36px 48px;
 }
-.login-welcome {
-  min-width: 0;
-}
-.login-season {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 12px;
-  margin-bottom: 21px;
-  border: 1px solid #a0ab813f;
-  border-radius: 24px;
-  color: var(--login-pine);
-  background: var(--login-stage);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-}
-.login-welcome h1 {
-  font-family: var(--font-design-heading), Georgia, serif;
-  font-size: clamp(38px, 4.1vw, 58px);
-  font-weight: 600;
-  letter-spacing: -2.2px;
-  line-height: 1.16;
-}
-.login-welcome h1 em {
-  font-weight: 500;
-  color: var(--dp-rust);
-}
-.login-intro {
-  max-width: 360px;
-  margin-top: 20px !important;
-  font-size: 14px;
-  line-height: 1.9;
-  color: var(--dp-muted);
-}
 .login-art {
   position: relative;
   max-width: 510px;
-  margin: 28px -6px 0 -26px;
+  margin: 0 -6px 0 -26px;
 }
 .login-art-orbit {
   position: absolute;
@@ -143,25 +108,6 @@
   display: block;
   width: 100%;
   height: auto;
-}
-.login-art-caption {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 16px 0 40px;
-  margin-top: -2px;
-  font-size: 11px;
-  color: var(--dp-muted);
-}
-.login-art-caption > span:first-child {
-  font-size: 22px;
-  color: var(--login-gold);
-}
-.login-art-caption-line {
-  flex: 1;
-  height: 1px;
-  margin-left: 8px;
-  background: var(--dp-line);
 }
 .login-card {
   position: relative;
@@ -189,17 +135,7 @@
   color: var(--login-gold);
   font-size: 18px;
 }
-.login-card-eyebrow {
-  position: relative;
-  display: block;
-  margin-bottom: 10px;
-  color: var(--login-pine);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-.login-card h2 {
+.login-card h1 {
   position: relative;
   font-family: var(--font-design-heading), Georgia, serif;
   font-size: 38px;
@@ -207,7 +143,7 @@
   font-weight: 600;
   letter-spacing: -1px;
 }
-.login-card h2 > span {
+.login-card h1 > span {
   color: var(--dp-rust);
 }
 .login-card-intro {
@@ -465,14 +401,11 @@
     transparent 48%
   );
 }
-:is(.dark, .sand-dark, .sage-dark, .blue-dark) .login-welcome h1 em {
-  color: #edb59a;
-}
 :is(.dark, .sand-dark, .sage-dark, .blue-dark) .login-card {
   box-shadow: 0 16px 60px #00000020;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .login-welcome,
+  .login-illustration,
   .login-card {
     animation: login-arrive 500ms ease both;
   }
@@ -523,10 +456,6 @@
   .login-footer {
     padding-inline: 32px;
   }
-  .login-welcome h1 {
-    font-size: 40px;
-    letter-spacing: -1.5px;
-  }
   .login-card {
     padding-inline: 28px;
   }
@@ -566,41 +495,19 @@
     align-content: start;
     padding: 23px 20px 24px;
   }
-  .login-welcome {
-    padding-inline: 5px;
-  }
-  .login-season {
-    font-size: 10px;
-    margin-bottom: 14px;
-    padding: 5px 10px;
-  }
-  .login-welcome h1 {
-    font-size: 35px;
-    letter-spacing: -1.5px;
-    line-height: 1.18;
-  }
-  .login-intro {
-    font-size: 12px;
-    line-height: 1.8;
-    margin-top: 12px !important;
-    max-width: 300px;
-  }
-  .login-art {
+  .login-illustration {
     display: none;
   }
   .login-card {
     padding: 27px 25px 18px;
     border-radius: 23px;
   }
-  .login-card h2 {
+  .login-card h1 {
     font-size: 32px;
   }
   .login-card-intro {
     margin-top: 9px !important;
     margin-bottom: 23px !important;
-  }
-  .login-card-eyebrow {
-    font-size: 9px;
   }
   .login-card-decoration {
     top: 19px;
@@ -641,9 +548,6 @@
     padding-inline: 16px;
     gap: 22px;
     padding-top: 18px;
-  }
-  .login-welcome h1 {
-    font-size: 31px;
   }
   .login-card {
     padding-inline: 20px;

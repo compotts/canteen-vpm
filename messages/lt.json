@@ -115,12 +115,6 @@
     "helpAdminEmail": "it.pagalba@vpm.lt",
     "helpClose": "Supratau",
     "winter": {
-      "season": "Su šventine nuotaika",
-      "headline": "Skani diena",
-      "headlineAccent": "prasideda čia.",
-      "intro": "Meniu, mėgstami patiekalai ir tavo užsakymai vienoje vietoje.",
-      "artCaption": "Šiek tiek šilumos kiekvieniems pietums",
-      "welcome": "Smagu tave matyti",
       "credentials": "Įvesk savo valgyklos paskyros prisijungimo vardą ir slaptažodį.",
       "footer": "Skanių pietų ir jaukių švenčių",
       "legacy": "Ankstesnė sąsaja"
