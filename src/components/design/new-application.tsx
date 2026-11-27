@@ -13,7 +13,6 @@ export function NewApplication() {
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
-    if (!isAuth) return;
     const entries = Array.from(
       document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]'),
     );
@@ -27,7 +26,7 @@ export function NewApplication() {
         entry.content = original[index];
       });
     };
-  }, [isAuth, resolvedTheme]);
+  }, [resolvedTheme]);
 
   if (isChecking) return <LoadingScreen />;
   return isAuth ? <CanteenApp /> : <LoginForm />;

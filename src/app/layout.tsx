@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import "./globals.css";
 import "./design/design.css";
+import "./design/login.css";
 import { Providers } from "@/components/providers";
 import { AppShell } from "@/components/app-shell";
 import { APP_DESCRIPTION, APP_NAME, APP_SHORT_NAME } from "@/lib/app-metadata";

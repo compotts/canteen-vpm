@@ -113,7 +113,18 @@
     "helpAdminTitle": "Administrator details:",
     "helpAdminName": "Vitalijus Tirevičius",
     "helpAdminEmail": "it.pagalba@vpm.lt",
-    "helpClose": "Got it"
+    "helpClose": "Got it",
+    "winter": {
+      "season": "A little festive spirit",
+      "headline": "Good days",
+      "headlineAccent": "start here.",
+      "intro": "The menu, your favorite dishes and your orders, all in one place.",
+      "artCaption": "A little warmth with every lunch",
+      "welcome": "Good to see you",
+      "credentials": "Sign in with the username and password for your canteen account.",
+      "footer": "Good lunches and cozy holidays",
+      "legacy": "Previous interface"
+    }
   },
   "menu": {
     "dailyMenu": "Daily menu",
